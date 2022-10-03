@@ -1,7 +1,10 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import MainTitle, { IType } from '../components/common/MainTitle'
 import Dashboard from '../components/main/Dashboard'
+import { useQuery } from '@tanstack/react-query'
+import { IRankingApi } from './api/rankings'
+import axios from '../utils/api'
 
 const initialTypes: IType[] = [
   {
@@ -43,11 +46,15 @@ const initialTypes: IType[] = [
 
 const Home: NextPage = () => {
   const [types, setTypes] = useState(initialTypes)
+  const { data: rankingsResponse } = useQuery([types], () => fetchUsers())
 
+  const fetchUsers = () => axios.get<IRankingApi>('api/rankings')
   return (
     <>
       <MainTitle types={types} setTypes={setTypes}></MainTitle>
-      <Dashboard></Dashboard>
+      {rankingsResponse && (
+        <Dashboard rankingsResponse={rankingsResponse?.data}></Dashboard>
+      )}
     </>
   )
 }

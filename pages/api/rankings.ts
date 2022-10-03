@@ -1,19 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-interface IRankingApi {
+export interface IRankingApi {
   type: string
   size: number
   from: string
   to: string
   rankings: IRanking[]
 }
-interface IRanking {
+export interface IRanking {
   id: string
   name: string
   score: IScore
 }
-interface IScore {
+export interface IScore {
   total: number
   create_issue: number
   resolve_issue: number
