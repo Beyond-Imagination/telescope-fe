@@ -2,30 +2,21 @@
 
 
 
-## Getting Started
+## 실행 전 라이브러리 설치하기
+```javascript
+npm install
 
-Download links:
+//or
 
-SSH clone URL: ssh://git@git.jetbrains.space/beyond-imagination/telescope/telescope-frontend.git
-
-HTTPS clone URL: https://git.jetbrains.space/beyond-imagination/telescope/telescope-frontend.git
-
-
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-## Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-Examples
+yarn install
 ```
 
-## Deployment
+## 실행하기
+```javascript
+npm dev
 
-Add additional notes about how to deploy this on a production system.
+//or
 
-## Resources
+yarn dev
+```
 
-Add links to external resources for this project, such as CI server, bug tracker, etc.
