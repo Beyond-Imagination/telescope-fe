@@ -1,4 +1,5 @@
 import InfoIcon from '../../assets/info.svg'
+import { useState } from 'react'
 function DivSummary({ number, text, color }: any) {
   return (
     <div className="flex flex-col w-[120px] items-center gap-1">
@@ -17,18 +18,82 @@ function SummaryStat({
   create_code_review,
   merge_mr,
 }: any) {
+  const [timeType, setTimeType] = useState('day')
   return (
     <div>
       <div className={`mb-3 flex justify-between`}>
-        <div className={`flex items-center`}>
-          <span className={`mr-[15px] hover:cursor-pointer`}>
+        <div
+          className={`flex items-center hover:cursor-pointer px-3 py-0.5`}
+          onClick={() => {
+            setTimeType(`7days`)
+          }}
+        >
+          <span className={`mr-[15px] hover:cursor-pointer px-3 py-0.5`}>
             <InfoIcon></InfoIcon>
           </span>
           <span className="text-[19px] font-bold text-[#171A3D]">
             Team Productivity
           </span>
         </div>
-        {/*<div className={`w-[286px] h-[31px] bg-[#F6F7FA] rounded`}>Hello</div>*/}
+        <div className={`flex items-center`}>
+          <div className={`mr-5`}>
+            <span className={`text-[12px] text-[#727272] font-bold`}>
+              Timeframe
+            </span>
+          </div>
+          <div
+            className={`w-[286px]  bg-[#F6F7FA] rounded flex items-center justify-between px-4 py-1`}
+          >
+            <div
+              className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
+                timeType === 'day'
+                  ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]'
+                  : ''
+              }`}
+              onClick={() => {
+                setTimeType(`day`)
+              }}
+            >
+              <span className={`text-[12px] font-bold `}>Last</span>
+            </div>
+            <div
+              className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
+                timeType === 'week'
+                  ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]'
+                  : ''
+              }`}
+              onClick={() => {
+                setTimeType(`week`)
+              }}
+            >
+              <span className={`text-[12px] font-bold `}>7days</span>
+            </div>
+            <div
+              className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
+                timeType === 'month'
+                  ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]'
+                  : ''
+              }`}
+              onClick={() => {
+                setTimeType(`month`)
+              }}
+            >
+              <span className={`text-[12px] font-bold `}>30days</span>
+            </div>
+            <div
+              className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
+                timeType === 'year'
+                  ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]'
+                  : ''
+              }`}
+              onClick={() => {
+                setTimeType(`year`)
+              }}
+            >
+              <span className={`text-[12px] font-bold `}>This year</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div
