@@ -111,12 +111,12 @@ function SummaryStat({
             color: '#00FF38',
           })}
           {DivSummary({
-            number: merge_mr,
+            number: create_code_review,
             text: 'Create Code Review',
             color: '#E9488B',
           })}
           {DivSummary({
-            number: create_code_review,
+            number: merge_mr,
             text: 'Merge MR',
             color: '#3FF7C0',
           })}
