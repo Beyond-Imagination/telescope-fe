@@ -1,10 +1,6 @@
 import Typography from '../typography'
-import { useEffect } from 'react'
-
-interface IMainTitle {
-  types: IType[]
-  setTypes: any
-}
+import Image from 'next/image'
+import LogoPic from '../../assets/logo.png'
 
 export interface IType {
   name: string
@@ -14,48 +10,33 @@ export interface IType {
   priority: number
 }
 
-function MainTitle({ types, setTypes }: IMainTitle) {
+function MainTitle() {
   return (
-    <div className={`p-[30px] border-b border-[#BCBCBC]`}>
+    <div
+      className={`px-[55px] py-[30px] border-b border-[#BCBCBC] flex justify-between`}
+    >
       <div className={`flex items-center`}>
-        <div className={`w-[50px] h-[50px] bg-[#D9D9D9] mr-[25px] mb-6`}></div>
-        <div>
-          <Typography type={'h1'}>Telescope Leaderboard</Typography>
+        <div className={`w-[59px] h-[59px] mr-[20px]`}>
+          <Image src={LogoPic} alt={`logo`}></Image>
+        </div>
+        <div className={`flex flex-col`}>
+          <div className={`mb-0.5`}>
+            <Typography type={'h1'} className={`text-[#3535A6]`}>
+              TELESCOPE
+            </Typography>
+          </div>
+          <div>
+            <Typography type={'caption'} className={`text-[#AAAAD0]`}>
+              Beyond_Imagination
+            </Typography>
+          </div>
         </div>
       </div>
-      <div className={`flex gap-[46px]`}>
-        {types.map((value, index) => (
-          <button
-            key={index}
-            className={`flex items-center gap-1`}
-            onClick={(e) => {
-              let temp = [
-                ...types.filter((value1) => value1.name != value.name),
-                {
-                  ...types.filter((value1) => value1.name == value.name)[0],
-                  active: !value.active,
-                },
-              ]
-
-              setTypes(temp.sort((a, b) => a.priority - b.priority))
-            }}
-          >
-            <div
-              className={`w-2.5 h-2.5 rounded-xl`}
-              style={{
-                backgroundColor: value.active ? value.color : '#ABABAB',
-              }}
-            ></div>
-            <div>
-              <Typography
-                color={value.active ? undefined : '#ABABAB'}
-                type={'text1'}
-              >
-                {value.display}
-              </Typography>
-            </div>
-          </button>
-        ))}
+      <div>
+        <Typography type={'text2'} className={`text-[#B4B4B4]`}>
+          <span>{`Created by `}</span>
+          <span className={`font-bold`}>Beyond_Imagaination</span>
+        </Typography>
       </div>
     </div>
   )

@@ -1,13 +1,14 @@
 import SummaryStat from './SummaryStat'
-import PersonStat from './PersonStat'
 import Ranking from './Ranking'
 import { IRankingApi } from '../../pages/api/rankings'
+import { IType } from '../common/MainTitle'
 
 interface IDashboard {
   rankingsResponse: IRankingApi
+  types: IType[]
 }
 
-function Dashboard({ rankingsResponse }: IDashboard) {
+function Dashboard({ rankingsResponse, types }: IDashboard) {
   return (
     <div className={`flex pt-[26px] px-[55px]`}>
       <div className={`w-full`}>
@@ -18,7 +19,7 @@ function Dashboard({ rankingsResponse }: IDashboard) {
           create_code_review={4}
           merge_mr={5}
         ></SummaryStat>
-        <Ranking rankings={rankingsResponse?.rankings}></Ranking>
+        <Ranking types={types} rankings={rankingsResponse?.rankings}></Ranking>
       </div>
       {/*<div>*/}
       {/*  <PersonStat></PersonStat>*/}

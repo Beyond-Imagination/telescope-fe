@@ -18,12 +18,3 @@ a {
 * {
   box-sizing: border-box;
 }
-
-h1{
-  font-style: normal;
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 57px;
-
-  color: #2C2C2C;
-}

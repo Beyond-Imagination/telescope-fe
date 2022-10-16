@@ -45,15 +45,18 @@ const initialTypes: IType[] = [
 ]
 
 const Home: NextPage = () => {
-  const [types, setTypes] = useState(initialTypes)
+  const [types] = useState(initialTypes)
   const { data: rankingsResponse } = useQuery([types], () => fetchUsers())
 
   const fetchUsers = () => axios.get<IRankingApi>('api/rankings')
   return (
     <>
-      <MainTitle types={types} setTypes={setTypes}></MainTitle>
+      <MainTitle></MainTitle>
       {rankingsResponse && (
-        <Dashboard rankingsResponse={rankingsResponse?.data}></Dashboard>
+        <Dashboard
+          rankingsResponse={rankingsResponse?.data}
+          types={types}
+        ></Dashboard>
       )}
     </>
   )
