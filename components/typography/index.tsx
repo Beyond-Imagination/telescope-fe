@@ -4,6 +4,7 @@ const styles = {
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: 16,
+    lineHeight: 1.2,
   },
   text2: {
     fontFamily: 'Pretendard',
@@ -19,6 +20,21 @@ const styles = {
     fontSize: 30,
     lineHeight: 1.2,
   },
+  h2: {
+    fontFamily: 'Pretendard',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: 28,
+    lineHeight: 1.2,
+  },
+  h3: {
+    fontFamily: 'Pretendard',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: 20,
+    lineHeight: 1.2,
+  },
+
   caption: {
     fontFamily: 'Pretendard',
     fontStyle: 'normal',
@@ -29,7 +45,7 @@ const styles = {
 }
 
 interface ITypography {
-  type: 'h1' | 'text1' | 'caption' | 'text2'
+  type: 'h1' | 'h2' | 'h3' | 'text1' | 'caption' | 'text2'
   children: any
   color?: string
   className?: string
@@ -42,6 +58,18 @@ function Typography({ type, children, color, className }: ITypography) {
         <h1 color={color} className={className} style={styles.h1}>
           {children}
         </h1>
+      )
+    case 'h2':
+      return (
+        <h2 color={color} className={className} style={styles.h2}>
+          {children}
+        </h2>
+      )
+    case 'h3':
+      return (
+        <h3 color={color} className={className} style={styles.h3}>
+          {children}
+        </h3>
       )
     case 'text1':
       return (

@@ -22,12 +22,7 @@ function SummaryStat({
   return (
     <div>
       <div className={`mb-3 flex justify-between`}>
-        <div
-          className={`flex items-center hover:cursor-pointer px-3 py-0.5`}
-          onClick={() => {
-            setTimeType(`7days`)
-          }}
-        >
+        <div className={`flex items-center hover:cursor-pointer px-3 py-0.5`}>
           <span className={`mr-[15px] hover:cursor-pointer px-3 py-0.5`}>
             <InfoIcon></InfoIcon>
           </span>

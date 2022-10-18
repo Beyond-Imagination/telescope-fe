@@ -64,6 +64,39 @@ export default function fetchUsers(
           merge_mr: 5,
         },
       },
+      {
+        id: '4',
+        name: '홍길북',
+        score: {
+          total: 52,
+          create_issue: 21,
+          resolve_issue: 16,
+          create_code_review: 10,
+          merge_mr: 5,
+        },
+      },
+      {
+        id: '5',
+        name: '홍길북동',
+        score: {
+          total: 52,
+          create_issue: 21,
+          resolve_issue: 16,
+          create_code_review: 10,
+          merge_mr: 5,
+        },
+      },
+      {
+        id: '6',
+        name: '홍길남서',
+        score: {
+          total: 52,
+          create_issue: 21,
+          resolve_issue: 16,
+          create_code_review: 10,
+          merge_mr: 5,
+        },
+      },
     ],
   })
 }
