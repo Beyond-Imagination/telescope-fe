@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MainTitle, { IType } from '../components/common/MainTitle'
 import Dashboard from '../components/main/Dashboard'
 import { useQuery } from '@tanstack/react-query'
@@ -44,11 +44,39 @@ const initialTypes: IType[] = [
   },
 ]
 
+function getUserAccessTokenData(askForConsent: any) {
+  return new Promise((resolve) => {
+    // 1. Create a MessageChannel
+    const channel = new MessageChannel()
+    // 2. Subscribe to response
+    channel.port1.onmessage = (e) => resolve(e.data)
+    // 3. Call postMessage
+    window.parent.postMessage(
+      {
+        type: 'GetUserTokenRequest',
+        permissionScope: 'global:Profile.View global:Profile.Memberships.View',
+        askForConsent: askForConsent,
+      },
+      '*',
+      [channel.port2]
+    )
+  })
+}
+
 const Home: NextPage = () => {
   const [types] = useState(initialTypes)
+  const [userTokenData, setUserTokenData] = useState()
   const { data: rankingsResponse } = useQuery([types], () => fetchUsers())
-
+  if (process.env.NODE_ENV == 'production') {
+    console.log('Production Mode')
+  } else if (process.env.NODE_ENV == 'development') {
+    console.log('Development Mode')
+  }
   const fetchUsers = () => axios.get<IRankingApi>('api/rankings')
+  useEffect(() => {
+    getUserAccessTokenData(true).then((v: any) => setUserTokenData(v))
+  }, [])
+  console.log('userTokenData: ', userTokenData)
   return (
     <>
       <MainTitle></MainTitle>

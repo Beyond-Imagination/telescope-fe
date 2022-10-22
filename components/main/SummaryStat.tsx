@@ -22,8 +22,8 @@ function SummaryStat({
   return (
     <div>
       <div className={`mb-3 flex justify-between`}>
-        <div className={`flex items-center hover:cursor-pointer px-3 py-0.5`}>
-          <span className={`mr-[15px] hover:cursor-pointer px-3 py-0.5`}>
+        <div className={`flex items-center`}>
+          <span className={`mr-[15px] hover:cursor-pointer`}>
             <InfoIcon></InfoIcon>
           </span>
           <span className="text-[19px] font-bold text-[#171A3D]">

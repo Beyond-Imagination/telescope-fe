@@ -6,7 +6,6 @@ interface StatProps {
   value: IRanking
 }
 
-
 function PersonStat({ value }: StatProps) {
   if (!value) {
     return null
@@ -25,39 +24,41 @@ function PersonStat({ value }: StatProps) {
             <div>{value.name}</div>
           </div>
         </div>
-        <div className = {`flex w-[286px] h-[230px]`}>
+        <div className={`flex w-[286px] h-[230px]`}></div>
+      </div>
+      <div>
+        <div className={``}>Personal Tags Score</div>
 
+        <div
+          className={`grid grid-cols-4 text-blue-500 align-middle text-center font-bold mt-2`}
+        >
+          <div className={`col-span-1`}>{value.score.create_issue}</div>
+          <div className={`col-span-1`}>{value.score.resolve_issue}</div>
+          <div className={`col-span-1`}>{value.score.merge_mr}</div>
+          <div className={`col-span-1`}>{value.score.create_code_review}</div>
         </div>
-      </div>    
-    <div>
-      <div className = {``}>
-          Personal Tags Score
-      </div>
-      
-      <div className = {`grid grid-cols-4 text-blue-500 align-middle text-center font-bold mt-2`}>
-        <div className= {`col-span-1`}>{value.score.create_issue}</div>
-        <div className= {`col-span-1`}>{value.score.resolve_issue}</div>
-        <div className= {`col-span-1`}>{value.score.merge_mr}</div>
-        <div className= {`col-span-1`}>{value.score.create_code_review}</div>
+
+        <div
+          className={`grid grid-cols-4 align-middle text-center text-[0.5rem] text-stone-400	`}
+        >
+          <div className={`col-span-1`}>Create Issue</div>
+          <div className={`col-span-1`}>Resolve Issue</div>
+          <div className={`col-span-1`}>Merge MR</div>
+          <div className={`col-span-1`}>Create Code Review</div>
+        </div>
       </div>
 
-      <div className = {`grid grid-cols-4 align-middle text-center text-[0.5rem] text-stone-400	`}>
-        <div className= {`col-span-1`}>Create Issue</div>
-        <div className= {`col-span-1`}>Resolve Issue</div>
-        <div className= {`col-span-1`}>Merge MR</div>
-        <div className= {`col-span-1`}>Create Code Review</div>
+      <div className={`mt-5`}>
+        <div className={``}>Total Score</div>
+        <div className={`text-[#E9488B] text-[2rem] font-bold ml-10`}>
+          {(value.score.create_issue +
+            value.score.resolve_issue +
+            value.score.merge_mr +
+            value.score.create_code_review) /
+            4}
+        </div>
       </div>
     </div>
-      
-      
-      <div className = {`mt-5`}>
-        <div className = {``}>Total Score</div>
-        <div className = {`text-[#E9488B] text-[2rem] font-bold ml-10`}>
-          {(value.score.create_issue+value.score.resolve_issue+value.score.merge_mr+value.score.create_code_review)/4}
-        </div>
-      </div>
-
-    </div >
   )
 }
 

@@ -32,12 +32,6 @@ function MainTitle() {
           </div>
         </div>
       </div>
-      <div>
-        <Typography type={'text2'} className={`text-[#B4B4B4]`}>
-          <span>{`Created by `}</span>
-          <span className={`font-bold`}>Beyond_Imagaination</span>
-        </Typography>
-      </div>
     </div>
   )
 }
