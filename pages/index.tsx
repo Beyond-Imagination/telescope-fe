@@ -5,6 +5,7 @@ import Dashboard from '../components/main/Dashboard'
 import { useQuery } from '@tanstack/react-query'
 import { IRankingApi } from './api/rankings'
 import axios from '../utils/api'
+import { IStatApi } from '../types/stat'
 
 const initialTypes: IType[] = [
   {
@@ -67,12 +68,18 @@ const Home: NextPage = () => {
   const [types] = useState(initialTypes)
   const [userTokenData, setUserTokenData] = useState()
   const { data: rankingsResponse } = useQuery([types], () => fetchUsers())
+  const { data: summaryResponse } = useQuery(['week'], () => fetchSummaryStats())  
+
   if (process.env.NODE_ENV == 'production') {
     console.log('Production Mode')
   } else if (process.env.NODE_ENV == 'development') {
     console.log('Development Mode')
   }
+
   const fetchUsers = () => axios.get<IRankingApi>('api/rankings')
+  const fetchSummaryStats = () => axios.get<IStatApi>('api/organization/score',
+  { params: {serverUrl: "https://beyond-imagination.jetbrains.space"}})
+
   useEffect(() => {
     getUserAccessTokenData(true).then((v: any) => setUserTokenData(v))
   }, [])
@@ -80,9 +87,10 @@ const Home: NextPage = () => {
   return (
     <>
       <MainTitle></MainTitle>
-      {rankingsResponse && (
+      {(
         <Dashboard
           rankingsResponse={rankingsResponse?.data}
+          summaryResponse={summaryResponse?.data}
           types={types}
         ></Dashboard>
       )}
