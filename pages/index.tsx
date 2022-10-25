@@ -1,11 +1,12 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import MainTitle, { IType } from '../components/common/MainTitle'
 import Dashboard from '../components/main/Dashboard'
 import { useQuery } from '@tanstack/react-query'
 import { IRankingApi } from './api/rankings'
 import axios from '../utils/api'
 import { IStatApi } from '../types/stat'
+import { IUserToken } from '../types/auth'
 
 const initialTypes: IType[] = [
   {
@@ -66,9 +67,16 @@ function getUserAccessTokenData(askForConsent: any) {
 
 const Home: NextPage = () => {
   const [types] = useState(initialTypes)
-  const [userTokenData, setUserTokenData] = useState()
-  const { data: rankingsResponse } = useQuery([types], () => fetchUsers())
-  const { data: summaryResponse } = useQuery(['week'], () => fetchSummaryStats())  
+  const [userTokenData, setUserTokenData] = useState<IUserToken>()
+  const [range, setRange] = useState({ from: new Date(), to: new Date() })
+  const { data: rankingsResponse } = useQuery(
+    [types, userTokenData?.serverUrl],
+    () => fetchRankings()
+  )
+  const { data: summaryResponse } = useQuery(
+    ['week', userTokenData?.serverUrl],
+    () => fetchSummaryStats()
+  )
 
   if (process.env.NODE_ENV == 'production') {
     console.log('Production Mode')
@@ -76,9 +84,28 @@ const Home: NextPage = () => {
     console.log('Development Mode')
   }
 
-  const fetchUsers = () => axios.get<IRankingApi>('api/rankings')
-  const fetchSummaryStats = () => axios.get<IStatApi>('api/organization/score',
-  { params: {serverUrl: "https://beyond-imagination.jetbrains.space"}})
+  const fetchRankings = useCallback(
+    () =>
+      axios.get<IRankingApi>('api/organization/rankings', {
+        params: {
+          serverUrl: userTokenData ? userTokenData.serverUrl : '',
+          from: '2022-10-01',
+          to: '2022-10-30',
+        },
+      }),
+    [userTokenData]
+  )
+  const fetchSummaryStats = useCallback(
+    () =>
+      axios.get<IStatApi>('api/organization/score', {
+        params: {
+          serverUrl: userTokenData ? userTokenData.serverUrl : '',
+          from: '2022-10-01',
+          to: '2022-10-30',
+        },
+      }),
+    [userTokenData]
+  )
 
   useEffect(() => {
     getUserAccessTokenData(true).then((v: any) => setUserTokenData(v))
@@ -87,13 +114,11 @@ const Home: NextPage = () => {
   return (
     <>
       <MainTitle></MainTitle>
-      {(
-        <Dashboard
-          rankingsResponse={rankingsResponse?.data}
-          summaryResponse={summaryResponse?.data}
-          types={types}
-        ></Dashboard>
-      )}
+      <Dashboard
+        rankingsResponse={rankingsResponse?.data}
+        summaryResponse={summaryResponse?.data}
+        types={types}
+      ></Dashboard>
     </>
   )
 }

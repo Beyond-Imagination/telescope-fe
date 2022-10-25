@@ -4,7 +4,7 @@ function DivSummary({ number, text, color }: any) {
   return (
     <div className="flex flex-col w-[120px] items-center gap-1">
       <span className="font-bold text-[45px]" style={{ color: color }}>
-        {number}
+        {number ? number : 0}
       </span>
       <span className="font-bold text-[12px] text-[#9A9EA6]">{text}</span>
     </div>
@@ -49,7 +49,7 @@ function SummaryStat({
                 setTimeType(`day`)
               }}
             >
-              <span className={`text-[12px] font-bold `}>Last</span>
+              <span className={`text-[12px] font-bold `}>TODAY</span>
             </div>
             <div
               className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
@@ -61,7 +61,7 @@ function SummaryStat({
                 setTimeType(`week`)
               }}
             >
-              <span className={`text-[12px] font-bold `}>7days</span>
+              <span className={`text-[12px] font-bold `}>WEEK</span>
             </div>
             <div
               className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
@@ -73,7 +73,7 @@ function SummaryStat({
                 setTimeType(`month`)
               }}
             >
-              <span className={`text-[12px] font-bold `}>30days</span>
+              <span className={`text-[12px] font-bold `}>MONTH</span>
             </div>
             <div
               className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
@@ -85,7 +85,7 @@ function SummaryStat({
                 setTimeType(`year`)
               }}
             >
-              <span className={`text-[12px] font-bold `}>This year</span>
+              <span className={`text-[12px] font-bold `}>YEAR</span>
             </div>
           </div>
         </div>

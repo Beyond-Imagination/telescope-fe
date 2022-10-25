@@ -32,10 +32,10 @@ function PersonStat({ value }: StatProps) {
         <div
           className={`grid grid-cols-4 text-blue-500 align-middle text-center font-bold mt-2`}
         >
-          <div className={`col-span-1`}>{value.score.create_issue}</div>
-          <div className={`col-span-1`}>{value.score.resolve_issue}</div>
-          <div className={`col-span-1`}>{value.score.merge_mr}</div>
-          <div className={`col-span-1`}>{value.score.create_code_review}</div>
+          <div className={`col-span-1`}>{value.score.createIssue}</div>
+          <div className={`col-span-1`}>{value.score.resolveIssue}</div>
+          <div className={`col-span-1`}>{value.score.mergeMr}</div>
+          <div className={`col-span-1`}>{value.score.createCodeReview}</div>
         </div>
 
         <div
@@ -51,10 +51,10 @@ function PersonStat({ value }: StatProps) {
       <div className={`mt-5`}>
         <div className={``}>Total Score</div>
         <div className={`text-[#E9488B] text-[2rem] font-bold ml-10`}>
-          {(value.score.create_issue +
-            value.score.resolve_issue +
-            value.score.merge_mr +
-            value.score.create_code_review) /
+          {(value.score.createIssue +
+            value.score.resolveIssue +
+            value.score.mergeMr +
+            value.score.createCodeReview) /
             4}
         </div>
       </div>

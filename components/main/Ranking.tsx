@@ -4,14 +4,11 @@ import RankingTitle from '../ranking/RankingTitle'
 import RankingTable from '../ranking/RankingTable'
 
 interface IRankingProps {
-  rankings: IRanking[]
+  rankings?: IRanking[]
   types: IType[]
 }
 
 function Ranking({ rankings, types }: IRankingProps) {
-  if (!rankings) {
-    return null
-  }
   return (
     <div>
       <RankingTitle types={types}></RankingTitle>

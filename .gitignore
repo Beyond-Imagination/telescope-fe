@@ -128,3 +128,6 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/webstorm+all
 pnpm-lock.yaml
+
+
+.env.local
