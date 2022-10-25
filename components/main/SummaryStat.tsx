@@ -1,5 +1,4 @@
 import InfoIcon from '../../assets/info.svg'
-import { useState } from 'react'
 function DivSummary({ number, text, color }: any) {
   return (
     <div className="flex flex-col w-[120px] items-center gap-1">
@@ -17,8 +16,9 @@ function SummaryStat({
   resolve_issue,
   create_code_review,
   merge_mr,
+  timeType,
+  setTimeType,
 }: any) {
-  const [timeType, setTimeType] = useState('day')
   return (
     <div>
       <div className={`mb-3 flex justify-between`}>

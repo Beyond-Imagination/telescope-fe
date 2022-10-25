@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import MainTitle, { IType } from '../components/common/MainTitle'
 import Dashboard from '../components/main/Dashboard'
 import { useQuery } from '@tanstack/react-query'
@@ -7,6 +7,7 @@ import { IRankingApi } from './api/rankings'
 import axios from '../utils/api'
 import { IStatApi } from '../types/stat'
 import { IUserToken } from '../types/auth'
+import { convertDateByType, dateToString } from '../utils/date'
 
 const initialTypes: IType[] = [
   {
@@ -68,14 +69,21 @@ function getUserAccessTokenData(askForConsent: any) {
 const Home: NextPage = () => {
   const [types] = useState(initialTypes)
   const [userTokenData, setUserTokenData] = useState<IUserToken>()
-  const [range, setRange] = useState({ from: new Date(), to: new Date() })
+
+  const [timeType, setTimeType] = useState('week')
   const { data: rankingsResponse } = useQuery(
-    [types, userTokenData?.serverUrl],
-    () => fetchRankings()
+    [timeType, userTokenData?.serverUrl, 'ranking'],
+    () => fetchRankings(),
+    {
+      enabled: !!userTokenData?.serverUrl,
+    }
   )
   const { data: summaryResponse } = useQuery(
-    ['week', userTokenData?.serverUrl],
-    () => fetchSummaryStats()
+    [timeType, userTokenData?.serverUrl, 'stat'],
+    () => fetchSummaryStats(),
+    {
+      enabled: !!userTokenData?.serverUrl,
+    }
   )
 
   if (process.env.NODE_ENV == 'production') {
@@ -84,33 +92,37 @@ const Home: NextPage = () => {
     console.log('Development Mode')
   }
 
+  let date = new Date()
+
   const fetchRankings = useCallback(
     () =>
       axios.get<IRankingApi>('api/organization/rankings', {
         params: {
           serverUrl: userTokenData ? userTokenData.serverUrl : '',
-          from: '2022-10-01',
-          to: '2022-10-30',
+          from: dateToString(convertDateByType(timeType, date)),
+          to: dateToString(date),
         },
       }),
-    [userTokenData]
+    [userTokenData, timeType]
   )
   const fetchSummaryStats = useCallback(
     () =>
       axios.get<IStatApi>('api/organization/score', {
         params: {
           serverUrl: userTokenData ? userTokenData.serverUrl : '',
-          from: '2022-10-01',
-          to: '2022-10-30',
+          from: dateToString(convertDateByType(timeType, date)),
+          to: dateToString(date),
         },
       }),
-    [userTokenData]
+    [userTokenData, timeType]
   )
 
   useEffect(() => {
     getUserAccessTokenData(true).then((v: any) => setUserTokenData(v))
   }, [])
-  console.log('userTokenData: ', userTokenData)
+
+  useEffect(() => {}, [timeType])
+
   return (
     <>
       <MainTitle></MainTitle>
@@ -118,6 +130,8 @@ const Home: NextPage = () => {
         rankingsResponse={rankingsResponse?.data}
         summaryResponse={summaryResponse?.data}
         types={types}
+        timeType={timeType}
+        setTimeType={setTimeType}
       ></Dashboard>
     </>
   )
