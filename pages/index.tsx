@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import qs from 'qs'
 import MainTitle, { IType } from '../components/common/MainTitle'
 import Dashboard from '../components/main/Dashboard'
 import { useQuery } from '@tanstack/react-query'
@@ -96,24 +97,12 @@ const Home: NextPage = () => {
 
   const fetchRankings = useCallback(
     () =>
-      axios.get<IRankingApi>('api/organization/rankings', {
-        params: {
-          serverUrl: userTokenData ? userTokenData.serverUrl : '',
-          from: dateToString(convertDateByType(timeType, date)),
-          to: dateToString(date),
-        },
-      }),
+      axios.get<IRankingApi>(`api/organization/rankings?serverUrl=${encodeURIComponent(userTokenData.serverUrl)}&from=${dateToString(convertDateByType(timeType, date))}&to=${dateToString(date)}`),
     [userTokenData, timeType]
   )
   const fetchSummaryStats = useCallback(
     () =>
-      axios.get<IStatApi>('api/organization/score', {
-        params: {
-          serverUrl: userTokenData ? userTokenData.serverUrl : '',
-          from: dateToString(convertDateByType(timeType, date)),
-          to: dateToString(date),
-        },
-      }),
+      axios.get<IStatApi>(`api/organization/score?serverUrl=${encodeURIComponent(userTokenData.serverUrl)}&from=${dateToString(convertDateByType(timeType, date))}&to=${dateToString(date)}`),
     [userTokenData, timeType]
   )
 
