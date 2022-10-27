@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import qs from 'qs'
 import MainTitle, { IType } from '../components/common/MainTitle'
 import Dashboard from '../components/main/Dashboard'
 import { useQuery } from '@tanstack/react-query'
@@ -9,6 +8,7 @@ import axios from '../utils/api'
 import { IStatApi } from '../types/stat'
 import { IUserToken } from '../types/auth'
 import { convertDateByType, dateToString } from '../utils/date'
+import qs from 'qs'
 
 const initialTypes: IType[] = [
   {
