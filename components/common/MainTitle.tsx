@@ -13,7 +13,7 @@ export interface IType {
 function MainTitle() {
   return (
     <div
-      className={`px-[55px] py-[30px] border-b border-[#BCBCBC] flex justify-between`}
+      className={`px-[55px] py-[16px] border-b border-[#BCBCBC] flex justify-between bg-[#23222C]`}
     >
       <div className={`flex items-center`}>
         <div className={`w-[59px] h-[59px] mr-[20px]`}>
@@ -21,12 +21,12 @@ function MainTitle() {
         </div>
         <div className={`flex flex-col`}>
           <div className={`mb-0.5`}>
-            <Typography type={'h1'} className={`text-[#3535A6]`}>
+            <Typography type={'h1'} className={`text-[#FFF]`}>
               TELESCOPE
             </Typography>
           </div>
           <div>
-            <Typography type={'caption'} className={`text-[#AAAAD0]`}>
+            <Typography type={'caption'} className={`text-[#8D8DAB]`}>
               Beyond_Imagination
             </Typography>
           </div>

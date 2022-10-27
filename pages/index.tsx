@@ -12,6 +12,13 @@ import qs from 'qs'
 
 const initialTypes: IType[] = [
   {
+    name: 'type0',
+    display: 'See All',
+    color: '#387AF1',
+    active: true,
+    priority: 0,
+  },
+  {
     name: 'type1',
     display: 'Create Issues',
     color: '#8000FF',
@@ -38,13 +45,6 @@ const initialTypes: IType[] = [
     color: '#3FF7C0',
     active: true,
     priority: 4,
-  },
-  {
-    name: 'type0',
-    display: 'See All',
-    color: '#387AF1',
-    active: true,
-    priority: 0,
   },
 ]
 
@@ -132,6 +132,9 @@ const Home: NextPage = () => {
         timeType={timeType}
         setTimeType={setTimeType}
       ></Dashboard>
+      <div className={`flex justify-center text-[#D9D9D9]`}>
+        <span>ⓒ 2022 Beyond_Imagaination All Rights Reserved. </span>
+      </div>
     </>
   )
 }

@@ -3,7 +3,7 @@ const styles = {
     fontFamily: 'Pretendard',
     fontStyle: 'normal',
     fontWeight: 600,
-    fontSize: 16,
+    fontSize: 11,
     lineHeight: 1.2,
   },
   text2: {
@@ -17,7 +17,7 @@ const styles = {
     fontFamily: 'Pretendard',
     fontStyle: 'normal',
     fontWeight: 700,
-    fontSize: 30,
+    fontSize: 26,
     lineHeight: 1.2,
   },
   h2: {

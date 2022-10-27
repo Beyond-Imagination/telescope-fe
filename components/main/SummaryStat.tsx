@@ -2,10 +2,15 @@ import InfoIcon from '../../assets/info.svg'
 function DivSummary({ number, text, color }: any) {
   return (
     <div className="flex flex-col w-[120px] items-center gap-1">
-      <span className="font-bold text-[45px]" style={{ color: color }}>
+      <span className="font-bold text-[36px] text-[#FFF]">
         {number ? number : 0}
       </span>
-      <span className="font-bold text-[12px] text-[#9A9EA6]">{text}</span>
+      <span
+        className="font-bold text-[12px] text-[#9A9EA6]"
+        style={{ color: color }}
+      >
+        {text}
+      </span>
     </div>
   )
 }
@@ -26,8 +31,8 @@ function SummaryStat({
           <span className={`mr-[15px] hover:cursor-pointer`}>
             <InfoIcon></InfoIcon>
           </span>
-          <span className="text-[19px] font-bold text-[#171A3D]">
-            Team Productivity
+          <span className="text-[14px] font-bold text-[#171A3D]">
+            Tag Score
           </span>
         </div>
         <div className={`flex items-center`}>
@@ -92,9 +97,11 @@ function SummaryStat({
       </div>
 
       <div
-        className={`w-full h-[111px] flex justify-center shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)] rounded mb-[12px]`}
+        className={`w-full h-[96px] flex justify-center shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)] rounded mb-[12px] bg-[#23222C]`}
       >
         <div className="w-full flex justify-center items-center flex-row justify-around">
+          {DivSummary({ number: total, text: 'Total Score', color: '#387AF1' })}
+
           {DivSummary({
             number: create_issue,
             text: 'Create Issues',
@@ -115,7 +122,6 @@ function SummaryStat({
             text: 'Merge MR',
             color: '#3FF7C0',
           })}
-          {DivSummary({ number: total, text: 'Total Score', color: '#387AF1' })}
         </div>
       </div>
     </div>

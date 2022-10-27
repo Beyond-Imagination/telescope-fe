@@ -11,27 +11,13 @@ function RankingTitle({ types }: IRankingTitle) {
     <div className={`mb-3 flex justify-between`}>
       <div className={`flex items-center`}>
         <Information className={`mr-4`}></Information>
-        <span className="text-[19px] font-bold text-[#171A3D]">
+        <span className="text-[14px] font-bold text-[#171A3D]">
           Ranking Dashboard
         </span>
       </div>
-      <div className={`flex gap-[46px] items-center`}>
+      <div className={`flex gap-[30px] items-center`}>
         {types.map((value, index) => (
-          <button
-            key={index}
-            className={`flex items-center gap-1`}
-            // onClick={(e) => {
-            //   let temp = [
-            //     ...types.filter((value1) => value1.name != value.name),
-            //     {
-            //       ...types.filter((value1) => value1.name == value.name)[0],
-            //       active: !value.active,
-            //     },
-            //   ]
-            //
-            //   setTypes(temp.sort((a, b) => a.priority - b.priority))
-            // }}
-          >
+          <button key={index} className={`flex items-center gap-1`}>
             <div
               className={`w-2.5 h-2.5 rounded-xl`}
               style={{
@@ -48,7 +34,6 @@ function RankingTitle({ types }: IRankingTitle) {
             </div>
           </button>
         ))}
-        <Information></Information>
       </div>
     </div>
   )
