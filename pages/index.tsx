@@ -95,16 +95,26 @@ const Home: NextPage = () => {
 
   let date = new Date()
 
-  const fetchRankings = useCallback(
-    () =>
-      axios.get<IRankingApi>(`api/organization/rankings?serverUrl=${encodeURIComponent(userTokenData.serverUrl)}&from=${dateToString(convertDateByType(timeType, date))}&to=${dateToString(date)}`),
-    [userTokenData, timeType]
-  )
-  const fetchSummaryStats = useCallback(
-    () =>
-      axios.get<IStatApi>(`api/organization/score?serverUrl=${encodeURIComponent(userTokenData.serverUrl)}&from=${dateToString(convertDateByType(timeType, date))}&to=${dateToString(date)}`),
-    [userTokenData, timeType]
-  )
+  const fetchRankings = useCallback(() => {
+    if (userTokenData)
+      return axios.get<IRankingApi>(
+        `api/organization/rankings?serverUrl=${encodeURIComponent(
+          userTokenData.serverUrl
+        )}&from=${dateToString(
+          convertDateByType(timeType, date)
+        )}&to=${dateToString(date)}`
+      )
+  }, [userTokenData, timeType])
+  const fetchSummaryStats = useCallback(() => {
+    if (userTokenData)
+      return axios.get<IStatApi>(
+        `api/organization/score?serverUrl=${encodeURIComponent(
+          userTokenData.serverUrl
+        )}&from=${dateToString(
+          convertDateByType(timeType, date)
+        )}&to=${dateToString(date)}`
+      )
+  }, [userTokenData, timeType])
 
   useEffect(() => {
     getUserAccessTokenData(true).then((v: any) => setUserTokenData(v))
