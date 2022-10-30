@@ -23,6 +23,7 @@ function Dashboard({
   useEffect(() => {
     return () => {}
   }, [rankingsResponse, summaryResponse, timeType])
+  console.log(rankingsResponse)
   return (
     <div className={`flex pt-[26px] px-[55px]`}>
       <div className={`w-full`}>

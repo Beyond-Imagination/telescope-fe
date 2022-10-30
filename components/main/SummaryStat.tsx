@@ -1,4 +1,5 @@
 import InfoIcon from '../../assets/info.svg'
+import Information from '../common/Information'
 function DivSummary({ number, text, color }: any) {
   return (
     <div className="flex flex-col w-[120px] items-center gap-1">
@@ -27,13 +28,11 @@ function SummaryStat({
   return (
     <div>
       <div className={`mb-3 flex justify-between`}>
-        <div className={`flex items-center`}>
-          <span className={`mr-[15px] hover:cursor-pointer`}>
-            <InfoIcon></InfoIcon>
+        <div className={`flex items-center pl-3`}>
+          <span className="text-[14px] font-bold text-[#171A3D] mr-3.5">
+            Scoreboard
           </span>
-          <span className="text-[14px] font-bold text-[#171A3D]">
-            Tag Score
-          </span>
+          <Information className={`mr-4`}></Information>
         </div>
         <div className={`flex items-center`}>
           <div className={`mr-5`}>

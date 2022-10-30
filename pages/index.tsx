@@ -12,13 +12,6 @@ import qs from 'qs'
 
 const initialTypes: IType[] = [
   {
-    name: 'type0',
-    display: 'See All',
-    color: '#387AF1',
-    active: true,
-    priority: 0,
-  },
-  {
     name: 'type1',
     display: 'Create Issues',
     color: '#8000FF',
@@ -87,15 +80,9 @@ const Home: NextPage = () => {
     }
   )
 
-  if (process.env.NODE_ENV == 'production') {
-    console.log('Production Mode')
-  } else if (process.env.NODE_ENV == 'development') {
-    console.log('Development Mode')
-  }
-
-  let date = new Date()
+  let fromDate = new Date()
   let tomorrow = new Date()
-  tomorrow.setDate(date.getDate()+1)
+  tomorrow.setDate(fromDate.getDate() + 1)
 
   const fetchRankings = useCallback(() => {
     if (userTokenData)
@@ -103,7 +90,7 @@ const Home: NextPage = () => {
         `api/organization/rankings?serverUrl=${encodeURIComponent(
           userTokenData.serverUrl
         )}&from=${dateToString(
-          convertDateByType(timeType, date)
+          convertDateByType(timeType, fromDate)
         )}&to=${dateToString(tomorrow)}`
       )
   }, [userTokenData, timeType])
@@ -113,17 +100,23 @@ const Home: NextPage = () => {
         `api/organization/score?serverUrl=${encodeURIComponent(
           userTokenData.serverUrl
         )}&from=${dateToString(
-          convertDateByType(timeType, date)
+          convertDateByType(timeType, fromDate)
         )}&to=${dateToString(tomorrow)}`
       )
   }, [userTokenData, timeType])
 
   useEffect(() => {
-    getUserAccessTokenData(true).then((v: any) => setUserTokenData(v))
+    getUserAccessTokenData(true).then((data: any) => setUserTokenData(data))
+  }, [])
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      setUserTokenData({
+        serverUrl: 'https://beyond-imagination.jetbrains.space',
+      })
+    }
   }, [])
 
   useEffect(() => {}, [timeType])
-
   return (
     <>
       <MainTitle></MainTitle>

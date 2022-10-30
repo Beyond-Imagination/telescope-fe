@@ -25,11 +25,6 @@ function MainTitle() {
               TELESCOPE
             </Typography>
           </div>
-          <div>
-            <Typography type={'caption'} className={`text-[#8D8DAB]`}>
-              Beyond_Imagination
-            </Typography>
-          </div>
         </div>
       </div>
     </div>

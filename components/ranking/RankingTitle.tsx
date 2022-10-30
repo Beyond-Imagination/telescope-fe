@@ -9,15 +9,15 @@ interface IRankingTitle {
 function RankingTitle({ types }: IRankingTitle) {
   return (
     <div className={`mb-3 flex justify-between`}>
-      <div className={`flex items-center`}>
-        <Information className={`mr-4`}></Information>
-        <span className="text-[14px] font-bold text-[#171A3D]">
-          Ranking Dashboard
+      <div className={`flex items-center pl-3`}>
+        <span className="text-[14px] font-bold text-[#171A3D] mr-[14px]">
+          Ranking
         </span>
+        <Information className={`mr-4`}></Information>
       </div>
       <div className={`flex gap-[30px] items-center`}>
         {types.map((value, index) => (
-          <button key={index} className={`flex items-center gap-1`}>
+          <div key={index} className={`flex items-center gap-1`}>
             <div
               className={`w-2.5 h-2.5 rounded-xl`}
               style={{
@@ -32,10 +32,11 @@ function RankingTitle({ types }: IRankingTitle) {
                 {value.display}
               </Typography>
             </div>
-          </button>
+          </div>
         ))}
       </div>
     </div>
   )
 }
+
 export default RankingTitle
