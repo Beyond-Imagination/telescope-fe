@@ -94,6 +94,8 @@ const Home: NextPage = () => {
   }
 
   let date = new Date()
+  let tomorrow = new Date()
+  tomorrow.setDate(date.getDate()+1)
 
   const fetchRankings = useCallback(() => {
     if (userTokenData)
@@ -102,7 +104,7 @@ const Home: NextPage = () => {
           userTokenData.serverUrl
         )}&from=${dateToString(
           convertDateByType(timeType, date)
-        )}&to=${dateToString(date)}`
+        )}&to=${dateToString(tomorrow)}`
       )
   }, [userTokenData, timeType])
   const fetchSummaryStats = useCallback(() => {
@@ -112,7 +114,7 @@ const Home: NextPage = () => {
           userTokenData.serverUrl
         )}&from=${dateToString(
           convertDateByType(timeType, date)
-        )}&to=${dateToString(date)}`
+        )}&to=${dateToString(tomorrow)}`
       )
   }, [userTokenData, timeType])
 
