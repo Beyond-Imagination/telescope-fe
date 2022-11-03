@@ -1,7 +1,6 @@
 import { IRanking } from '../../pages/api/rankings'
 import { Chart } from 'react-google-charts'
 
-
 interface IStackBarchart {
   ranking: IRanking
   maxValue: number
@@ -56,7 +55,7 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
           textPosition: 'none',
         },
         chartArea: { width: '100%', height: 18 },
-        tooltip: {isHtml: true},
+        tooltip: { isHtml: true },
       }}
     />
   )
