@@ -1,6 +1,7 @@
 import { IRanking } from '../../pages/api/rankings'
 import { Chart } from 'react-google-charts'
 
+
 interface IStackBarchart {
   ranking: IRanking
   maxValue: number
@@ -13,25 +14,25 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
       data={[
         [
           'Name',
-          'createCodeReview',
-          { role: 'style' },
           'createIssue',
           { role: 'style' },
-          'mergeMr',
-          { role: 'style' },
           'resolveIssue',
+          { role: 'style' },
+          'createCodeReview',
+          { role: 'style' },
+          'mergeMr',
           { role: 'style' },
         ],
         [
           'Score',
-          ranking.score.createCodeReview,
-          'color: #8000FF',
           ranking.score.createIssue,
+          'color: #8000FF',
+          ranking.score.resolveIssue,
           'color: #00FF38',
+          ranking.score.createCodeReview,
+          'color: #E9488B',
           ranking.score.mergeMr,
           'color: #3FF7C0',
-          ranking.score.resolveIssue,
-          'color: #E9488B',
         ],
       ]}
       width="100%"
@@ -54,8 +55,8 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
           },
           textPosition: 'none',
         },
-
         chartArea: { width: '100%', height: 18 },
+        tooltip: {isHtml: true},
       }}
     />
   )
