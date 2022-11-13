@@ -35,7 +35,7 @@ function SummaryStat({
           >
             Score
           </span>
-          <Information className={`mr-4`}></Information>
+          <Information className={`mr-4`} informationText = {'Score'}></Information>
         </div>
         <div className={`flex items-center timeFrame`}>
           <div className={`mr-5`}>
