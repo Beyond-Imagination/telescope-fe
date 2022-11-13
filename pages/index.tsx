@@ -8,7 +8,7 @@ import axios from '../utils/api'
 import { IStatApi } from '../types/stat'
 import { IUserToken } from '../types/auth'
 import { convertDateByType, dateToString } from '../utils/date'
-import qs from 'qs'
+import * as spaceAPI from '../utils/api/space'
 
 const initialTypes: IType[] = [
   {
@@ -79,6 +79,13 @@ const Home: NextPage = () => {
       enabled: !!userTokenData?.serverUrl,
     }
   )
+  const { data: organization } = useQuery(
+      [userTokenData?.serverUrl, 'organization'],
+      () => fetchOrganization(),
+      {
+        enabled: userTokenData?.token !== '',
+      }
+  )
 
   let fromDate = new Date()
   let tomorrow = new Date()
@@ -104,6 +111,10 @@ const Home: NextPage = () => {
         )}&to=${dateToString(tomorrow)}`
       )
   }, [userTokenData, timeType])
+  const fetchOrganization = useCallback(() => {
+    if (userTokenData?.token)
+      return spaceAPI.getOrganization(userTokenData.serverUrl, userTokenData.token)
+  }, [userTokenData])
 
   useEffect(() => {
     getUserAccessTokenData(true).then((data: any) => setUserTokenData(data))
@@ -112,6 +123,7 @@ const Home: NextPage = () => {
     if (process.env.NODE_ENV === 'development') {
       setUserTokenData({
         serverUrl: 'https://beyond-imagination.jetbrains.space',
+        token: process.env.SPACE_ACCESS_TOKEN || '',
       })
     }
   }, [])
@@ -119,7 +131,7 @@ const Home: NextPage = () => {
   useEffect(() => {}, [timeType])
   return (
     <>
-      <MainTitle></MainTitle>
+      <MainTitle organization={organization?.data}></MainTitle>
       <Dashboard
         rankingsResponse={rankingsResponse?.data}
         summaryResponse={summaryResponse?.data}

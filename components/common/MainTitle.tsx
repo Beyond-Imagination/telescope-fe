@@ -1,6 +1,7 @@
 import Typography from '../typography'
 import Image from 'next/image'
 import LogoPic from '../../assets/logo.png'
+import {IOrganization} from "../../types/organization";
 
 export interface IType {
   name: string
@@ -10,7 +11,11 @@ export interface IType {
   priority: number
 }
 
-function MainTitle() {
+interface IMainTitle {
+  organization?: IOrganization
+}
+
+function MainTitle({organization}: IMainTitle) {
   return (
     <div
       className={`px-[55px] py-[16px] border-b border-[#BCBCBC] flex justify-between bg-[#23222C]`}
@@ -22,7 +27,7 @@ function MainTitle() {
         <div className={`flex flex-col`}>
           <div className={`mb-0.5`}>
             <Typography type={'h1'} className={`text-[#FFF]`}>
-              TELESCOPE
+              {organization?.name}
             </Typography>
           </div>
         </div>
