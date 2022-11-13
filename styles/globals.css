@@ -24,8 +24,9 @@ a {
   -moz-user-select:none;
   -ms-user-select:none;
   user-select:none; 
-  top:32px !important;
+  
   border: none !important;
   border-radius: 21px !important;
-  
+
+  top:35px !important;
 }

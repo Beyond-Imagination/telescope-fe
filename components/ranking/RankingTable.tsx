@@ -55,7 +55,7 @@ function RankingTable({ rankings }: IRankingTable) {
         </div>
       </div>
       <div
-        className={`px-2.5 bg-[#F6F7FA] pt-2 pb-[40px] max-h-[410px] overflow-y-auto rounded-b-[10px]`}
+        className={`px-2.5 bg-[#F6F7FA] pt-2 pb-[40px] max-h-[410px] overflow-y-auto rounded-b-[10px] pb-[30px]`}
       >
         {!rankings && (
           <div className={`flex justify-center items-center py-4`}>
