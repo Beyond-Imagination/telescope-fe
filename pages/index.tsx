@@ -9,6 +9,7 @@ import { IStatApi } from '../types/stat'
 import { IUserToken } from '../types/auth'
 import { convertDateByType, dateToString } from '../utils/date'
 import * as spaceAPI from '../utils/api/space'
+import Personal from '../components/personal'
 
 const initialTypes: IType[] = [
   {
@@ -63,6 +64,7 @@ function getUserAccessTokenData(askForConsent: any) {
 const Home: NextPage = () => {
   const [types] = useState(initialTypes)
   const [userTokenData, setUserTokenData] = useState<IUserToken>()
+  const [selectedTab, selectTab] = useState<number>(1)
 
   const [timeType, setTimeType] = useState('week')
   const { data: rankingsResponse } = useQuery(
@@ -80,11 +82,11 @@ const Home: NextPage = () => {
     }
   )
   const { data: organization } = useQuery(
-      [userTokenData?.serverUrl, 'organization'],
-      () => fetchOrganization(),
-      {
-        enabled: userTokenData?.token !== '',
-      }
+    [userTokenData?.serverUrl, 'organization'],
+    () => fetchOrganization(),
+    {
+      enabled: userTokenData?.token !== '',
+    }
   )
 
   let fromDate = new Date()
@@ -113,7 +115,10 @@ const Home: NextPage = () => {
   }, [userTokenData, timeType])
   const fetchOrganization = useCallback(() => {
     if (userTokenData?.token)
-      return spaceAPI.getOrganization(userTokenData.serverUrl, userTokenData.token)
+      return spaceAPI.getOrganization(
+        userTokenData.serverUrl,
+        userTokenData.token
+      )
   }, [userTokenData])
 
   useEffect(() => {
@@ -131,14 +136,24 @@ const Home: NextPage = () => {
   useEffect(() => {}, [timeType])
   return (
     <>
-      <MainTitle organization={organization?.data}></MainTitle>
-      <Dashboard
-        rankingsResponse={rankingsResponse?.data}
-        summaryResponse={summaryResponse?.data}
-        types={types}
-        timeType={timeType}
-        setTimeType={setTimeType}
-      ></Dashboard>
+      <MainTitle
+        organization={organization?.data}
+        selectedTab={selectedTab}
+        selectTab={selectTab}
+      ></MainTitle>
+      {selectedTab == 1 && (
+        <Dashboard
+          rankingsResponse={rankingsResponse?.data}
+          summaryResponse={summaryResponse?.data}
+          types={types}
+          timeType={timeType}
+          setTimeType={setTimeType}
+        ></Dashboard>
+      )}
+      {selectedTab == 2 && (
+        <Personal timeType={timeType} setTimeType={setTimeType}></Personal>
+      )}
+
       <div className={`flex justify-center text-[#D9D9D9]`}>
         <span>ⓒ 2022 Beyond_Imagaination All Rights Reserved. </span>
       </div>

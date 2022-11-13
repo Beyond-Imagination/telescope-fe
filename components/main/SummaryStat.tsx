@@ -1,5 +1,6 @@
 import InfoIcon from '../../assets/info.svg'
 import Information from '../common/Information'
+import styled from 'styled-components'
 function DivSummary({ number, text, color }: any) {
   return (
     <div className="flex flex-col w-[120px] items-center gap-1">
@@ -16,6 +17,13 @@ function DivSummary({ number, text, color }: any) {
   )
 }
 
+export const BoardTitle = styled.span`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 20px;
+`
+
 function SummaryStat({
   total,
   create_issue,
@@ -29,19 +37,17 @@ function SummaryStat({
     <div>
       <div className={`mb-3 flex justify-between`}>
         <div className={`flex items-center pl-3`}>
-          <span className="text-[14px] font-bold text-[#171A3D] mr-3.5">
-            Scoreboard
-          </span>
+          <BoardTitle className="mr-3.5 ">Score</BoardTitle>
           <Information className={`mr-4`}></Information>
         </div>
         <div className={`flex items-center`}>
           <div className={`mr-5`}>
-            <span className={`text-[12px] text-[#727272] font-bold`}>
+            <span className={`text-[12px] text-[#23222C] font-bold`}>
               Timeframe
             </span>
           </div>
           <div
-            className={`w-[286px]  bg-[#F6F7FA] rounded flex items-center justify-between px-4 py-1`}
+            className={`w-[286px]  bg-[#F6F7FA] rounded flex items-center justify-between px-4 py-1 text-[#23222C]`}
           >
             <div
               className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${

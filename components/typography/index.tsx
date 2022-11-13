@@ -1,23 +1,9 @@
 const styles = {
-  text1: {
-    fontFamily: 'Pretendard',
-    fontStyle: 'normal',
-    fontWeight: 600,
-    fontSize: 11,
-    lineHeight: 1.2,
-  },
-  text2: {
-    fontFamily: 'Pretendard',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    fontSize: 18,
-    lineHeight: 1.2,
-  },
   h1: {
     fontFamily: 'Pretendard',
     fontStyle: 'normal',
     fontWeight: 700,
-    fontSize: 26,
+    fontSize: 21,
     lineHeight: 1.2,
   },
   h2: {
@@ -41,7 +27,20 @@ const styles = {
     fontSize: 16,
     lineHeight: 1.2,
   },
-
+  text1: {
+    fontFamily: 'Pretendard',
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: 11,
+    lineHeight: 1.2,
+  },
+  text2: {
+    fontFamily: 'Pretendard',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    fontSize: 18,
+    lineHeight: 1.2,
+  },
   caption: {
     fontFamily: 'Pretendard',
     fontStyle: 'normal',

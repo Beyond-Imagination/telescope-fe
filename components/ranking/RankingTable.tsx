@@ -28,11 +28,9 @@ const getRankingColor = (ranking: number) => {
 function RankingTable({ rankings }: IRankingTable) {
   return (
     <div
-      className={`w-full h-full shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)] rounded`}
+      className={`w-full h-full  rounded-[10px] border-[1px] border-[#23222C] `}
     >
-      <div
-        className={`px-[40px] py-2 shadow-[0_1px_1px_0px_rgba(0,0,0,0.25)]  pl-10 pr-[50px]`}
-      >
+      <div className={`px-[40px] py-2 pl-10 pr-[50px]`}>
         <div className={`px-9 grid grid-cols-10`}>
           <div className={`col-span-2`}>
             <Typography className={`text-[#B0B0B0]`} type={`text1`}>
@@ -57,7 +55,7 @@ function RankingTable({ rankings }: IRankingTable) {
         </div>
       </div>
       <div
-        className={`px-[40px] bg-[#F6F7FA] py-1 max-h-[450px] overflow-y-auto`}
+        className={`px-2.5 bg-[#F6F7FA] pt-2 pb-[40px] max-h-[410px] overflow-y-auto rounded-b-[10px]`}
       >
         {!rankings && (
           <div className={`flex justify-center items-center py-4`}>
@@ -74,7 +72,7 @@ function RankingTable({ rankings }: IRankingTable) {
             <div key={index} className={`flex`}>
               <div
                 key={ranking.name}
-                className={`flex flex-1 items-center grid grid-cols-10 px-9 bg-white mb-1 rounded-l-xl`}
+                className={`flex flex-1 items-center grid grid-cols-10 px-9 bg-white mb-1.5 rounded-l-xl`}
               >
                 <div className={`col-span-2 flex items-center`}>
                   <div className={`mr-[33px] flex items-center`}>

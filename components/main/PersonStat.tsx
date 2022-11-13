@@ -1,6 +1,7 @@
 import { IRanking } from '../../pages/api/rankings'
 import { Chart } from 'react-google-charts'
 import Jdenticon from 'react-jdenticon'
+import Image from 'next/image'
 
 interface StatProps {
   value: IRanking
@@ -17,7 +18,13 @@ function PersonStat({ value }: StatProps) {
       <div className={`py-6`}>
         <div className={`flex w-[168px] gap-1 align-middle items-center ml-1`}>
           <div>
-            <Jdenticon size="80" value={value.name} />
+            {value.profilePicture == null ? (
+              <Image
+                src={`https://my-company.jetbrains.space/d/${value.profilePicture}`}
+              ></Image>
+            ) : (
+              <Jdenticon size="80" value={value.name} />
+            )}
           </div>
           <div className={`align-center flex-col flex ml-3`}>
             <div className={`font-bold`}>{value.name}</div>

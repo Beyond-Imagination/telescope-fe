@@ -12,6 +12,7 @@ export interface IRanking {
   id: string
   name: string
   score: IScore
+  profilePicture: string
 }
 export interface IScore {
   total: number
