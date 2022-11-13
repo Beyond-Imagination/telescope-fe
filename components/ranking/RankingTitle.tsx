@@ -1,6 +1,5 @@
 import { IType } from '../common/MainTitle'
 import Information from '../common/Information'
-import { BoardTitle } from '../main/SummaryStat'
 
 interface IRankingTitle {
   types: IType[]
