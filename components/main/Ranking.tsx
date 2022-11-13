@@ -10,7 +10,7 @@ interface IRankingProps {
 
 function Ranking({ rankings, types }: IRankingProps) {
   return (
-    <div className={`mb-2`}>
+    <div className={`mb-2 rankings`}>
       <RankingTitle types={types}></RankingTitle>
       <RankingTable rankings={rankings}></RankingTable>
     </div>

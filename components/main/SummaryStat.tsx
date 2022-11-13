@@ -34,13 +34,13 @@ function SummaryStat({
   setTimeType,
 }: any) {
   return (
-    <div>
+    <div className={`summaryStat`}>
       <div className={`mb-3 flex justify-between`}>
         <div className={`flex items-center pl-3`}>
           <BoardTitle className="mr-3.5 ">Score</BoardTitle>
           <Information className={`mr-4`}></Information>
         </div>
-        <div className={`flex items-center`}>
+        <div className={`flex items-center timeFrame`}>
           <div className={`mr-5`}>
             <span className={`text-[12px] text-[#23222C] font-bold`}>
               Timeframe
