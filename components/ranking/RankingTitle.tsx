@@ -1,25 +1,21 @@
 import { IType } from '../common/MainTitle'
 import Information from '../common/Information'
 import { BoardTitle } from '../main/SummaryStat'
-import styled from 'styled-components'
 
 interface IRankingTitle {
   types: IType[]
 }
 
-const LegendTitle = styled.span`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 16px;
-  color: #23222c;
-`
-
 function RankingTitle({ types }: IRankingTitle) {
   return (
     <div className={`mb-3 flex justify-between`}>
       <div className={`flex items-center pl-3`}>
-        <BoardTitle className="mr-3.5 ">Ranking</BoardTitle>
+        <span
+          className={`font-normal text-[17px] mr-3.5`}
+          style={{ fontWeight: 700, color: '#23222C' }}
+        >
+          Ranking
+        </span>
         <Information className={`mr-4`}></Information>
       </div>
       <div className={`flex gap-[30px] items-center`}>
@@ -32,7 +28,11 @@ function RankingTitle({ types }: IRankingTitle) {
               }}
             ></div>
             <div>
-              <LegendTitle>{value.display}</LegendTitle>
+              <span
+                className={`font-normal font-semibold text-[13px] color-[#23222c]`}
+              >
+                {value.display}
+              </span>
             </div>
           </div>
         ))}

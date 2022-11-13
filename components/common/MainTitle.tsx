@@ -1,9 +1,6 @@
-import Typography from '../typography'
 import Image from 'next/image'
 import LogoPic from '../../assets/logo.png'
 import { IOrganization } from '../../types/organization'
-import styled from 'styled-components'
-import { useState } from 'react'
 
 export interface IType {
   name: string
@@ -12,24 +9,6 @@ export interface IType {
   active: boolean
   priority: number
 }
-
-const OrgTitle = styled.span`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 21px;
-  line-height: 25px;
-  color: #ffffff;
-`
-
-const TabTitle = styled.span`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 11.5px;
-  line-height: 14px;
-
-  text-align: center;
-  letter-spacing: -0.03rem;
-`
 
 interface IMainTitle {
   organization?: IOrganization
@@ -56,7 +35,12 @@ function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
         </div>
         <div className={`flex flex-col`}>
           <div className={`mb-0.5`}>
-            <OrgTitle>{organization?.name}</OrgTitle>
+            <span
+              className={`font-normal text-[21px] mr-3.5`}
+              style={{ fontWeight: 600, color: 'white' }}
+            >
+              {organization?.name}
+            </span>
           </div>
         </div>
       </div>
@@ -81,7 +65,15 @@ function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
                     }
               }
             >
-              <TabTitle>{tab.title}</TabTitle>
+              <span
+                className={`font-normal text-[11.5px] mr-3.5`}
+                style={{
+                  fontWeight: 600,
+                  letterSpacing: `-0.03rem`,
+                }}
+              >
+                {tab.title}
+              </span>
             </div>
           )
         })}
@@ -89,4 +81,5 @@ function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
     </div>
   )
 }
+
 export default MainTitle

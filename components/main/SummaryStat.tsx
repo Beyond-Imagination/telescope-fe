@@ -1,6 +1,5 @@
-import InfoIcon from '../../assets/info.svg'
 import Information from '../common/Information'
-import styled from 'styled-components'
+
 function DivSummary({ number, text, color }: any) {
   return (
     <div className="flex flex-col w-[120px] items-center gap-1">
@@ -17,13 +16,6 @@ function DivSummary({ number, text, color }: any) {
   )
 }
 
-export const BoardTitle = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 20px;
-`
-
 function SummaryStat({
   total,
   create_issue,
@@ -37,7 +29,12 @@ function SummaryStat({
     <div className={`summaryStat`}>
       <div className={`mb-3 flex justify-between`}>
         <div className={`flex items-center pl-3`}>
-          <BoardTitle className="mr-3.5 ">Score</BoardTitle>
+          <span
+            className={`font-normal text-[17px] mr-3.5`}
+            style={{ fontWeight: 700, color: '#23222C' }}
+          >
+            Score
+          </span>
           <Information className={`mr-4`}></Information>
         </div>
         <div className={`flex items-center timeFrame`}>

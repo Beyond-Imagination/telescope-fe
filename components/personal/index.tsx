@@ -1,38 +1,5 @@
-import styled from 'styled-components'
 import Jdenticon from 'react-jdenticon'
-import Information from '../common/Information'
-import { BoardTitle } from '../main/SummaryStat'
 
-const MemberName = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 29px;
-  line-height: 32px;
-  color: #23222c;
-`
-const ScoreTitle = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 20px;
-  color: #23222c;
-`
-const ScoreBoardScore = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 70px;
-  line-height: 84px;
-  color: #ffffff;
-`
-
-const ScoreBoardTitle = styled.span`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 21px;
-
-  color: #ffffff;
-`
 const ScoreBoard = ({ className, color, score, title }: any) => {
   return (
     <div
@@ -41,10 +8,20 @@ const ScoreBoard = ({ className, color, score, title }: any) => {
     >
       <div className={`flex flex-col items-center`}>
         <div className={`mb-[18px]`}>
-          <ScoreBoardScore>{score}</ScoreBoardScore>
+          <span
+            className={`font-normal text-[70px]`}
+            style={{ fontWeight: 700, color: 'white' }}
+          >
+            {score}
+          </span>
         </div>
         <div>
-          <ScoreBoardTitle>{title}</ScoreBoardTitle>
+          <span
+            className={`font-normal text-[18px]`}
+            style={{ fontWeight: 600, color: 'white' }}
+          >
+            {title}
+          </span>
         </div>
       </div>
     </div>
@@ -58,12 +35,23 @@ const TotalScoreBoard = ({ className, color, score }: any) => {
     >
       <div className={`flex items-center justify-between flex-1`}>
         <div className={``}>
-          <ScoreBoardTitle>{`Total`}</ScoreBoardTitle>
+          <span
+            className={`font-normal text-[18px]`}
+            style={{ fontWeight: 600, color: 'white' }}
+          >{`Total`}</span>
           <br />
-          <ScoreBoardTitle>{`Score`}</ScoreBoardTitle>
+          <span
+            className={`font-normal text-[18px]`}
+            style={{ fontWeight: 600, color: 'white' }}
+          >{`Score`}</span>
         </div>
         <div className={``}>
-          <ScoreBoardScore>{score}</ScoreBoardScore>
+          <span
+            className={`font-normal text-[70px]`}
+            style={{ fontWeight: 700, color: 'white' }}
+          >
+            {score}
+          </span>
         </div>
       </div>
     </div>
@@ -139,11 +127,21 @@ function Personal({ timeType, setTimeType }: any) {
         </div>
         <div>
           <div>
-            <MemberName>Sun-Young HA</MemberName>
+            <span
+              className={`font-normal text-[29px] color-[#23222c]`}
+              style={{ fontWeight: 700 }}
+            >
+              Sun-Young HA
+            </span>
           </div>
           <div>
             <div>
-              <ScoreTitle>Personal score</ScoreTitle>
+              <span
+                className={`font-normal text-[17px] color-[#23222c]`}
+                style={{ fontWeight: 700 }}
+              >
+                Personal score
+              </span>
             </div>
             <div className={`grid grid-cols-4 gap-3`}>
               <ScoreBoard
