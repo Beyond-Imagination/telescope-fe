@@ -71,7 +71,7 @@ const TotalScoreBoard = ({ className, color, score }: any) => {
 }
 function Personal({ timeType, setTimeType }: any) {
   return (
-    <div className={`py-9`}>
+    <div className={`py-[26px] px-[55px] flex flex-col`}>
       <div className={`mb-5 flex justify-end`}>
         <div className={`flex items-center`}>
           <div className={`mr-5`}>
@@ -133,8 +133,8 @@ function Personal({ timeType, setTimeType }: any) {
           </div>
         </div>
       </div>
-      <div className={`flex px-[68px] `}>
-        <div className={`w-[290px] h-[290px] rounded-[18px] mr-11`}>
+      <div className={`flex flex-1`}>
+        <div className={`w-[290px] h-[290px] rounded-[18px] mr-11 flex-1`}>
           <Jdenticon size="290" value={`Sun-Young HA`} />
         </div>
         <div>
