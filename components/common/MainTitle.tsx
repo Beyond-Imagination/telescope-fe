@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import LogoPic from '../../assets/logo.png'
-import { IOrganization } from '../../types/organization'
+import { IOrganization } from '../../types/space'
 
 export interface IType {
   name: string

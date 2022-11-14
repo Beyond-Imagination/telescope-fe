@@ -137,7 +137,7 @@ const Home: NextPage = () => {
   return (
     <>
       <MainTitle
-        organization={organization?.data}
+        organization={organization}
         selectedTab={selectedTab}
         selectTab={selectTab}
       ></MainTitle>
