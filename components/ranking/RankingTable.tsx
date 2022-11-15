@@ -98,7 +98,7 @@ function RankingTable({ rankings }: IRankingTable) {
                     </Typography>
                   </div>
                 </div>
-                <div className={`flex col-span-4`}>
+                <div className={`flex col-span-4 pr-2`}>
                   <StackBarchart
                     maxValue={rankings[0].score.total}
                     ranking={ranking}

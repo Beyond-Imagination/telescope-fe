@@ -50,10 +50,10 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
         hAxis: {
           gridlines: {
             count: 0,
-          },
-          maxValue: maxValue,
+          },          
           textPosition: 'none',
           baselineColor: 'transparent',
+          viewWindow:{max:maxValue}
         },
         vAxis: {
           baselineColor: 'transparent',
