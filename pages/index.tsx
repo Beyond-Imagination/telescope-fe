@@ -151,7 +151,11 @@ const Home: NextPage = () => {
         ></Dashboard>
       )}
       {selectedTab == 2 && (
-        <Personal timeType={timeType} setTimeType={setTimeType}></Personal>
+        <Personal
+          userTokenData={userTokenData}
+          timeType={timeType}
+          setTimeType={setTimeType}
+        ></Personal>
       )}
 
       <div className={`flex justify-center text-[#D9D9D9]`}>

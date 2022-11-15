@@ -15,7 +15,10 @@ function RankingTitle({ types }: IRankingTitle) {
         >
           Ranking
         </span>
-        <Information className={`mr-4`} informationText={"Ranking"}></Information>
+        <Information
+          className={`mr-4`}
+          informationText={'Ranking'}
+        ></Information>
       </div>
       <div className={`flex gap-[30px] items-center`}>
         {types.map((value, index) => (

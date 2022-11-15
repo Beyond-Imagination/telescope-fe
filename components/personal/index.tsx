@@ -1,4 +1,10 @@
 import Jdenticon from 'react-jdenticon'
+import { useCallback, useEffect } from 'react'
+import * as spaceAPI from '../../utils/api/space'
+import { useQuery } from '@tanstack/react-query'
+import axios from '../../utils/api'
+import { IUserScore } from '../../pages/api/rankings'
+import { convertDateByType, dateToString } from '../../utils/date'
 
 const ScoreBoard = ({ className, color, score, title }: any) => {
   return (
@@ -57,7 +63,38 @@ const TotalScoreBoard = ({ className, color, score }: any) => {
     </div>
   )
 }
-function Personal({ timeType, setTimeType }: any) {
+function Personal({ userTokenData, timeType, setTimeType }: any) {
+  const { data } = useQuery(['profile', 'me'], () => fetchProfileMe(), {
+    enabled: !!userTokenData?.serverUrl,
+  })
+
+  const { data: data2 } = useQuery(
+    ['score', timeType],
+    () => fetchScoreByUserId(),
+    {
+      enabled: !!data?.id,
+    }
+  )
+  const fetchProfileMe = useCallback(() => {
+    if (userTokenData?.token)
+      return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
+  }, [userTokenData])
+  let fromDate = new Date()
+  let tomorrow = new Date()
+  tomorrow.setDate(fromDate.getDate() + 1)
+  const fetchScoreByUserId = useCallback(() => {
+    if (userTokenData?.token && data)
+      return axios.get<IUserScore>(
+        `api/users/${data.id}/score?serverUrl=${encodeURIComponent(
+          userTokenData.serverUrl
+        )}&from=${dateToString(
+          convertDateByType(timeType, fromDate)
+        )}&to=${dateToString(tomorrow)}`
+      )
+  }, [userTokenData, data, timeType])
+
+  useEffect(() => {}, [timeType])
+
   return (
     <div className={`py-[26px] px-[55px] flex flex-col`}>
       <div className={`mb-5 flex justify-end`}>
@@ -123,7 +160,20 @@ function Personal({ timeType, setTimeType }: any) {
       </div>
       <div className={`flex flex-1`}>
         <div className={`w-[290px] h-[290px] rounded-[18px] mr-11 flex-1`}>
-          <Jdenticon size="290" value={`Sun-Young HA`} />
+          {data?.name ? (
+            <Jdenticon
+              size="290"
+              value={
+                data?.name
+                  ? `${data.name.firstName} ${data.name.lastName}`
+                  : 'Nickname'
+              }
+            />
+          ) : (
+            <div className={`flex justify-center items-center h-full`}>
+              Loading...
+            </div>
+          )}
         </div>
         <div>
           <div>
@@ -131,7 +181,9 @@ function Personal({ timeType, setTimeType }: any) {
               className={`font-normal text-[29px] color-[#23222c]`}
               style={{ fontWeight: 700 }}
             >
-              Sun-Young HA
+              {data?.name
+                ? `${data.name.firstName} ${data.name.lastName}`
+                : 'Nickname'}
             </span>
           </div>
           <div>
@@ -147,31 +199,31 @@ function Personal({ timeType, setTimeType }: any) {
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#B250FF'}
-                score={6}
+                score={data2 ? data2.data.score.createIssue : 0}
                 title={'Create Issues'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#00FF38'}
-                score={6}
+                score={data2 ? data2.data.score.resolveIssue : 0}
                 title={'Resolve issues'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#E9488B'}
-                score={6}
+                score={data2 ? data2.data.score.createCodeReview : 0}
                 title={'Create Code review'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#21D9CE'}
-                score={6}
+                score={data2 ? data2.data.score.mergeMr : 0}
                 title={'Merge MR'}
               />
               <TotalScoreBoard
                 className={`col-span-4`}
                 color={'#377FFF'}
-                score={6}
+                score={data2 ? data2.data.score.total : 0}
               />
             </div>
           </div>

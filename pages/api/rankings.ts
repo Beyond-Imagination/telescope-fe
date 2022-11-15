@@ -8,6 +8,13 @@ export interface IRankingApi {
   to: string
   rankings: IRanking[]
 }
+
+export interface IUserScore {
+  userId: string
+  from: string
+  to: string
+  score: IScore
+}
 export interface IRanking {
   id: string
   name: string
