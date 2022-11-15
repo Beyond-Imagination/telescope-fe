@@ -35,39 +35,27 @@ function Information({ className, informationText }: IInformation) {
     timeFrameDiv?.classList.remove('blur-sm')
   }
 
-  if (informationText == 'Score') {
-    return (
-      <CustomWidthTooltip
-        placement="top-end"
-        title={
-          <div style={{ fontSize: '14px' }}>
-            Showing members’ overall tag index numbers.
-            <br />
-            Have a check total task score in each Tags!
-          </div>
-        }
-        arrow
-      >
-        <span
-          className={`${className} hover:cursor-pointer`}
-          onMouseOver={() => mouseOn()}
-          onMouseLeave={() => mouseDown()}
-        >
+  return(
+    <>
+      {informationText=='Score' &&
+        <CustomWidthTooltip 
+          placement="top-end"
+          title= {<div style = {{fontSize:"14px"}}>Showing members’ overall tag index numbers.<br/>Have a check total task score in each Tags!</div>}
+          arrow
+          > 
+          <span className={`${className} hover:cursor-pointer`}
+                onMouseOver = {() => mouseOn()}
+                onMouseLeave = {() => mouseDown()}>
+            <InfoIcon></InfoIcon>
+          </span>
+        </CustomWidthTooltip>
+      }
+      {informationText=='Ranking' && 
+       <span className={`${className} hover:cursor-pointer`}>
           <InfoIcon></InfoIcon>
         </span>
-      </CustomWidthTooltip>
-    )
-  } else if (informationText == 'Ranking') {
-    return (
-      <span className={`${className} hover:cursor-pointer`}>
-        <InfoIcon></InfoIcon>
-      </span>
-    )
-  }
-  return (
-    <span className={`${className} hover:cursor-pointer`}>
-      <InfoIcon></InfoIcon>
-    </span>
+      }
+    </>
   )
 }
 export default Information
