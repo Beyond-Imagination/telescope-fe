@@ -28,7 +28,7 @@ function SummaryStat({
   return (
     <div className={`summaryStat`}>
       <div className={`mb-3 flex justify-between`}>
-        <div className={`flex items-center pl-3`}>
+        <div className={`flex items-center pl-3 scoreInfo`}>
           <span
             className={`font-normal text-[17px] mr-3.5`}
             style={{ fontWeight: 700, color: '#23222C' }}
@@ -97,12 +97,16 @@ function SummaryStat({
             >
               <span className={`text-[12px] font-bold `}>YEAR</span>
             </div>
+            <Information
+            className={`mr-4`}
+            informationText={'Time'}
+            ></Information>
           </div>
         </div>
       </div>
 
       <div
-        className={`w-full h-[96px] flex justify-center shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)] rounded mb-[12px] bg-[#23222C]`}
+        className={`w-full h-[96px] flex justify-center shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)] rounded mb-[12px] bg-[#23222C] scoreFrame`}
       >
         <div className="w-full flex justify-center items-center flex-row justify-around">
           {DivSummary({ number: total, text: 'Total Score', color: '#387AF1' })}
