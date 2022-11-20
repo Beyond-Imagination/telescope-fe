@@ -10,6 +10,11 @@ export default function Document() {
           crossOrigin
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css"
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5429905827101121"
+          crossOrigin="anonymous"
+        ></script>
       </Head>
       <body>
         <Main />
