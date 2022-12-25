@@ -98,8 +98,8 @@ function SummaryStat({
               <span className={`text-[12px] font-bold `}>YEAR</span>
             </div>
             <Information
-            className={`mr-4`}
-            informationText={'Time'}
+              className={`mr-4`}
+              informationText={'Time'}
             ></Information>
           </div>
         </div>

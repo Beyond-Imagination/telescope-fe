@@ -1,5 +1,5 @@
 import Jdenticon from 'react-jdenticon'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import * as spaceAPI from '../../utils/api/space'
 import { useQuery } from '@tanstack/react-query'
 import axios from '../../utils/api'
@@ -68,6 +68,7 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
   const { data } = useQuery(['profile', 'me'], () => fetchProfileMe(), {
     enabled: !!userTokenData?.serverUrl,
   })
+  const [img, setImg] = useState(null)
 
   const { data: data2 } = useQuery(
     ['score', timeType],
@@ -93,6 +94,27 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
         )}&to=${dateToString(tomorrow)}`
       )
   }, [userTokenData, data, timeType])
+
+  useEffect(() => {
+    axios
+      .get(`${userTokenData.serverUrl}/d/${data?.profilePicture}`, {
+        headers: {
+          Authorization: `Bearer ${userTokenData.token}`,
+        },
+        responseType: 'arraybuffer',
+      })
+      .then((res) => {
+        let data = new Uint8Array(res.data)
+        if (data) {
+          // @ts-ignore
+          let raw = String.fromCharCode.apply(null, data)
+          let base64 = btoa(raw)
+          let src = 'data:image;base64,' + base64
+          // @ts-ignore
+          setImg(src)
+        }
+      })
+  }, [])
 
   useEffect(() => {}, [timeType])
 
@@ -157,8 +179,8 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
               <span className={`text-[12px] font-bold `}>YEAR</span>
             </div>
             <Information
-            className={`mr-4`}
-            informationText={'Time'}
+              className={`mr-4`}
+              informationText={'Time'}
             ></Information>
           </div>
         </div>
@@ -166,14 +188,18 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
       <div className={`flex flex-1 scoreFrame`}>
         <div className={`w-[290px] h-[290px] rounded-[18px] mr-11 flex-1`}>
           {data?.name ? (
-            <Jdenticon
-              size="290"
-              value={
-                data?.name
-                  ? `${data.name.firstName} ${data.name.lastName}`
-                  : 'Nickname'
-              }
-            />
+            img ? (
+              <div></div>
+            ) : (
+              <Jdenticon
+                size="290"
+                value={
+                  data?.name
+                    ? `${data.name.firstName} ${data.name.lastName}`
+                    : 'Nickname'
+                }
+              />
+            )
           ) : (
             <div className={`flex justify-center items-center h-full`}>
               Loading...

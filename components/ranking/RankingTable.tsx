@@ -1,5 +1,4 @@
 import Jdenticon from 'react-jdenticon'
-import { Chart } from 'react-google-charts'
 import { IRanking } from '../../pages/api/rankings'
 import Typography from '../typography'
 import BookMarkIcon from '../../assets/bi_bookmark-star-fill.svg'
