@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from '../../utils/api'
 import { IUserScore } from '../../pages/api/rankings'
 import { convertDateByType, dateToString } from '../../utils/date'
+import Information from '../common/Information'
 
 const ScoreBoard = ({ className, color, score, title }: any) => {
   return (
@@ -155,10 +156,14 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
             >
               <span className={`text-[12px] font-bold `}>YEAR</span>
             </div>
+            <Information
+            className={`mr-4`}
+            informationText={'Time'}
+            ></Information>
           </div>
         </div>
       </div>
-      <div className={`flex flex-1`}>
+      <div className={`flex flex-1 scoreFrame`}>
         <div className={`w-[290px] h-[290px] rounded-[18px] mr-11 flex-1`}>
           {data?.name ? (
             <Jdenticon
