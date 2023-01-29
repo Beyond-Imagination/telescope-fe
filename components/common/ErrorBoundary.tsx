@@ -1,34 +1,74 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react'
+import React from 'react'
+import Router from 'next/router'
+import { isInstanceOfAPIError } from '../../utils/api/error'
+import ErrorPage from '../../pages/_error'
 
-interface Props {
-  children?: ReactNode
+type ErrorBoundaryProps = React.PropsWithChildren<{}>
+
+interface ErrorBoundaryState {
+  error: Error | null
+  errorInfo: any
 }
 
-interface State {
-  hasError: boolean
+const errorBoundaryState: ErrorBoundaryState = {
+  error: null,
+  errorInfo: null,
 }
 
-class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false,
+export default class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props)
+    this.state = errorBoundaryState
   }
 
-  public static getDerivedStateFromError(_: Error): State {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true }
+  static getDerivedStateFromError(error: Error) {
+    return { error }
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo)
+  private resetState = () => {
+    this.setState(errorBoundaryState)
   }
 
-  public render() {
-    if (this.state.hasError) {
-      return <h1>Sorry.. there was an error</h1>
+  private setError = (error: Error) => {
+    this.setState({ error })
+  }
+  private handleError = (event: ErrorEvent) => {
+    this.setError(event.error)
+    event.preventDefault?.()
+  }
+
+  private handleRejectedPromise = (event: PromiseRejectionEvent) => {
+    event?.promise?.catch?.(this.setError)
+    event.preventDefault?.()
+  }
+
+  componentDidMount() {
+    window.addEventListener('error', this.handleError)
+    window.addEventListener('unhandledrejection', this.handleRejectedPromise)
+
+    Router.events.on('routeChangeStart', this.resetState)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('error', this.handleError)
+    window.removeEventListener('unhandledrejection', this.handleRejectedPromise)
+
+    Router.events.off('routeChangeStart', this.resetState)
+  }
+
+  render() {
+    const { error } = this.state
+
+    if (isInstanceOfAPIError(error)) {
+      return <ErrorPage message={error.message} statusCode={error.statusCode} />
+    }
+    if (error) {
+      return <ErrorPage message={error.message} statusCode={500} />
     }
 
     return this.props.children
   }
 }
-
-export default ErrorBoundary

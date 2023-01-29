@@ -1,15 +1,14 @@
 import type { NextPage } from 'next'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import MainTitle, { IType } from '../components/common/MainTitle'
 import Dashboard from '../components/main/Dashboard'
 import { useQuery } from '@tanstack/react-query'
-import { IRankingApi } from './api/rankings'
-import axios from '../utils/api'
-import { IStatApi } from '../types/stat'
 import { IUserToken } from '../types/auth'
-import { convertDateByType, dateToString } from '../utils/date'
-import * as spaceAPI from '../utils/api/space'
+import { convertDateByType } from '../utils/date'
+import * as spaceAPI from '../utils/api/spaceApi'
 import Personal from '../components/personal'
+import { fetchRankings, fetchSummaryStats } from '../utils/api/homeApi'
+import { getUserAccessTokenData } from '../utils/api/spaceApi'
 
 const initialTypes: IType[] = [
   {
@@ -42,25 +41,6 @@ const initialTypes: IType[] = [
   },
 ]
 
-function getUserAccessTokenData(askForConsent: any) {
-  return new Promise((resolve) => {
-    // 1. Create a MessageChannel
-    const channel = new MessageChannel()
-    // 2. Subscribe to response
-    channel.port1.onmessage = (e) => resolve(e.data)
-    // 3. Call postMessage
-    window.parent.postMessage(
-      {
-        type: 'GetUserTokenRequest',
-        permissionScope: 'global:Profile.View global:Profile.Memberships.View',
-        askForConsent: askForConsent,
-      },
-      '*',
-      [channel.port2]
-    )
-  })
-}
-
 const Home: NextPage = () => {
   const [types] = useState(initialTypes)
   const [userTokenData, setUserTokenData] = useState<IUserToken>()
@@ -69,51 +49,49 @@ const Home: NextPage = () => {
   const [timeType, setTimeType] = useState('week')
   const { data: rankingsResponse } = useQuery(
     [timeType, userTokenData?.serverUrl, 'ranking'],
-    () => fetchRankings(),
+    () => fetchRankingsHook(),
     {
       enabled: !!userTokenData?.serverUrl,
     }
   )
   const { data: summaryResponse } = useQuery(
     [timeType, userTokenData?.serverUrl, 'stat'],
-    () => fetchSummaryStats(),
+    () => fetchSummaryStatsHook(),
     {
       enabled: !!userTokenData?.serverUrl,
     }
   )
   const { data: organization } = useQuery(
     [userTokenData?.serverUrl, 'organization'],
-    () => fetchOrganization(),
+    () => fetchOrganizationHook(),
     {
-      enabled: userTokenData?.token !== '',
+      enabled: !!userTokenData?.token,
     }
   )
 
-  let fromDate = new Date()
+  let today = new Date()
   let tomorrow = new Date()
-  tomorrow.setDate(fromDate.getDate() + 1)
+  tomorrow.setDate(today.getDate() + 1)
 
-  const fetchRankings = useCallback(() => {
+  const fetchRankingsHook = useCallback(() => {
     if (userTokenData)
-      return axios.get<IRankingApi>(
-        `api/organization/rankings?serverUrl=${encodeURIComponent(
-          userTokenData.serverUrl
-        )}&from=${dateToString(
-          convertDateByType(timeType, fromDate)
-        )}&to=${dateToString(tomorrow)}`
+      return fetchRankings(
+        userTokenData.serverUrl,
+        convertDateByType(timeType, today),
+        tomorrow
       )
   }, [userTokenData, timeType])
-  const fetchSummaryStats = useCallback(() => {
+
+  const fetchSummaryStatsHook = useCallback(() => {
     if (userTokenData)
-      return axios.get<IStatApi>(
-        `api/organization/score?serverUrl=${encodeURIComponent(
-          userTokenData.serverUrl
-        )}&from=${dateToString(
-          convertDateByType(timeType, fromDate)
-        )}&to=${dateToString(tomorrow)}`
+      return fetchSummaryStats(
+        userTokenData.serverUrl,
+        convertDateByType(timeType, today),
+        tomorrow
       )
   }, [userTokenData, timeType])
-  const fetchOrganization = useCallback(() => {
+
+  const fetchOrganizationHook = useCallback(() => {
     if (userTokenData?.token)
       return spaceAPI.getOrganization(
         userTokenData.serverUrl,
@@ -121,9 +99,14 @@ const Home: NextPage = () => {
       )
   }, [userTokenData])
 
+  //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
   useEffect(() => {
-    getUserAccessTokenData(true).then((data: any) => setUserTokenData(data))
+    getUserAccessTokenData(true).then((data: any) => {
+      setUserTokenData(data)
+    })
   }, [])
+
+  //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       setUserTokenData({
@@ -133,6 +116,7 @@ const Home: NextPage = () => {
     }
   }, [])
 
+  //timeType이 변경될 경우, ReRendering
   useEffect(() => {}, [timeType])
   return (
     <>

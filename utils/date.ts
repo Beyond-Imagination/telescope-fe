@@ -5,7 +5,6 @@ export function dateToString(date: Date): string {
 }
 
 export function convertDateByType(type: string, date: Date): Date {
-  console.log('type', type)
   let date1 = new Date(date)
   if (type == 'week') date1.setDate(date.getDate() - 7)
   if (type == 'month') date1.setMonth(date1.getMonth() - 1)

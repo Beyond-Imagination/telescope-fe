@@ -3,8 +3,14 @@ import MainTitle from '../components/common/MainTitle'
 import Image from 'next/image'
 import LogoPic from '../assets/logo.png'
 import TelescopeImg from '../assets/telescope.png'
+import Link from 'next/link'
 
-const ErrorPage = ({ statusCode, message }: any) => {
+interface ErrorProps {
+  statusCode: number
+  message: string
+}
+
+const ErrorPage = ({ statusCode, message }: ErrorProps) => {
   return (
     <div className={`h-[100vh] flex flex-col`}>
       <div
@@ -20,7 +26,7 @@ const ErrorPage = ({ statusCode, message }: any) => {
                 className={`font-normal text-[21px] mr-3.5`}
                 style={{ fontWeight: 600, color: 'white' }}
               >
-                {'Telescope'}
+                {'Telescope Error Page'}
               </span>
             </div>
           </div>
@@ -36,6 +42,12 @@ const ErrorPage = ({ statusCode, message }: any) => {
         <div>
           <span className={`text-[32px] font-bold text-[#23222C]`}>
             {message}
+          </span>
+        </div>
+        <div className={`justify-center flex items-center`}>
+          <span>
+            {`Return to the `}
+            <Link href="/">Home</Link>
           </span>
         </div>
       </div>

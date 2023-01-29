@@ -1,11 +1,11 @@
 import Jdenticon from 'react-jdenticon'
 import { useCallback, useEffect, useState } from 'react'
-import * as spaceAPI from '../../utils/api/space'
+import * as spaceAPI from '../../utils/api/spaceApi'
 import { useQuery } from '@tanstack/react-query'
 import axios from '../../utils/api'
-import { IUserScore } from '../../pages/api/rankings'
 import { convertDateByType, dateToString } from '../../utils/date'
 import Information from '../common/Information'
+import { fetchScoreByUserId } from '../../utils/api/myScoreApi'
 
 const ScoreBoard = ({ className, color, score, title }: any) => {
   return (
@@ -64,56 +64,62 @@ const TotalScoreBoard = ({ className, color, score }: any) => {
     </div>
   )
 }
+
 function Personal({ userTokenData, timeType, setTimeType }: any) {
-  const { data } = useQuery(['profile', 'me'], () => fetchProfileMe(), {
-    enabled: !!userTokenData?.serverUrl,
-  })
+  const { data: userData } = useQuery(
+    ['profile', 'me', userTokenData],
+    () => fetchProfileMe(),
+    {
+      enabled: !!userTokenData?.serverUrl,
+    }
+  )
   const [img, setImg] = useState(null)
 
-  const { data: data2 } = useQuery(
+  const { data: scoreData } = useQuery(
     ['score', timeType],
-    () => fetchScoreByUserId(),
+    () => fetchScoreByUserIdHook(),
     {
-      enabled: !!data?.id,
+      enabled: !!userData?.id,
     }
   )
   const fetchProfileMe = useCallback(() => {
     if (userTokenData?.token)
       return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
   }, [userTokenData])
+
   let fromDate = new Date()
   let tomorrow = new Date()
   tomorrow.setDate(fromDate.getDate() + 1)
-  const fetchScoreByUserId = useCallback(() => {
-    if (userTokenData?.token && data)
-      return axios.get<IUserScore>(
-        `api/users/${data.id}/score?serverUrl=${encodeURIComponent(
-          userTokenData.serverUrl
-        )}&from=${dateToString(
-          convertDateByType(timeType, fromDate)
-        )}&to=${dateToString(tomorrow)}`
+
+  const fetchScoreByUserIdHook = useCallback(() => {
+    if (userTokenData?.token && userData)
+      return fetchScoreByUserId(
+        userData.id,
+        userTokenData.serverUrl,
+        convertDateByType(timeType, fromDate),
+        tomorrow
       )
-  }, [userTokenData, data, timeType])
+  }, [userTokenData, userData, timeType])
 
   useEffect(() => {
-    axios
-      .get(`${userTokenData.serverUrl}/d/${data?.profilePicture}`, {
-        headers: {
-          Authorization: `Bearer ${userTokenData.token}`,
-        },
-        responseType: 'arraybuffer',
-      })
-      .then((res) => {
-        let data = new Uint8Array(res.data)
-        if (data) {
-          // @ts-ignore
-          let raw = String.fromCharCode.apply(null, data)
-          let base64 = btoa(raw)
-          let src = 'data:image;base64,' + base64
-          // @ts-ignore
-          setImg(src)
-        }
-      })
+    axios({
+      method: 'get',
+      url: `${userTokenData.serverUrl}/d/${userData?.profilePicture}`,
+      headers: {
+        Authorization: `Bearer ${userTokenData.token}`,
+      },
+      responseType: 'arraybuffer',
+    }).then((res) => {
+      let data = new Uint8Array(res.data)
+      if (data) {
+        // @ts-ignore
+        let raw = String.fromCharCode.apply(null, data)
+        let base64 = btoa(raw)
+        let src = 'data:image;base64,' + base64
+        // @ts-ignore
+        setImg(src)
+      }
+    })
   }, [])
 
   useEffect(() => {}, [timeType])
@@ -187,15 +193,15 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
       </div>
       <div className={`flex flex-1 scoreFrame`}>
         <div className={`w-[290px] h-[290px] rounded-[18px] mr-11 flex-1`}>
-          {data?.name ? (
+          {userData?.name ? (
             img ? (
               <div></div>
             ) : (
               <Jdenticon
                 size="290"
                 value={
-                  data?.name
-                    ? `${data.name.firstName} ${data.name.lastName}`
+                  userData?.name
+                    ? `${userData.name.firstName} ${userData.name.lastName}`
                     : 'Nickname'
                 }
               />
@@ -212,8 +218,8 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
               className={`font-normal text-[29px] color-[#23222c]`}
               style={{ fontWeight: 700 }}
             >
-              {data?.name
-                ? `${data.name.firstName} ${data.name.lastName}`
+              {userData?.name
+                ? `${userData.name.firstName} ${userData.name.lastName}`
                 : 'Nickname'}
             </span>
           </div>
@@ -230,31 +236,31 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#B250FF'}
-                score={data2 ? data2.data.score.createIssue : 0}
+                score={scoreData ? scoreData.data.score.createIssue : 0}
                 title={'Create Issues'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#00FF38'}
-                score={data2 ? data2.data.score.resolveIssue : 0}
+                score={scoreData ? scoreData.data.score.resolveIssue : 0}
                 title={'Resolve issues'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#E9488B'}
-                score={data2 ? data2.data.score.createCodeReview : 0}
+                score={scoreData ? scoreData.data.score.createCodeReview : 0}
                 title={'Create Code review'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#21D9CE'}
-                score={data2 ? data2.data.score.mergeMr : 0}
+                score={scoreData ? scoreData.data.score.mergeMr : 0}
                 title={'Merge MR'}
               />
               <TotalScoreBoard
                 className={`col-span-4`}
                 color={'#377FFF'}
-                score={data2 ? data2.data.score.total : 0}
+                score={scoreData ? scoreData.data.score.total : 0}
               />
             </div>
           </div>
