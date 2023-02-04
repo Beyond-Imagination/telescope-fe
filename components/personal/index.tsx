@@ -67,13 +67,13 @@ const TotalScoreBoard = ({ className, color, score }: any) => {
 
 function Personal({ userTokenData, timeType, setTimeType }: any) {
   const { data: userData } = useQuery(
-    ['profile', 'me', userTokenData],
+    ['profile', 'me', userTokenData ? userTokenData.token : null],
     () => fetchProfileMe(),
     {
-      enabled: !!userTokenData?.serverUrl,
+      enabled: !!userTokenData?.serverUrl && !!userTokenData?.token,
     }
   )
-  const [img, setImg] = useState(null)
+  const [img, setImg] = useState<string | null>(null)
 
   const { data: scoreData } = useQuery(
     ['score', timeType],
@@ -102,7 +102,7 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
   }, [userTokenData, userData, timeType])
 
   useEffect(() => {
-    if (userData?.profilePicture !== null)
+    if (userData && userData.profilePicture)
       axios({
         method: 'get',
         url: `${userTokenData.serverUrl}/d/${userData.profilePicture}`,
@@ -112,16 +112,12 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
         responseType: 'arraybuffer',
       }).then((res) => {
         let data = new Uint8Array(res.data)
-        if (data) {
-          // @ts-ignore
-          let raw = String.fromCharCode.apply(null, data)
-          let base64 = btoa(raw)
-          let src = 'data:image;base64,' + base64
-          // @ts-ignore
-          setImg(src)
-        }
+        let raw = Array.from(data, (ch) => String.fromCharCode(ch)).join('')
+        let base64 = btoa(raw)
+        let src = `data:image;base64,${base64}`
+        setImg(src)
       })
-  }, [])
+  }, [userData])
 
   useEffect(() => {}, [timeType])
 

@@ -46,8 +46,7 @@ const ErrorPage = ({ statusCode, message }: ErrorProps) => {
         </div>
         <div className={`justify-center flex items-center`}>
           <span>
-            {`Return to the `}
-            <Link href="/">Home</Link>
+            <Link href="/">{`Return to the Home`}</Link>
           </span>
         </div>
       </div>
