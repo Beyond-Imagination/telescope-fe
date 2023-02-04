@@ -101,23 +101,24 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
       )
   }, [userTokenData, userData, timeType])
 
-  useEffect(() => {
-    if (userData && userData.profilePicture)
-      axios({
-        method: 'get',
-        url: `${userTokenData.serverUrl}/d/${userData.profilePicture}`,
-        headers: {
-          Authorization: `Bearer ${userTokenData.token}`,
-        },
-        responseType: 'arraybuffer',
-      }).then((res) => {
-        let data = new Uint8Array(res.data)
-        let raw = Array.from(data, (ch) => String.fromCharCode(ch)).join('')
-        let base64 = btoa(raw)
-        let src = `data:image;base64,${base64}`
-        setImg(src)
-      })
-  }, [userData])
+  // TODO 현재 Jetbrain Space의 CORS 정책으로 이미지 불러오기가 힘듬 추후 개선 필요
+  // useEffect(() => {
+  //   if (userData && userData.profilePicture)
+  //     axios({
+  //       method: 'get',
+  //       url: `${userTokenData.serverUrl}/d/${userData.profilePicture}`,
+  //       headers: {
+  //         Authorization: `Bearer ${userTokenData.token}`,
+  //       },
+  //       responseType: 'arraybuffer',
+  //     }).then((res) => {
+  //       let data = new Uint8Array(res.data)
+  //       let raw = Array.from(data, (ch) => String.fromCharCode(ch)).join('')
+  //       let base64 = btoa(raw)
+  //       let src = `data:image;base64,${base64}`
+  //       setImg(src)
+  //     })
+  // }, [userData])
 
   useEffect(() => {}, [timeType])
 
