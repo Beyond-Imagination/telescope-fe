@@ -102,24 +102,25 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
   }, [userTokenData, userData, timeType])
 
   useEffect(() => {
-    axios({
-      method: 'get',
-      url: `${userTokenData.serverUrl}/d/${userData?.profilePicture}`,
-      headers: {
-        Authorization: `Bearer ${userTokenData.token}`,
-      },
-      responseType: 'arraybuffer',
-    }).then((res) => {
-      let data = new Uint8Array(res.data)
-      if (data) {
-        // @ts-ignore
-        let raw = String.fromCharCode.apply(null, data)
-        let base64 = btoa(raw)
-        let src = 'data:image;base64,' + base64
-        // @ts-ignore
-        setImg(src)
-      }
-    })
+    if (userData?.profilePicture !== null)
+      axios({
+        method: 'get',
+        url: `${userTokenData.serverUrl}/d/${userData.profilePicture}`,
+        headers: {
+          Authorization: `Bearer ${userTokenData.token}`,
+        },
+        responseType: 'arraybuffer',
+      }).then((res) => {
+        let data = new Uint8Array(res.data)
+        if (data) {
+          // @ts-ignore
+          let raw = String.fromCharCode.apply(null, data)
+          let base64 = btoa(raw)
+          let src = 'data:image;base64,' + base64
+          // @ts-ignore
+          setImg(src)
+        }
+      })
   }, [])
 
   useEffect(() => {}, [timeType])
