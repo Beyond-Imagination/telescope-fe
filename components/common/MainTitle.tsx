@@ -27,7 +27,7 @@ const tabData = [
 function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
   return (
     <div
-      className={`px-[55px] py-[16px] border-b border-[#BCBCBC] flex justify-between bg-[#23222C] relative`}
+      className={`px-[55px] py-[16px] border-b border-[#BCBCBC] flex justify-between bg-[#23222C] relative border-none`}
     >
       <div className={`flex items-center `}>
         <div className={`w-[59px] h-[59px] mr-[20px]`}>
@@ -49,24 +49,24 @@ function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
           return (
             <div
               key={tab.id}
-              className={`w-[124px] py-[5px] flex justify-center hover:cursor-pointer`}
+              className={`w-[124px] py-[5px] flex justify-center hover:cursor-pointer border-none`}
               onClick={() => selectTab(tab.id)}
               style={
                 tab.id === selectedTab
                   ? {
-                      borderBottomWidth: 2,
-                      borderColor: 'white',
-                      color: 'white',
+                      color: 'black',
+                      backgroundColor: 'white',
+                      borderRadius: '4px 4px 0 0',
                     }
                   : {
-                      borderBottomWidth: 2,
-                      borderColor: 'rgba(255, 255, 255, 0.2)',
                       color: 'rgba(255, 255, 255, 0.2)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                      borderRadius: '4px 4px 0 0',
                     }
               }
             >
               <span
-                className={`font-normal text-[11.5px] mr-3.5`}
+                className={`font-normal text-[13px]`}
                 style={{
                   fontWeight: 600,
                   letterSpacing: `-0.03rem`,
