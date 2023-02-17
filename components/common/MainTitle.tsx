@@ -59,7 +59,7 @@ function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
                       borderRadius: '4px 4px 0 0',
                     }
                   : {
-                      color: 'rgba(255, 255, 255, 0.2)',
+                      color: 'rgba(255, 255, 255, 1)',
                       backgroundColor: 'rgba(255, 255, 255, 0.2)',
                       borderRadius: '4px 4px 0 0',
                     }
