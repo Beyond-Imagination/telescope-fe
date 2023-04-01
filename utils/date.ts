@@ -1,6 +1,6 @@
 export function dateToString(date: Date): string {
   const timezoneOffset = date.getTimezoneOffset()
-  date = new Date(date.getTime() - timezoneOffset * 60 * 1000)
+  date = new Date(date.getTime() + timezoneOffset * 60 * 1000)
   return date.toISOString().split('T')[0]
 }
 
