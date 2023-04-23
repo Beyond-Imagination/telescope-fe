@@ -5,6 +5,7 @@ import BookMarkIcon from '../../assets/bi_bookmark-star-fill.svg'
 import StackBarchart from './StackBarchart'
 interface IRankingTable {
   rankings?: IRanking[]
+  profileMap: Map<string, string>
 }
 
 const getRankingColor = (ranking: number) => {
@@ -24,7 +25,7 @@ const getRankingColor = (ranking: number) => {
   }
 }
 
-function RankingTable({ rankings }: IRankingTable) {
+function RankingTable({ rankings, profileMap }: IRankingTable) {
   return (
     <div
       className={`w-full h-full  rounded-[10px] border-[1px] border-[#23222C] `}
@@ -89,7 +90,11 @@ function RankingTable({ rankings }: IRankingTable) {
                 </div>
                 <div className={`flex col-span-3 gap-1`}>
                   <div className={`mr-[41px]`}>
-                    <Jdenticon size="40" value={ranking.name} />
+                    {ranking.profilePicture ? (
+                      <img className={`rounded-[20px]`} src={profileMap.get(ranking.profilePicture)} style={{height:40, width:40}} alt="picture" />
+                    ) :
+                      <Jdenticon size="40" value={ranking.name} />
+                    }
                   </div>
                   <div className={`items-center flex`}>
                     <Typography type={`h4`} className={`text-[#5F6174]`}>

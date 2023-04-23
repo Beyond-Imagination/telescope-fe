@@ -5,14 +5,15 @@ import RankingTable from '../ranking/RankingTable'
 
 interface IRankingProps {
   rankings?: IRanking[]
+  profileMap: Map<string, string>
   types: IType[]
 }
 
-function Ranking({ rankings, types }: IRankingProps) {
+function Ranking({ rankings, types, profileMap }: IRankingProps) {
   return (
     <div className={`mb-2 rankings`}>
       <RankingTitle types={types}></RankingTitle>
-      <RankingTable rankings={rankings}></RankingTable>
+      <RankingTable rankings={rankings} profileMap={profileMap}></RankingTable>
     </div>
   )
 }

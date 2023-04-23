@@ -25,3 +25,21 @@ export const fetchRankings = (
     )}&from=${dateToString(fromDate)}&to=${dateToString(toDate)}`,
   })
 }
+
+export async function fetchProfileImage(
+  serverUrl: string,
+  token: string,
+  profilePicture: string
+): Promise<string> {
+  const response = await axios({
+    method: 'get',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    url: `api/users/picture?serverUrl=${serverUrl}&profilePicture=${profilePicture}`,
+    responseType: 'arraybuffer',
+  })
+  const arrayBuffer = new Uint8Array(response.data)
+  const blob = new Blob([arrayBuffer], { type: 'image/png' })
+  return URL.createObjectURL(blob)
+}

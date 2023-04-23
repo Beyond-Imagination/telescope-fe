@@ -7,7 +7,11 @@ import { IUserToken } from '../types/auth'
 import { convertDateByType } from '../utils/date'
 import * as spaceAPI from '../utils/api/spaceApi'
 import Personal from '../components/personal'
-import { fetchRankings, fetchSummaryStats } from '../utils/api/homeApi'
+import {
+  fetchRankings,
+  fetchSummaryStats,
+  fetchProfileImage,
+} from '../utils/api/homeApi'
 import { getUserAccessTokenData } from '../utils/api/spaceApi'
 
 const initialTypes: IType[] = [
@@ -45,6 +49,7 @@ const Home: NextPage = () => {
   const [types] = useState(initialTypes)
   const [userTokenData, setUserTokenData] = useState<IUserToken>()
   const [selectedTab, selectTab] = useState<number>(1)
+  const [profileMap, setProfileMap] = useState(new Map())
 
   const [timeType, setTimeType] = useState('week')
   const { data: rankingsResponse } = useQuery(
@@ -99,6 +104,33 @@ const Home: NextPage = () => {
       )
   }, [userTokenData])
 
+  useEffect(() => {
+    async function fetchProfile(rankings: any[]) {
+      const promises = rankings.map((ranking) => {
+        return new Promise<void>(async (resolve, reject) => {
+          if (
+            ranking.profilePicture &&
+            !profileMap.has(ranking.profilePicture)
+          ) {
+            const profile = await fetchProfileImage(
+              userTokenData.serverUrl,
+              userTokenData.token,
+              ranking.profilePicture
+            )
+            setProfileMap(
+              (prev) => new Map([...prev, [ranking.profilePicture, profile]])
+            )
+            resolve()
+          }
+        })
+      })
+      await Promise.all(promises)
+    }
+    if (userTokenData?.token && rankingsResponse) {
+      fetchProfile(rankingsResponse.data.rankings)
+    }
+  }, [userTokenData, rankingsResponse, timeType])
+
   //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
   useEffect(() => {
     getUserAccessTokenData(true).then((data: any) => {
@@ -129,6 +161,7 @@ const Home: NextPage = () => {
         <Dashboard
           rankingsResponse={rankingsResponse?.data}
           summaryResponse={summaryResponse?.data}
+          profileMap={profileMap}
           types={types}
           timeType={timeType}
           setTimeType={setTimeType}
@@ -137,6 +170,7 @@ const Home: NextPage = () => {
       {selectedTab == 2 && (
         <Personal
           userTokenData={userTokenData}
+          profileMap={profileMap}
           timeType={timeType}
           setTimeType={setTimeType}
         ></Personal>

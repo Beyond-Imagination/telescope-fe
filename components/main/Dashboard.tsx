@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 interface IDashboard {
   rankingsResponse?: IRankingApi
   summaryResponse?: IStatApi
+  profileMap: Map<string, string>
   types: IType[]
   setTimeType: any
   timeType: any
@@ -16,6 +17,7 @@ interface IDashboard {
 function Dashboard({
   rankingsResponse,
   summaryResponse,
+  profileMap,
   types,
   timeType,
   setTimeType,
@@ -35,7 +37,7 @@ function Dashboard({
           timeType={timeType}
           setTimeType={setTimeType}
         ></SummaryStat>
-        <Ranking types={types} rankings={rankingsResponse?.rankings}></Ranking>
+        <Ranking types={types} rankings={rankingsResponse?.rankings} profileMap={profileMap}></Ranking>
       </div>
     </div>
   )

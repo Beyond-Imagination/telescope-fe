@@ -65,7 +65,7 @@ const TotalScoreBoard = ({ className, color, score }: any) => {
   )
 }
 
-function Personal({ userTokenData, timeType, setTimeType }: any) {
+function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
   const { data: userData } = useQuery(
     ['profile', 'me', userTokenData ? userTokenData.token : null],
     () => fetchProfileMe(),
@@ -73,7 +73,6 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
       enabled: !!userTokenData?.serverUrl && !!userTokenData?.token,
     }
   )
-  const [img, setImg] = useState<string | null>(null)
 
   const { data: scoreData } = useQuery(
     ['score', timeType],
@@ -100,25 +99,6 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
         tomorrow
       )
   }, [userTokenData, userData, timeType])
-
-  // TODO 현재 Jetbrain Space의 CORS 정책으로 이미지 불러오기가 힘듬 추후 개선 필요
-  // useEffect(() => {
-  //   if (userData && userData.profilePicture)
-  //     axios({
-  //       method: 'get',
-  //       url: `${userTokenData.serverUrl}/d/${userData.profilePicture}`,
-  //       headers: {
-  //         Authorization: `Bearer ${userTokenData.token}`,
-  //       },
-  //       responseType: 'arraybuffer',
-  //     }).then((res) => {
-  //       let data = new Uint8Array(res.data)
-  //       let raw = Array.from(data, (ch) => String.fromCharCode(ch)).join('')
-  //       let base64 = btoa(raw)
-  //       let src = `data:image;base64,${base64}`
-  //       setImg(src)
-  //     })
-  // }, [userData])
 
   useEffect(() => {}, [timeType])
 
@@ -190,10 +170,12 @@ function Personal({ userTokenData, timeType, setTimeType }: any) {
         </div>
       </div>
       <div className={`flex flex-1 scoreFrame`}>
-        <div className={`w-[290px] h-[290px] rounded-[18px] mr-11 flex-1`}>
+        <div className={`w-[290px] h-[290px] rounded mr-11 flex-1`}>
           {userData?.name ? (
-            img ? (
-              <div></div>
+            userData.profilePicture ? (
+              <div>
+                <img className={`rounded-[16px]`} src={profileMap.get(userData.profilePicture)} style={{height:290, width:290}} alt="picture" />
+              </div>
             ) : (
               <Jdenticon
                 size="290"
