@@ -174,7 +174,12 @@ function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
           {userData?.name ? (
             userData.profilePicture ? (
               <div>
-                <img className={`rounded-[16px]`} src={profileMap.get(userData.profilePicture)} style={{height:290, width:290}} alt="picture" />
+                <img
+                  className={`rounded-[16px]`}
+                  src={profileMap.get(userData.profilePicture)}
+                  style={{ height: 290, width: 290 }}
+                  alt="picture"
+                />
               </div>
             ) : (
               <Jdenticon

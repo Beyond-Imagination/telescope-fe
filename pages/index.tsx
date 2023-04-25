@@ -113,11 +113,12 @@ const Home: NextPage = () => {
             !profileMap.has(ranking.profilePicture)
           ) {
             const profile = await fetchProfileImage(
-              userTokenData.serverUrl,
-              userTokenData.token,
+              userTokenData?.serverUrl as string,
+              userTokenData?.token as string,
               ranking.profilePicture
             )
             setProfileMap(
+              // @ts-ignore
               (prev) => new Map([...prev, [ranking.profilePicture, profile]])
             )
             resolve()

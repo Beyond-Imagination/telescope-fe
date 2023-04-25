@@ -37,7 +37,11 @@ function Dashboard({
           timeType={timeType}
           setTimeType={setTimeType}
         ></SummaryStat>
-        <Ranking types={types} rankings={rankingsResponse?.rankings} profileMap={profileMap}></Ranking>
+        <Ranking
+          types={types}
+          rankings={rankingsResponse?.rankings}
+          profileMap={profileMap}
+        ></Ranking>
       </div>
     </div>
   )

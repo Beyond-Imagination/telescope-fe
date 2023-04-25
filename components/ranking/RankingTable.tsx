@@ -91,10 +91,15 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
                 <div className={`flex col-span-3 gap-1`}>
                   <div className={`mr-[41px]`}>
                     {ranking.profilePicture ? (
-                      <img className={`rounded-[20px]`} src={profileMap.get(ranking.profilePicture)} style={{height:40, width:40}} alt="picture" />
-                    ) :
+                      <img
+                        className={`rounded-[20px]`}
+                        src={profileMap.get(ranking.profilePicture)}
+                        style={{ height: 40, width: 40 }}
+                        alt="picture"
+                      />
+                    ) : (
                       <Jdenticon size="40" value={ranking.name} />
-                    }
+                    )}
                   </div>
                   <div className={`items-center flex`}>
                     <Typography type={`h4`} className={`text-[#5F6174]`}>
