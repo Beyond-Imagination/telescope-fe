@@ -1,5 +1,4 @@
 import axios from '../api'
-import { IOrganization, IUser } from '../../types/space'
 
 export function getUserAccessTokenData(askForConsent: any) {
   return new Promise((resolve) => {

@@ -22,6 +22,7 @@ function SummaryStat({
   resolve_issue,
   create_code_review,
   merge_mr,
+  receive_star,
   timeType,
   setTimeType,
 }: any) {
@@ -130,6 +131,11 @@ function SummaryStat({
             number: merge_mr,
             text: 'Merge MR',
             color: '#3FF7C0',
+          })}
+          {DivSummary({
+            number: receive_star,
+            text: 'Receive Star',
+            color: '#F7CD3F',
           })}
         </div>
       </div>

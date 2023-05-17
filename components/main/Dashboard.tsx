@@ -34,6 +34,7 @@ function Dashboard({
           resolve_issue={summaryResponse?.score?.resolveIssue}
           create_code_review={summaryResponse?.score?.createCodeReview}
           merge_mr={summaryResponse?.score?.mergeMr}
+          receive_star={summaryResponse?.score?.receiveStar}
           timeType={timeType}
           setTimeType={setTimeType}
         ></SummaryStat>

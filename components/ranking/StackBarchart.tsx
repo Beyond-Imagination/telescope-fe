@@ -25,6 +25,9 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
           'mergeMr',
           { role: 'style' },
           { role: 'tooltip' },
+          'receiveStar',
+          { role: 'style' },
+          { role: 'tooltip' },
         ],
         [
           'Score',
@@ -40,6 +43,9 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
           ranking.score.mergeMr,
           'color: #3FF7C0',
           'Merge MR : ' + ranking.score.mergeMr,
+          ranking.score.receiveStar,
+          'color: #F7CD3F',
+          'Receive Star : ' + ranking.score.receiveStar,
         ],
       ]}
       width="100%"

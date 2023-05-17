@@ -43,6 +43,13 @@ const initialTypes: IType[] = [
     active: true,
     priority: 4,
   },
+  {
+    name: 'type5',
+    display: 'Receive Star',
+    color: '#F7CD3F',
+    active: true,
+    priority: 5,
+  },
 ]
 
 const Home: NextPage = () => {

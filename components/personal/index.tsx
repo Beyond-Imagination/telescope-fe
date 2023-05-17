@@ -1,17 +1,16 @@
 import Jdenticon from 'react-jdenticon'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import * as spaceAPI from '../../utils/api/spaceApi'
 import { useQuery } from '@tanstack/react-query'
-import axios from '../../utils/api'
-import { convertDateByType, dateToString } from '../../utils/date'
+import { convertDateByType } from '../../utils/date'
 import Information from '../common/Information'
 import { fetchScoreByUserId } from '../../utils/api/myScoreApi'
 
 const ScoreBoard = ({ className, color, score, title }: any) => {
   return (
     <div
-      className={`w-[240px] h-[185px] flex justify-center items-center rounded-[16px] ${className} `}
-      style={{ backgroundColor: color }}
+      className={`h-[160px] flex justify-center items-center rounded-[16px] ${className} `}
+      style={{ backgroundColor: color, textAlign: 'center' }}
     >
       <div className={`flex flex-col items-center`}>
         <div className={`mb-[18px]`}>
@@ -37,7 +36,7 @@ const ScoreBoard = ({ className, color, score, title }: any) => {
 const TotalScoreBoard = ({ className, color, score }: any) => {
   return (
     <div
-      className={`w-[491px] h-[110px] flex items-center rounded-[16px] px-11 ${className} `}
+      className={`h-[110px] flex items-center rounded-[16px] px-11 ${className} `}
       style={{ backgroundColor: color }}
     >
       <div className={`flex items-center justify-between flex-1`}>
@@ -169,8 +168,11 @@ function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
           </div>
         </div>
       </div>
-      <div className={`flex flex-1 scoreFrame`}>
-        <div className={`w-[290px] h-[290px] rounded mr-11 flex-1`}>
+      <div
+        className={`flex flex-1 scoreFrame`}
+        style={{ justifyContent: 'space-between' }}
+      >
+        <div className={`w-[290px] h-[290px] rounded-[18px] mr-11`}>
           {userData?.name ? (
             userData.profilePicture ? (
               <div>
@@ -197,7 +199,7 @@ function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
             </div>
           )}
         </div>
-        <div>
+        <div className={`flex-1 max-w-[491px]`}>
           <div>
             <span
               className={`font-normal text-[29px] color-[#23222c]`}
@@ -242,10 +244,17 @@ function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
                 score={scoreData ? scoreData.data.score.mergeMr : 0}
                 title={'Merge MR'}
               />
-              <TotalScoreBoard
-                className={`col-span-4`}
+              <ScoreBoard
+                className={`col-span-2`}
+                color={'#F7CD3F'}
+                score={scoreData ? scoreData.data.score.receiveStar : 0}
+                title={'Receive Star'}
+              />
+              <ScoreBoard
+                className={`col-span-2`}
                 color={'#377FFF'}
                 score={scoreData ? scoreData.data.score.total : 0}
+                title={'Total Score'}
               />
             </div>
           </div>

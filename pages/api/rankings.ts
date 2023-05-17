@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
 
 export interface IRankingApi {
   type: string
@@ -27,4 +26,5 @@ export interface IScore {
   resolveIssue: number
   createCodeReview: number
   mergeMr: number
+  receiveStar: number
 }
