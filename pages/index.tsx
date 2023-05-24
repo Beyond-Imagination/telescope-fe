@@ -185,7 +185,7 @@ const Home: NextPage = () => {
       )}
 
       <div className={`flex justify-center text-[#D9D9D9]`}>
-        <span>ⓒ 2022 Beyond_Imagaination All Rights Reserved. </span>
+        <span>ⓒ 2022 Beyond_Imagination All Rights Reserved. </span>
       </div>
     </>
   )
