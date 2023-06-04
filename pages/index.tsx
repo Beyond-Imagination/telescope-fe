@@ -82,15 +82,12 @@ const Home: NextPage = () => {
   )
 
   let today = new Date()
-  let tomorrow = new Date()
-  tomorrow.setDate(today.getDate() + 1)
 
   const fetchRankingsHook = useCallback(() => {
     if (userTokenData)
       return fetchRankings(
         userTokenData.serverUrl,
-        convertDateByType(timeType, today),
-        tomorrow
+        convertDateByType(timeType, today)
       )
   }, [userTokenData, timeType])
 
@@ -98,8 +95,7 @@ const Home: NextPage = () => {
     if (userTokenData)
       return fetchSummaryStats(
         userTokenData.serverUrl,
-        convertDateByType(timeType, today),
-        tomorrow
+        convertDateByType(timeType, today)
       )
   }, [userTokenData, timeType])
 

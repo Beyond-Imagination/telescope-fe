@@ -1,28 +1,20 @@
 import axios from './index'
 import { dateToString } from '../date'
 
-export const fetchSummaryStats = (
-  serverUrl: string,
-  fromDate: Date,
-  toDate: Date
-) => {
+export const fetchSummaryStats = (serverUrl: string, fromDate: Date) => {
   return axios({
     method: 'get',
     url: `api/organization/score?serverUrl=${encodeURIComponent(
       serverUrl
-    )}&from=${dateToString(fromDate)}&to=${dateToString(toDate)}`,
+    )}&from=${dateToString(fromDate)}`,
   })
 }
-export const fetchRankings = (
-  serverUrl: string,
-  fromDate: Date,
-  toDate: Date
-) => {
+export const fetchRankings = (serverUrl: string, fromDate: Date) => {
   return axios({
     method: 'get',
     url: `api/organization/rankings?serverUrl=${encodeURIComponent(
       serverUrl
-    )}&from=${dateToString(fromDate)}&to=${dateToString(toDate)}`,
+    )}&from=${dateToString(fromDate)}`,
   })
 }
 

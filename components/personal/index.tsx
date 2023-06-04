@@ -86,16 +86,13 @@ function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
   }, [userTokenData])
 
   let fromDate = new Date()
-  let tomorrow = new Date()
-  tomorrow.setDate(fromDate.getDate() + 1)
 
   const fetchScoreByUserIdHook = useCallback(() => {
     if (userTokenData?.token && userData)
       return fetchScoreByUserId(
         userData.id,
         userTokenData.serverUrl,
-        convertDateByType(timeType, fromDate),
-        tomorrow
+        convertDateByType(timeType, fromDate)
       )
   }, [userTokenData, userData, timeType])
 
