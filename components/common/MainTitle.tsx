@@ -21,7 +21,8 @@ const tabData = [
     id: 1,
     title: 'Leaderboard',
   },
-  { id: 2, title: 'My Score' },
+  { id: 2, title: 'Organization' },
+  { id: 3, title: 'My Score' },
 ]
 
 function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {

@@ -13,6 +13,7 @@ import {
   fetchProfileImage,
 } from '../utils/api/homeApi'
 import { getUserAccessTokenData } from '../utils/api/spaceApi'
+import Organization from "../components/organization/Organization";
 
 const initialTypes: IType[] = [
   {
@@ -172,6 +173,9 @@ const Home: NextPage = () => {
         ></Dashboard>
       )}
       {selectedTab == 2 && (
+          <Organization></Organization>
+      )}
+      {selectedTab == 3 && (
         <Personal
           userTokenData={userTokenData}
           profileMap={profileMap}
