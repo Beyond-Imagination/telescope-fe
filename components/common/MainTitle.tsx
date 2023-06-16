@@ -28,46 +28,39 @@ const tabData = [
 function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
   return (
     <div
-      className={`px-[55px] py-[16px] border-b border-[#BCBCBC] flex justify-between bg-[#23222C] relative border-none`}
+      className={`px-[55px] py-[16px] flex justify-between relative`}
     >
       <div className={`flex items-center `}>
-        <div className={`w-[59px] h-[59px] mr-[20px]`}>
-          <Image src={LogoPic} alt={`logo`}></Image>
-        </div>
-        <div className={`flex flex-col`}>
-          <div className={`mb-0.5`}>
-            <span
-              className={`font-normal text-[21px] mr-3.5`}
-              style={{ fontWeight: 600, color: 'white' }}
-            >
-              {organization?.name}
-            </span>
-          </div>
-        </div>
+        <span
+          className={`font-normal text-[21px] mr-3.5`}
+          style={{ fontWeight: 600, color: 'grey' }}
+        >
+          Telescope
+        </span>
       </div>
+
+      <div>
+      {/*  star 개수 표시 */}
+      </div>
+
       <div className={`absolute right-10 flex bottom-0 `}>
         {tabData.map((tab) => {
           return (
             <div
               key={tab.id}
-              className={`w-[124px] py-[5px] flex justify-center hover:cursor-pointer border-none`}
+              className={`w-[124px] py-[16px] flex justify-center hover:cursor-pointer`}
               onClick={() => selectTab(tab.id)}
               style={
-                tab.id === selectedTab
-                  ? {
-                      color: 'black',
-                      backgroundColor: 'white',
-                      borderRadius: '4px 4px 0 0',
-                    }
-                  : {
-                      color: 'rgba(255, 255, 255, 1)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                      borderRadius: '4px 4px 0 0',
-                    }
+                 {
+                   color: tab.id === selectedTab ? 'black' : 'lightgray',
+                   borderBottom: tab.id === selectedTab ? '3px solid' : '',
+                   backgroundColor: 'white',
+                   borderRadius: '4px 4px 0 0',
+                 }
               }
             >
               <span
-                className={`font-normal text-[13px]`}
+                className={`font-normal text-[15px]`}
                 style={{
                   fontWeight: 600,
                   letterSpacing: `-0.03rem`,
