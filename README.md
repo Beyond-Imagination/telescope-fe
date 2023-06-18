@@ -1,22 +1,26 @@
 # telescope/telescope-frontend
 
-
-
 ## 실행 전 라이브러리 설치하기
+
 ```javascript
-npm install
+npm
+install
 
 //or
 
-yarn install
+yarn
+install
 ```
 
 ## 실행하기
+
 ```javascript
-npm dev
+npm
+dev
 
 //or
 
-yarn dev
+yarn
+dev
 ```
 

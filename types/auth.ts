@@ -1,4 +1,4 @@
 export interface IUserToken {
-  serverUrl: string
-  token: string
+    serverUrl: string
+    token: string
 }
