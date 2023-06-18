@@ -7,19 +7,7 @@ interface IRankingTitle {
 
 function RankingTitle({ types }: IRankingTitle) {
   return (
-    <div className={`mb-3 flex justify-between`}>
-      <div className={`flex items-center pl-3`}>
-        <span
-          className={`font-normal text-[17px] mr-3.5`}
-          style={{ fontWeight: 700, color: '#23222C' }}
-        >
-          Ranking
-        </span>
-        <Information
-          className={`mr-4`}
-          informationText={'Ranking'}
-        ></Information>
-      </div>
+    <div className={`my-6 flex justify-between`}>
       <div className={`flex gap-[30px] items-center`}>
         {types.map((value, index) => (
           <div key={index} className={`flex items-center gap-1`}>

@@ -27,9 +27,7 @@ const tabData = [
 
 function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
   return (
-    <div
-      className={`px-[55px] py-[16px] flex justify-between relative`}
-    >
+    <div className={`px-6 py-[16px] flex justify-between relative`}>
       <div className={`flex items-center `}>
         <span
           className={`font-normal text-[21px] mr-3.5`}
@@ -39,9 +37,7 @@ function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
         </span>
       </div>
 
-      <div>
-      {/*  star 개수 표시 */}
-      </div>
+      <div>{/*  star 개수 표시 */}</div>
 
       <div className={`absolute right-10 flex bottom-0 `}>
         {tabData.map((tab) => {
@@ -50,14 +46,12 @@ function MainTitle({ organization, selectTab, selectedTab }: IMainTitle) {
               key={tab.id}
               className={`w-[124px] py-[16px] flex justify-center hover:cursor-pointer`}
               onClick={() => selectTab(tab.id)}
-              style={
-                 {
-                   color: tab.id === selectedTab ? 'black' : 'lightgray',
-                   borderBottom: tab.id === selectedTab ? '3px solid' : '',
-                   backgroundColor: 'white',
-                   borderRadius: '4px 4px 0 0',
-                 }
-              }
+              style={{
+                color: tab.id === selectedTab ? 'black' : 'lightgray',
+                borderBottom: tab.id === selectedTab ? '3px solid' : '',
+                backgroundColor: 'white',
+                borderRadius: '4px 4px 0 0',
+              }}
             >
               <span
                 className={`font-normal text-[15px]`}

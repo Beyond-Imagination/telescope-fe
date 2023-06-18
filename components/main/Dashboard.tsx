@@ -3,9 +3,12 @@ import Ranking from './Ranking'
 import { IRankingApi } from '../../pages/api/rankings'
 import { IType } from '../common/MainTitle'
 import { IStatApi } from '../../types/stat'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
+import RankingTop from '../ranking/RankingTop'
+import DateSelector from './DateSelector'
 
 interface IDashboard {
+  organization: any
   rankingsResponse?: IRankingApi
   summaryResponse?: IStatApi
   profileMap: Map<string, string>
@@ -15,6 +18,7 @@ interface IDashboard {
 }
 
 function Dashboard({
+  organization,
   rankingsResponse,
   summaryResponse,
   profileMap,
@@ -26,18 +30,26 @@ function Dashboard({
     return () => {}
   }, [rankingsResponse, summaryResponse, timeType])
   return (
-    <div className={`flex pt-[26px] px-[55px]`}>
+    <div className={`flex pt-6 px-6`}>
       <div className={`w-full`}>
-        <SummaryStat
-          total={summaryResponse?.score?.total}
-          create_issue={summaryResponse?.score?.createIssue}
-          resolve_issue={summaryResponse?.score?.resolveIssue}
-          create_code_review={summaryResponse?.score?.createCodeReview}
-          merge_mr={summaryResponse?.score?.mergeMr}
-          receive_star={summaryResponse?.score?.receiveStar}
-          timeType={timeType}
-          setTimeType={setTimeType}
-        ></SummaryStat>
+        <div>
+          <span className={`text-[14px] text-[#999999]`}>Ranking</span>
+        </div>
+        <div className={`flex justify-between`}>
+          <div>
+            <span className={`font-bold text-[32px]`}>
+              {organization?.name ? organization?.name : 'Telescope'}
+            </span>
+          </div>
+          <DateSelector
+            setTimeType={setTimeType}
+            timeType={timeType}
+          ></DateSelector>
+        </div>
+        <RankingTop
+          rankings={rankingsResponse?.rankings}
+          profileMap={profileMap}
+        ></RankingTop>
         <Ranking
           types={types}
           rankings={rankingsResponse?.rankings}

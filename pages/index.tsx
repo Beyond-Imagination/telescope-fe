@@ -21,35 +21,35 @@ const initialTypes: IType[] = [
   {
     name: 'type1',
     display: 'Create Issues',
-    color: '#8000FF',
+    color: '#F2994A',
     active: true,
     priority: 1,
   },
   {
     name: 'type2',
     display: 'Resolve Issues',
-    color: '#00FF38',
+    color: '#2F80ED',
     active: true,
     priority: 2,
   },
   {
     name: 'type3',
     display: 'Create Code Review',
-    color: '#E9488B',
+    color: '#27AE60',
     active: true,
     priority: 3,
   },
   {
     name: 'type4',
     display: 'Merge MR',
-    color: '#3FF7C0',
+    color: '#9B51E0',
     active: true,
     priority: 4,
   },
   {
     name: 'type5',
     display: 'Receive Star',
-    color: '#F7CD3F',
+    color: '#56CCF2',
     active: true,
     priority: 5,
   },
@@ -209,6 +209,7 @@ const Home: NextPage = () => {
       ></MainTitle>
       {selectedTab == 1 && (
         <Dashboard
+          organization={organization}
           rankingsResponse={rankingsResponse?.data}
           summaryResponse={summaryResponse?.data}
           profileMap={profileMap}

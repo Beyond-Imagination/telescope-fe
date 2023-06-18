@@ -3,10 +3,11 @@ import { Chart } from 'react-google-charts'
 
 interface IStackBarchart {
   ranking: IRanking
-  maxValue: number
+  maxValue?: number
+  options?: any
 }
 
-function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
+function StackBarchart({ ranking, maxValue, options }: IStackBarchart) {
   return (
     <Chart
       chartType="BarChart"
@@ -32,24 +33,24 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
         [
           'Score',
           ranking.score.createIssue,
-          'color: #8000FF',
+          'color: #F2994A',
           'Create Issues : ' + ranking.score.createIssue,
           ranking.score.resolveIssue,
-          'color: #00FF38',
+          'color: #2F80ED',
           'Resolve Issues : ' + ranking.score.resolveIssue,
           ranking.score.createCodeReview,
-          'color: #E9488B',
+          'color: #27AE60',
           'Create Code Review : ' + ranking.score.createCodeReview,
           ranking.score.mergeMr,
-          'color: #3FF7C0',
+          'color: #9B51E0',
           'Merge MR : ' + ranking.score.mergeMr,
           ranking.score.receiveStar,
-          'color: #F7CD3F',
+          'color: #56CCF2',
           'Receive Star : ' + ranking.score.receiveStar,
         ],
       ]}
       width="100%"
-      height="58px"
+      height={`${options?.height ? options.height : 28}px`}
       options={{
         legend: 'none',
         isStacked: true,
@@ -59,7 +60,7 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
           },
           textPosition: 'none',
           baselineColor: 'transparent',
-          viewWindow: { max: maxValue },
+          viewWindow: { max: maxValue ? maxValue : null },
         },
         vAxis: {
           baselineColor: 'transparent',
@@ -68,8 +69,12 @@ function StackBarchart({ ranking, maxValue = 0 }: IStackBarchart) {
           },
           textPosition: 'none',
         },
-        chartArea: { width: '100%', height: 18 },
+        chartArea: {
+          width: '100%',
+          height: '100%',
+        },
         tooltip: { isHtml: true },
+        backgroundColor: 'transparent',
       }}
     />
   )

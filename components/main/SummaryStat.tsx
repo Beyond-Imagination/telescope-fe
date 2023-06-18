@@ -115,27 +115,27 @@ function SummaryStat({
           {DivSummary({
             number: create_issue,
             text: 'Create Issues',
-            color: '#8000FF',
+            color: '#F2994A',
           })}
           {DivSummary({
             number: resolve_issue,
             text: 'Resolve Issues',
-            color: '#00FF38',
+            color: '#2F80ED',
           })}
           {DivSummary({
             number: create_code_review,
             text: 'Create Code Review',
-            color: '#E9488B',
+            color: '#27AE60',
           })}
           {DivSummary({
             number: merge_mr,
             text: 'Merge MR',
-            color: '#3FF7C0',
+            color: '#9B51E0',
           })}
           {DivSummary({
             number: receive_star,
             text: 'Receive Star',
-            color: '#F7CD3F',
+            color: '#56CCF2',
           })}
         </div>
       </div>

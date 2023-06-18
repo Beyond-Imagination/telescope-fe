@@ -10,53 +10,43 @@ interface IRankingTable {
 
 const getRankingColor = (ranking: number) => {
   switch (ranking) {
+    case 0:
+      return `#E4BD31`
     case 1:
-      return `#FFD233`
+      return `#CCCCCC`
     case 2:
-      return `#C9C9C9`
-    case 3:
-      return `#C65300`
-    case 4:
-      return `#8B6D00`
-    case 5:
-      return `#8B6D00`
+      return `#C88725`
     default:
-      return `#8B6D00`
+      return `#999999`
   }
 }
 
 function RankingTable({ rankings, profileMap }: IRankingTable) {
   return (
-    <div
-      className={`w-full h-full  rounded-[10px] border-[1px] border-[#23222C] `}
-    >
-      <div className={`px-[40px] py-2 pl-10 pr-[50px]`}>
-        <div className={`px-9 grid grid-cols-10`}>
+    <div className={`w-full h-full `}>
+      <div className={``}>
+        <div className={`grid grid-cols-12 gap-2`}>
+          <div className={`col-span-1`}>
+            <span className={`text-[#999999] text-[14px] font-bold`}>Rank</span>
+          </div>
           <div className={`col-span-2`}>
-            <Typography className={`text-[#B0B0B0]`} type={`text1`}>
-              Ranking
-            </Typography>
-          </div>
-          <div className={`col-span-3`}>
-            <Typography className={`text-[#B0B0B0]`} type={`text1`}>
+            <span className={`text-[#999999] text-[14px] font-bold`}>
               Members
-            </Typography>
+            </span>
           </div>
-          <div className={`col-span-4`}>
-            <Typography className={`text-[#B0B0B0]`} type={`text1`}>
+          <div className={`col-span-8`}>
+            <span className={`text-[#999999] text-[14px] font-bold`}>
               Productivity Rate
-            </Typography>
+            </span>
           </div>
           <div className={`col-span-1`}>
-            <Typography className={`text-[#B0B0B0]`} type={`text1`}>
+            <span className={`text-[#999999] text-[14px] font-bold`}>
               Overall
-            </Typography>
+            </span>
           </div>
         </div>
       </div>
-      <div
-        className={`px-2.5 bg-[#F6F7FA] pt-2 pb-[40px] max-h-[410px] overflow-y-auto rounded-b-[10px] pb-[30px]`}
-      >
+      <div className={`overflow-y-auto`}>
         {!rankings && (
           <div className={`flex justify-center items-center py-4`}>
             Loading...
@@ -72,24 +62,22 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
             <div key={index} className={`flex`}>
               <div
                 key={ranking.name}
-                className={`flex flex-1 items-center grid grid-cols-10 px-9 bg-white mb-1.5 rounded-l-xl`}
+                className={`flex flex-1 items-center grid grid-cols-12 gap-2`}
               >
-                <div className={`col-span-2 flex items-center`}>
-                  <div className={`mr-[33px] flex items-center`}>
-                    <BookMarkIcon
-                      fill={getRankingColor(index + 1)}
-                    ></BookMarkIcon>
-                  </div>
+                <div className={`col-span-1 flex items-center`}>
                   <div className={`flex items-center`}>
                     <div>
-                      <Typography type={`h3`} className={`text-[#5F6174]`}>
+                      <span
+                        className={`text-[32px] font-normal`}
+                        style={{ color: getRankingColor(index) }}
+                      >
                         {String(index + 1).padStart(2, '0')}
-                      </Typography>
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div className={`flex col-span-3 gap-1`}>
-                  <div className={`mr-[41px]`}>
+                <div className={`flex col-span-2`}>
+                  <div className={`mr-2`}>
                     {ranking.profilePicture ? (
                       <img
                         className={`rounded-[20px]`}
@@ -102,24 +90,27 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
                     )}
                   </div>
                   <div className={`items-center flex`}>
-                    <Typography type={`h4`} className={`text-[#5F6174]`}>
+                    <span
+                      className={`text-[14px] font-medium`}
+                      style={{ color: getRankingColor(index) }}
+                    >
                       {ranking.name}
-                    </Typography>
+                    </span>
                   </div>
                 </div>
-                <div className={`flex col-span-4 pr-2`}>
+                <div className={`flex col-span-8 pr-2`}>
                   <StackBarchart
                     maxValue={rankings[0].score.total}
                     ranking={ranking}
                   ></StackBarchart>
                 </div>
-                <div className={`flex col-span-1`}>
-                  <Typography type={`h2`} className={`text-[#5F6174]`}>
+                <div className={`flex col-span-1 text-[24px]`}>
+                  <span style={{ color: getRankingColor(index) }}>
                     {String(ranking.score.total).padStart(2, '0')}
-                  </Typography>
+                  </span>
                 </div>
               </div>
-              <div className={`w-2.5 bg-[#23222C] mb-1 rounded-r-xl`}></div>
+              <div className={`w-2.5  mb-1 rounded-r-xl`}></div>
             </div>
           ))}
       </div>
