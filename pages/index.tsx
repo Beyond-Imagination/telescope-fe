@@ -15,6 +15,7 @@ import {
 } from '../utils/api/homeApi'
 import { getUserAccessTokenData } from '../utils/api/spaceApi'
 import Organization from '../components/organization/Organization'
+import { useInterval } from 'use-interval'
 import { fetchScoreByUserId } from '../utils/api/myScoreApi'
 
 const initialTypes: IType[] = [
@@ -187,6 +188,13 @@ const Home: NextPage = () => {
       setUserTokenData(data)
     })
   }, [])
+
+  // 9분마다 액세스 토큰 갱신
+  useInterval(() => {
+    getUserAccessTokenData(true).then((data: any) => {
+      setUserTokenData(data)
+    })
+  }, 9 * 60 * 1000)
 
   //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
   useEffect(() => {
