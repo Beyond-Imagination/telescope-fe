@@ -9,6 +9,16 @@ export const fetchSummaryStats = (serverUrl: string, fromDate: Date) => {
     )}&from=${dateToString(fromDate)}`,
   })
 }
+
+export const fetchScoreList = (serverUrl: string) => {
+  return axios({
+    method: 'get',
+    url: `api/organization/score/list?serverUrl=${encodeURIComponent(
+      serverUrl
+    )}`,
+  })
+}
+
 export const fetchRankings = (serverUrl: string, fromDate: Date) => {
   return axios({
     method: 'get',

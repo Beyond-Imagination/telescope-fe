@@ -64,38 +64,13 @@ const TotalScoreBoard = ({ className, color, score }: any) => {
   )
 }
 
-function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
-  const { data: userData } = useQuery(
-    ['profile', 'me', userTokenData ? userTokenData.token : null],
-    () => fetchProfileMe(),
-    {
-      enabled: !!userTokenData?.serverUrl && !!userTokenData?.token,
-    }
-  )
-
-  const { data: scoreData } = useQuery(
-    ['score', timeType],
-    () => fetchScoreByUserIdHook(),
-    {
-      enabled: !!userData?.id,
-    }
-  )
-  const fetchProfileMe = useCallback(() => {
-    if (userTokenData?.token)
-      return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
-  }, [userTokenData])
-
-  let fromDate = new Date()
-
-  const fetchScoreByUserIdHook = useCallback(() => {
-    if (userTokenData?.token && userData)
-      return fetchScoreByUserId(
-        userData.id,
-        userTokenData.serverUrl,
-        convertDateByType(timeType, fromDate)
-      )
-  }, [userTokenData, userData, timeType])
-
+function Personal({
+  userData,
+  scoreData,
+  profileMap,
+  timeType,
+  setTimeType,
+}: any) {
   useEffect(() => {}, [timeType])
 
   return (
@@ -220,37 +195,37 @@ function Personal({ userTokenData, profileMap, timeType, setTimeType }: any) {
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#B250FF'}
-                score={scoreData ? scoreData.data.score.createIssue : 0}
+                score={scoreData ? scoreData.score.createIssue : 0}
                 title={'Create Issues'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#00FF38'}
-                score={scoreData ? scoreData.data.score.resolveIssue : 0}
+                score={scoreData ? scoreData.score.resolveIssue : 0}
                 title={'Resolve issues'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#E9488B'}
-                score={scoreData ? scoreData.data.score.createCodeReview : 0}
+                score={scoreData ? scoreData.score.createCodeReview : 0}
                 title={'Create Code review'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#21D9CE'}
-                score={scoreData ? scoreData.data.score.mergeMr : 0}
+                score={scoreData ? scoreData.score.mergeMr : 0}
                 title={'Merge MR'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#F7CD3F'}
-                score={scoreData ? scoreData.data.score.receiveStar : 0}
+                score={scoreData ? scoreData.score.receiveStar : 0}
                 title={'Receive Star'}
               />
               <ScoreBoard
                 className={`col-span-2`}
                 color={'#377FFF'}
-                score={scoreData ? scoreData.data.score.total : 0}
+                score={scoreData ? scoreData.score.total : 0}
                 title={'Total Score'}
               />
             </div>

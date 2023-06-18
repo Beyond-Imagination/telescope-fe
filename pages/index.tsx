@@ -11,9 +11,11 @@ import {
   fetchRankings,
   fetchSummaryStats,
   fetchProfileImage,
+  fetchScoreList,
 } from '../utils/api/homeApi'
 import { getUserAccessTokenData } from '../utils/api/spaceApi'
-import Organization from "../components/organization/Organization";
+import Organization from '../components/organization/Organization'
+import { fetchScoreByUserId } from '../utils/api/myScoreApi'
 
 const initialTypes: IType[] = [
   {
@@ -81,6 +83,13 @@ const Home: NextPage = () => {
       enabled: !!userTokenData?.token,
     }
   )
+  const { data: scoreListResponse } = useQuery(
+    [userTokenData?.serverUrl, 'scoreList'],
+    () => fetchScoreListHook(),
+    {
+      enabled: !!userTokenData?.serverUrl,
+    }
+  )
 
   let today = new Date()
 
@@ -100,6 +109,10 @@ const Home: NextPage = () => {
       )
   }, [userTokenData, timeType])
 
+  const fetchScoreListHook = useCallback(() => {
+    if (userTokenData) return fetchScoreList(userTokenData.serverUrl)
+  }, [userTokenData])
+
   const fetchOrganizationHook = useCallback(() => {
     if (userTokenData?.token)
       return spaceAPI.getOrganization(
@@ -107,6 +120,38 @@ const Home: NextPage = () => {
         userTokenData.token
       )
   }, [userTokenData])
+
+  const { data: userData } = useQuery(
+    ['profile', 'me', userTokenData ? userTokenData.token : null],
+    () => fetchProfileMe(),
+    {
+      enabled: !!userTokenData?.serverUrl && !!userTokenData?.token,
+    }
+  )
+
+  const { data: userScoreData } = useQuery(
+    ['score', timeType],
+    () => fetchScoreByUserIdHook(),
+    {
+      enabled: !!userData?.id,
+    }
+  )
+
+  const fetchProfileMe = useCallback(() => {
+    if (userTokenData?.token)
+      return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
+  }, [userTokenData])
+
+  let fromDate = new Date()
+
+  const fetchScoreByUserIdHook = useCallback(() => {
+    if (userTokenData?.token && userData)
+      return fetchScoreByUserId(
+        userData.id,
+        userTokenData.serverUrl,
+        convertDateByType(timeType, fromDate)
+      )
+  }, [userTokenData, userData, timeType])
 
   useEffect(() => {
     async function fetchProfile(rankings: any[]) {
@@ -173,11 +218,19 @@ const Home: NextPage = () => {
         ></Dashboard>
       )}
       {selectedTab == 2 && (
-          <Organization></Organization>
+        <Organization
+          organizationName={organization?.name}
+          summaryResponse={summaryResponse?.data}
+          userScoreResponse={userScoreData?.data}
+          scoreListResponse={scoreListResponse?.data}
+          timeType={timeType}
+          setTimeType={setTimeType}
+        ></Organization>
       )}
       {selectedTab == 3 && (
         <Personal
-          userTokenData={userTokenData}
+          userData={userData}
+          scoreData={userScoreData?.data}
           profileMap={profileMap}
           timeType={timeType}
           setTimeType={setTimeType}
