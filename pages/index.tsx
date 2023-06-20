@@ -177,7 +177,7 @@ const Home: NextPage = () => {
                 <Organization
                     organizationName={organization?.name}
                     summaryResponse={summaryResponse?.data}
-                    userScoreResponse={userScoreData?.data}
+                    rankingsResponse={rankingsResponse?.data}
                     scoreListResponse={scoreListResponse?.data}
                     timeType={timeType}
                     setTimeType={setTimeType}

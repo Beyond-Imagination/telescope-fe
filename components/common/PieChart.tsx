@@ -1,30 +1,7 @@
 import { Chart } from 'react-google-charts'
 
-export function PieChart({ score, title }: any) {
-    const colors: any = {
-        createIssue: '#F2994A',
-        resolveIssue: '#2F80ED',
-        createCodeReview: '#27AE60',
-        mergeMr: '#9B51E0',
-        receiveStar: '#F2C94C',
-        unknown: '#56CCF2',
-    }
-    const charData = [['Achievement', 'Score']]
-    let chartColors: string[] = []
-    if (score && score.total) {
-        for (let key in score) {
-            if (key !== 'total') {
-                charData.push([key, score[key]])
-                chartColors.push(colors[key])
-            }
-        }
-    } else {
-        charData.push(['', '1'])
-        chartColors = ['#eeeeee']
-    }
-
+export function PieChart({ title, chartData, total, chartColors }: any) {
     const pieOptions = {
-        legend: 'none',
         pieSliceText: 'none',
         pieHole: 0.75,
         enableInteractivity: false,
@@ -35,17 +12,20 @@ export function PieChart({ score, title }: any) {
         colors: chartColors,
         is3D: false,
     }
+
     return (
-        <div className={'h-[260px] w-[240px]'}>
+        <div className={'h-[350px] w-[330px]'}>
             <span>{title}</span>
             <div>
-                <Chart chartType="PieChart" width="240px" height="240px" data={charData} options={pieOptions} />
+                <Chart chartType="PieChart" width="330px" height="330px" data={chartData} options={pieOptions} />
                 <div
                     style={{
                         position: 'relative',
+                        paddingLeft: '15px',
+                        paddingRight: '140px',
                         textAlign: 'center',
                         display: 'flex',
-                        top: '-150px',
+                        top: '-195px',
                         justifyContent: 'center',
                         flexDirection: 'column',
                     }}
@@ -66,7 +46,7 @@ export function PieChart({ score, title }: any) {
                             color: '#333333',
                         }}
                     >
-                        {score ? score.total : 0}
+                        {total ? total : 0}
                     </span>
                 </div>
             </div>
