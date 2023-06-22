@@ -1,173 +1,82 @@
 import Jdenticon from 'react-jdenticon'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Information from '../common/Information'
+import DateSelector from '../main/DateSelector'
+import { ScoreBoard, TotalScoreBoard } from '../common/ScoreBoard'
 
-const ScoreBoard = ({ className, color, score, title }: any) => {
-    return (
-        <div
-            className={`h-[160px] flex justify-center items-center rounded-[16px] ${className} `}
-            style={{ backgroundColor: color, textAlign: 'center' }}
-        >
-            <div className={`flex flex-col items-center`}>
-                <div className={`mb-[18px]`}>
-                    <span className={`font-normal text-[70px]`} style={{ fontWeight: 700, color: 'white' }}>
-                        {score}
-                    </span>
-                </div>
-                <div>
-                    <span className={`font-normal text-[18px]`} style={{ fontWeight: 600, color: 'white' }}>
-                        {title}
-                    </span>
-                </div>
-            </div>
-        </div>
-    )
-}
-const TotalScoreBoard = ({ className, color, score }: any) => {
-    return (
-        <div className={`h-[110px] flex items-center rounded-[16px] px-11 ${className} `} style={{ backgroundColor: color }}>
-            <div className={`flex items-center justify-between flex-1`}>
-                <div className={``}>
-                    <span className={`font-normal text-[18px]`} style={{ fontWeight: 600, color: 'white' }}>{`Total`}</span>
-                    <br />
-                    <span className={`font-normal text-[18px]`} style={{ fontWeight: 600, color: 'white' }}>{`Score`}</span>
-                </div>
-                <div className={``}>
-                    <span className={`font-normal text-[70px]`} style={{ fontWeight: 700, color: 'white' }}>
-                        {score}
-                    </span>
-                </div>
-            </div>
-        </div>
-    )
-}
 
-function Personal({ userData, scoreData, profileMap, timeType, setTimeType }: any) {
+function Personal({organizationName, userData, scoreData, profileMap, timeType, setTimeType }: any) {
     useEffect(() => {}, [timeType])
+    const colors: any = {
+        createIssue: '#F2994A',
+        resolveIssue: '#2F80ED',
+        createCodeReview: '#27AE60',
+        mergeMr: '#9B51E0',
+        receiveStar: '#F2C94C',
+    }
 
     return (
-        <div className={`py-[26px] px-[55px] flex flex-col`}>
-            <div className={`mb-5 flex justify-end`}>
-                <div className={`flex items-center`}>
-                    <div className={`mr-5`}>
-                        <span className={`text-[12px] text-[#23222C] font-bold`}>Timeframe</span>
-                    </div>
-                    <div className={`w-[286px]  bg-[#F6F7FA] rounded flex items-center justify-between px-4 py-1 text-[#23222C]`}>
-                        <div
-                            className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
-                                timeType === 'day' ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]' : ''
-                            }`}
-                            onClick={() => {
-                                setTimeType(`day`)
-                            }}
-                        >
-                            <span className={`text-[12px] font-bold `}>TODAY</span>
-                        </div>
-                        <div
-                            className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
-                                timeType === 'week' ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]' : ''
-                            }`}
-                            onClick={() => {
-                                setTimeType(`week`)
-                            }}
-                        >
-                            <span className={`text-[12px] font-bold `}>WEEK</span>
-                        </div>
-                        <div
-                            className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
-                                timeType === 'month' ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]' : ''
-                            }`}
-                            onClick={() => {
-                                setTimeType(`month`)
-                            }}
-                        >
-                            <span className={`text-[12px] font-bold `}>MONTH</span>
-                        </div>
-                        <div
-                            className={`flex items-center hover:cursor-pointer px-3 py-0.5 ${
-                                timeType === 'year' ? 'bg-white rounded shadow-[0_5px_20px_1px_rgba(0,0,0,0.1)]' : ''
-                            }`}
-                            onClick={() => {
-                                setTimeType(`year`)
-                            }}
-                        >
-                            <span className={`text-[12px] font-bold `}>YEAR</span>
-                        </div>
-                        <Information className={`mr-4`} informationText={'Time'}></Information>
-                    </div>
+        <div className={`flex pt-6 px-6 flex-col`}>
+            <div className={`w-full`}>
+                <div>
+                    <span className={`text-[14px] text-[#999999]`}>My Score</span>
                 </div>
-            </div>
-            <div className={`flex flex-1 scoreFrame`} style={{ justifyContent: 'space-between' }}>
-                <div className={`w-[290px] h-[290px] rounded-[18px] mr-11`}>
-                    {userData?.name ? (
-                        userData.profilePicture ? (
-                            <div>
-                                <img
-                                    className={`rounded-[16px]`}
-                                    src={profileMap.get(userData.profilePicture)}
-                                    style={{ height: 290, width: 290 }}
-                                    alt="picture"
-                                />
-                            </div>
-                        ) : (
-                            <Jdenticon size="290" value={userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'} />
-                        )
-                    ) : (
-                        <div className={`flex justify-center items-center h-full`}>Loading...</div>
-                    )}
-                </div>
-                <div className={`flex-1 max-w-[491px]`}>
-                    <div>
-                        <span className={`font-normal text-[29px] color-[#23222c]`} style={{ fontWeight: 700 }}>
+                <div className={`flex justify-between`}>
+                    <div className={`flex`}>
+                        <span>
+                            {
+                                userData?.profilePicture ? (
+                                    <div>
+                                        <img
+                                            className={`rounded-[20px]`}
+                                            src={profileMap.get(userData.profilePicture)}
+                                            style={{ height: 40, width: 40 }}
+                                            alt="picture"
+                                        />
+                                    </div>
+                                ) : (
+                                    <Jdenticon size="40" value={userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'} />
+                                )
+                            }
+                        </span>
+                        <span className={`font-normal text-[32px] color-[#23222c] mx-2`} style={{ fontWeight: 600 }}>
                             {userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'}
                         </span>
                     </div>
+                    <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
+                </div>
+                <div className={`flex-1 scoreFrame`} style={{ justifyContent: 'space-between' }}>
                     <div>
-                        <div>
-                            <span className={`font-normal text-[17px] color-[#23222c]`} style={{ fontWeight: 700 }}>
-                                Personal score
-                            </span>
-                        </div>
-                        <div className={`grid grid-cols-4 gap-3`}>
+                        <div className={`grid grid-cols-4 gap-2`}>
+                            <TotalScoreBoard score={scoreData ? scoreData.score.total : 0} />
                             <ScoreBoard
-                                className={`col-span-2`}
-                                color={'#B250FF'}
+                                color={colors.createIssue}
                                 score={scoreData ? scoreData.score.createIssue : 0}
-                                title={'Create Issues'}
+                                title={'Create<br/>Issues'}
                             />
                             <ScoreBoard
-                                className={`col-span-2`}
-                                color={'#00FF38'}
+                                color={colors.resolveIssue}
                                 score={scoreData ? scoreData.score.resolveIssue : 0}
-                                title={'Resolve issues'}
+                                title={'Resolve<br/>issues'}
                             />
                             <ScoreBoard
-                                className={`col-span-2`}
-                                color={'#E9488B'}
+                                color={colors.createCodeReview}
                                 score={scoreData ? scoreData.score.createCodeReview : 0}
-                                title={'Create Code review'}
+                                title={'Create<br/>Code Review'}
                             />
+                            <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title={'Merge<br/>MR'} />
                             <ScoreBoard
-                                className={`col-span-2`}
-                                color={'#21D9CE'}
-                                score={scoreData ? scoreData.score.mergeMr : 0}
-                                title={'Merge MR'}
-                            />
-                            <ScoreBoard
-                                className={`col-span-2`}
-                                color={'#F7CD3F'}
+                                color={colors.receiveStar}
                                 score={scoreData ? scoreData.score.receiveStar : 0}
-                                title={'Receive Star'}
-                            />
-                            <ScoreBoard
-                                className={`col-span-2`}
-                                color={'#377FFF'}
-                                score={scoreData ? scoreData.score.total : 0}
-                                title={'Total Score'}
+                                title={'Receive<br/>Star'}
                             />
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className={`w-full`}>
+                star 사용법 추가
             </div>
         </div>
     )
