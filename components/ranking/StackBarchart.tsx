@@ -45,7 +45,7 @@ function StackBarchart({ ranking, maxValue, options }: IStackBarchart) {
                     'color: #9B51E0',
                     'Merge MR : ' + ranking.score.mergeMr,
                     ranking.score.receiveStar,
-                    'color: #56CCF2',
+                    'color: #F2C94C',
                     'Receive Star : ' + ranking.score.receiveStar,
                 ],
             ]}

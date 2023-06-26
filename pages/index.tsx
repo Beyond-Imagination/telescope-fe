@@ -45,7 +45,7 @@ const initialTypes: IType[] = [
     {
         name: 'type5',
         display: 'Receive Star',
-        color: '#56CCF2',
+        color: '#F2C94C',
         active: true,
         priority: 5,
     },

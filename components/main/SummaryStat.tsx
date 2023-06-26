@@ -102,7 +102,7 @@ function SummaryStat({ total, create_issue, resolve_issue, create_code_review, m
                     {DivSummary({
                         number: receive_star,
                         text: 'Receive Star',
-                        color: '#56CCF2',
+                        color: '#F2C94C',
                     })}
                 </div>
             </div>
