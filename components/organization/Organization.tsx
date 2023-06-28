@@ -29,7 +29,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
 
     const userChartData = [['user', 'Score']]
 
-    if (rankingsResponse?.rankings) {
+    if (rankingsResponse?.rankings && rankingsResponse.rankings.length > 0) {
         for (let key in rankingsResponse.rankings) {
             const user = rankingsResponse.rankings[key]
             userChartData.push([user?.name, user?.score?.total])
@@ -43,12 +43,17 @@ export default function Organization({ organizationName, summaryResponse, rankin
     const barCharColors = keys.map(key => colors[key])
     data[0].splice(0, 0, 'Date')
 
+    let max = 1
     for (let date in scoreListResponse) {
-        let score: any[] = [date]
+        let scores: any[] = [date]
+        let sum = 0
         for (let i in keys) {
-            score.push(scoreListResponse[date][keys[i]])
+            const score = scoreListResponse[date][keys[i]]
+            sum += score
+            scores.push(score)
         }
-        data.push(score)
+        max = Math.max(sum, max)
+        data.push(scores)
     }
 
     const options = {
@@ -62,6 +67,10 @@ export default function Organization({ organizationName, summaryResponse, rankin
             right: 0,
         },
         vAxis: {
+            viewWindow: {
+                max: max, // max 값이 없으면 데이터가 없을때 최소값이 적용되지 않음
+                min: 0,
+            },
             minorGridlines: {
                 color: 'transparent',
             },
@@ -74,7 +83,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
         <div className={`flex pt-6 px-6 flex-col`}>
             <div className={`w-full`}>
                 <div>
-                    <span className={`text-[14px] text-[#999999]`}>Ranking</span>
+                    <span className={`text-[14px] text-[#999999]`}>Organization</span>
                 </div>
                 <div className={`flex justify-between`}>
                     <div>
@@ -99,7 +108,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
                             <ScoreBoard
                                 color={colors.createCodeReview}
                                 score={summaryResponse ? summaryResponse.score.createCodeReview : 0}
-                                title={'Create<br/>Code'}
+                                title={'Create<br/>Code Review'}
                             />
                             <ScoreBoard color={colors.mergeMr} score={summaryResponse ? summaryResponse.score.mergeMr : 0} title={'Merge<br/>MR'} />
                             <ScoreBoard
@@ -132,7 +141,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
                         title="User Score"
                         chartData={userChartData}
                         total={summaryResponse?.score?.total}
-                        chartColors={rankingsResponse?.rankings ? null : ['#eeeeee']}
+                        chartColors={rankingsResponse?.rankings?.length > 0 ? null : ['#eeeeee']}
                     ></PieChart>
                 </div>
 
