@@ -68,11 +68,14 @@ function RankingTop({ rankings, profileMap }: IRankingTop) {
                                     height: 40,
                                     annotations: {
                                         textStyle: {
-                                            fontSize: 12,
-                                            color: '#000000', // Label text color
+                                            fontSize: 14,
+                                            color: '#FFF', // Label text color
+                                            bold: 'true', // Label text boldness
                                         },
                                     },
+                                    isStacked: 'percent',
                                 }}
+                                annotation={true}
                                 ranking={ranking}
                             ></StackBarchart>
                         </div>
