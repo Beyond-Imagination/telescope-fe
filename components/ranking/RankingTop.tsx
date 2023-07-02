@@ -31,7 +31,7 @@ function RankingTop({ rankings, profileMap }: IRankingTop) {
                 },
                 ranking: top3Ranking ? top3Ranking[1] : null,
                 index: 2,
-                imageSrc: top3Ranking ? profileMap.get(top3Ranking[0]?.profilePicture) : null,
+                imageSrc: top3Ranking ? profileMap.get(top3Ranking[1]?.profilePicture) : null,
             })}
             {RankingTopCard({
                 style: {
@@ -41,7 +41,7 @@ function RankingTop({ rankings, profileMap }: IRankingTop) {
                 },
                 ranking: top3Ranking ? top3Ranking[2] : null,
                 index: 3,
-                imageSrc: rankings ? profileMap.get(rankings[0]?.profilePicture) : null,
+                imageSrc: top3Ranking ? profileMap.get(top3Ranking[2]?.profilePicture) : null,
             })}
         </div>
     )
