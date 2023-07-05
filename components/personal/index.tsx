@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import Information from '../common/Information'
 import DateSelector from '../main/DateSelector'
 import { ScoreBoard, TotalScoreBoard } from '../common/ScoreBoard'
+import { PieChart } from '../common/PieChart'
 
 function Personal({ organizationName, userData, scoreData, profileMap, timeType, setTimeType }: any) {
     useEffect(() => {}, [timeType])
@@ -12,6 +13,22 @@ function Personal({ organizationName, userData, scoreData, profileMap, timeType,
         createCodeReview: '#27AE60',
         mergeMr: '#9B51E0',
         receiveStar: '#F2C94C',
+    }
+
+    const myChartData = []
+    let myChartColors = []
+    myChartData.push(['Achievement', 'Score']) // not displayed in PI chart
+    if (scoreData?.score && scoreData.score.total) {
+        for (let key in scoreData.score) {
+            if (key !== 'total') {
+                myChartData.push([key, scoreData.score[key]])
+                myChartColors.push(colors[key])
+            }
+        }
+    } else {
+        // user의 score 정보가 존재하지 않을 경우
+        myChartData.push(['', '1'])
+        myChartColors = ['#eeeeee']
     }
 
     return (
@@ -43,22 +60,34 @@ function Personal({ organizationName, userData, scoreData, profileMap, timeType,
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
                 <div className={`flex-1 scoreFrame`} style={{ justifyContent: 'space-between' }}>
-                    <div>
-                        <div className={`grid grid-cols-4 gap-2`}>
-                            <TotalScoreBoard score={scoreData ? scoreData.score.total : 0} />
-                            <ScoreBoard color={colors.createIssue} score={scoreData ? scoreData.score.createIssue : 0} title={'Create<br/>Issues'} />
-                            <ScoreBoard
-                                color={colors.resolveIssue}
-                                score={scoreData ? scoreData.score.resolveIssue : 0}
-                                title={'Resolve<br/>issues'}
+                    <div className="grid grid-cols-2 gap-2">
+                        <div className="w-2/8 sm:w-242">
+                            <PieChart
+                                chartData={myChartData ? myChartData : null}
+                                total={scoreData ? scoreData.score.total : 0}
+                                chartColors={myChartColors}
                             />
-                            <ScoreBoard
-                                color={colors.createCodeReview}
-                                score={scoreData ? scoreData.score.createCodeReview : 0}
-                                title={'Create<br/>Code Review'}
-                            />
-                            <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title={'Merge<br/>MR'} />
-                            <ScoreBoard color={colors.receiveStar} score={scoreData ? scoreData.score.receiveStar : 0} title={'Receive<br/>Star'} />
+                        </div>
+                        <div className="w-6/8 sm:w-646 pr-2">
+                            <div className="grid grid-cols-3 gap-2">
+                                <ScoreBoard
+                                    color={colors.createIssue}
+                                    score={scoreData ? scoreData.score.createIssue : 0}
+                                    title="Create<br/>Issues"
+                                />
+                                <ScoreBoard
+                                    color={colors.resolveIssue}
+                                    score={scoreData ? scoreData.score.resolveIssue : 0}
+                                    title="Resolve<br/>issues"
+                                />
+                                <ScoreBoard
+                                    color={colors.createCodeReview}
+                                    score={scoreData ? scoreData.score.createCodeReview : 0}
+                                    title="Create<br/>Code Review"
+                                />
+                                <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title="Merge<br/>MR" />
+                                <ScoreBoard color={colors.receiveStar} score={scoreData ? scoreData.score.receiveStar : 0} title="Receive<br/>Star" />
+                            </div>
                         </div>
                     </div>
                 </div>
