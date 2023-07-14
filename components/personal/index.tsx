@@ -60,35 +60,25 @@ function Personal({ organizationName, userData, scoreData, profileMap, timeType,
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
                 <div className={`flex-1 scoreFrame`} style={{ justifyContent: 'space-between' }}>
-                    <div className="grid grid-cols-2 gap-2">
-                        <div className="w-2/8 sm:w-242">
+                    <div className="grid grid-cols-4 gap-2">
+                        <div className="row-span-2 h-[230px]">
                             <PieChart
                                 chartData={myChartData ? myChartData : null}
                                 total={scoreData ? scoreData.score.total : 0}
                                 chartColors={myChartColors}
+                                legend="none"
+                                innerTextLeftPosition="65px"
                             />
                         </div>
-                        <div className="w-6/8 sm:w-646 pr-2">
-                            <div className="grid grid-cols-3 gap-2">
-                                <ScoreBoard
-                                    color={colors.createIssue}
-                                    score={scoreData ? scoreData.score.createIssue : 0}
-                                    title="Create<br/>Issues"
-                                />
-                                <ScoreBoard
-                                    color={colors.resolveIssue}
-                                    score={scoreData ? scoreData.score.resolveIssue : 0}
-                                    title="Resolve<br/>issues"
-                                />
-                                <ScoreBoard
-                                    color={colors.createCodeReview}
-                                    score={scoreData ? scoreData.score.createCodeReview : 0}
-                                    title="Create<br/>Code Review"
-                                />
-                                <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title="Merge<br/>MR" />
-                                <ScoreBoard color={colors.receiveStar} score={scoreData ? scoreData.score.receiveStar : 0} title="Receive<br/>Star" />
-                            </div>
-                        </div>
+                        <ScoreBoard color={colors.createIssue} score={scoreData ? scoreData.score.createIssue : 0} title="Create<br/>Issues" />
+                        <ScoreBoard color={colors.resolveIssue} score={scoreData ? scoreData.score.resolveIssue : 0} title="Resolve<br/>issues" />
+                        <ScoreBoard
+                            color={colors.createCodeReview}
+                            score={scoreData ? scoreData.score.createCodeReview : 0}
+                            title="Create<br/>Code Review"
+                        />
+                        <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title="Merge<br/>MR" />
+                        <ScoreBoard color={colors.receiveStar} score={scoreData ? scoreData.score.receiveStar : 0} title="Receive<br/>Star" />
                     </div>
                 </div>
             </div>

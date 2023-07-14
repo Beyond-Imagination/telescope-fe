@@ -1,7 +1,8 @@
 import { Chart } from 'react-google-charts'
 
-export function PieChart({ title, chartData, total, chartColors }: any) {
+export function PieChart({ title, chartData, total, chartColors, legend, innerTextLeftPosition }: any) {
     const pieOptions = {
+        legend: legend ? legend : 'right',
         pieSliceText: 'none',
         pieHole: 0.75,
         enableInteractivity: false,
@@ -14,10 +15,22 @@ export function PieChart({ title, chartData, total, chartColors }: any) {
     }
 
     return (
-        <div className={'h-[350px] w-[330px]'}>
+        <div
+            style={{
+                width: '100%',
+                height: '100%',
+            }}
+        >
             <span>{title}</span>
-            <div>
-                <Chart chartType="PieChart" width="330px" height="330px" data={chartData} options={pieOptions} />
+            <div
+                style={{
+                    position: 'relative',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                }}
+            >
+                <Chart chartType="PieChart" width="100%" height="100%" data={chartData} options={pieOptions} />
                 <div
                     style={{
                         position: 'relative',
@@ -25,7 +38,8 @@ export function PieChart({ title, chartData, total, chartColors }: any) {
                         paddingRight: '140px',
                         textAlign: 'center',
                         display: 'flex',
-                        top: '-195px',
+                        top: '-130px',
+                        left: innerTextLeftPosition || '0px',
                         justifyContent: 'center',
                         flexDirection: 'column',
                     }}
