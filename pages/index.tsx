@@ -8,7 +8,7 @@ import { convertDateByType } from '../utils/date'
 import * as spaceAPI from '../utils/api/spaceApi'
 import { getUserAccessTokenData } from '../utils/api/spaceApi'
 import Personal from '../components/personal'
-import { fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats } from '../utils/api/homeApi'
+import { fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats, fetchRemainStar } from '../utils/api/homeApi'
 import Organization from '../components/organization/Organization'
 import { useInterval } from 'use-interval'
 import { fetchScoreByUserId } from '../utils/api/myScoreApi'
@@ -97,6 +97,10 @@ const Home: NextPage = () => {
         enabled: !!userData?.id,
     })
 
+    const { data: remainStarResponse } = useQuery([userTokenData?.serverUrl, 'remainStar'], () => fetchRemainStarHook(), {
+        enabled: !!userTokenData?.serverUrl && !!userData?.id,
+    })
+
     const fetchProfileMe = useCallback(() => {
         if (userTokenData?.token) return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
     }, [userTokenData])
@@ -106,6 +110,10 @@ const Home: NextPage = () => {
     const fetchScoreByUserIdHook = useCallback(() => {
         if (userTokenData?.token && userData) return fetchScoreByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate))
     }, [userTokenData, userData, timeType])
+
+    const fetchRemainStarHook = useCallback(() => {
+        if (userTokenData && userData) return fetchRemainStar(userTokenData.serverUrl, userData.id)
+    }, [userTokenData, userData])
 
     useEffect(() => {
         async function fetchProfile(rankings: any[]) {
@@ -161,7 +169,12 @@ const Home: NextPage = () => {
     useEffect(() => {}, [timeType])
     return (
         <>
-            <MainTitle organization={organization} selectedTab={selectedTab} selectTab={selectTab}></MainTitle>
+            <MainTitle
+                organization={organization}
+                selectedTab={selectedTab}
+                selectTab={selectTab}
+                remainStarData={remainStarResponse?.data.remainStar}
+            ></MainTitle>
             {selectedTab == 1 && (
                 <Dashboard
                     organization={organization}
