@@ -9,10 +9,12 @@ function Personal({ organizationName, userData, scoreData, profileMap, timeType,
     useEffect(() => {}, [timeType])
     const colors: any = {
         createIssue: '#F2994A',
-        resolveIssue: '#2F80ED',
-        createCodeReview: '#27AE60',
-        mergeMr: '#9B51E0',
+        createCodeReview: '#2F80ED',
+        codeReviewDiscussion: '#C34ED7',
         receiveStar: '#F2C94C',
+        resolveIssue: '#9B51E0',
+        mergeMr: '#27AE60',
+        acceptCodeReview: '#56CCF2',
     }
 
     const myChartData = []
@@ -59,26 +61,38 @@ function Personal({ organizationName, userData, scoreData, profileMap, timeType,
                     </div>
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
-                <div className={`flex-1 scoreFrame`} style={{ justifyContent: 'space-between' }}>
-                    <div className="grid grid-cols-4 gap-2">
-                        <div className="row-span-2 h-[230px]">
-                            <PieChart
-                                chartData={myChartData ? myChartData : null}
-                                total={scoreData ? scoreData.score.total : 0}
-                                chartColors={myChartColors}
-                                legend="none"
-                                innerTextLeftPosition="65px"
+                <div className="flex flex-row">
+                    <div className="basis-1/4  gap-2">
+                        <PieChart
+                            chartData={myChartData ? myChartData : null}
+                            total={scoreData ? scoreData.score.total : 0}
+                            chartColors={myChartColors}
+                            legend="none"
+                            innerTextLeftPosition="65px"
+                        />
+                    </div>
+                    <div className="basis-3/4  gap-2">
+                        <div className="grid grid-cols-4 gap-2">
+                            <ScoreBoard color={colors.createIssue} score={scoreData ? scoreData.score.createIssue : 0} title="Create<br/>Issues" />
+                            <ScoreBoard
+                                color={colors.createCodeReview}
+                                score={scoreData ? scoreData.score.createCodeReview : 0}
+                                title="Create<br/>Code Review"
+                            />
+                            <ScoreBoard
+                                color={colors.codeReviewDiscussion}
+                                score={scoreData?.score?.codeReviewDiscussion || 0}
+                                title="Code Review<br/>Discussion"
+                            />
+                            <ScoreBoard color={colors.receiveStar} score={scoreData ? scoreData.score.receiveStar : 0} title="Receive<br/>Star" />
+                            <ScoreBoard color={colors.resolveIssue} score={scoreData ? scoreData.score.resolveIssue : 0} title="Resolve<br/>issues" />
+                            <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title="Merge<br/>MR" />
+                            <ScoreBoard
+                                color={colors.acceptCodeReview}
+                                score={scoreData?.score?.acceptCodeReview || 0}
+                                title="Accept<br/>Code Review"
                             />
                         </div>
-                        <ScoreBoard color={colors.createIssue} score={scoreData ? scoreData.score.createIssue : 0} title="Create<br/>Issues" />
-                        <ScoreBoard color={colors.resolveIssue} score={scoreData ? scoreData.score.resolveIssue : 0} title="Resolve<br/>issues" />
-                        <ScoreBoard
-                            color={colors.createCodeReview}
-                            score={scoreData ? scoreData.score.createCodeReview : 0}
-                            title="Create<br/>Code Review"
-                        />
-                        <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title="Merge<br/>MR" />
-                        <ScoreBoard color={colors.receiveStar} score={scoreData ? scoreData.score.receiveStar : 0} title="Receive<br/>Star" />
                     </div>
                 </div>
             </div>
