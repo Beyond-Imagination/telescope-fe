@@ -7,10 +7,12 @@ import React from 'react'
 export default function Organization({ organizationName, summaryResponse, rankingsResponse, scoreListResponse, timeType, setTimeType }: any) {
     const colors: any = {
         createIssue: '#F2994A',
-        resolveIssue: '#2F80ED',
-        createCodeReview: '#27AE60',
-        mergeMr: '#9B51E0',
+        createCodeReview: '#2F80ED',
+        codeReviewDiscussion: '#C34ED7',
         receiveStar: '#F2C94C',
+        resolveIssue: '#9B51E0',
+        mergeMr: '#27AE60',
+        acceptCodeReview: '#56CCF2',
     }
     const teamChartData = [['Achievement', 'Score']]
     let teamChartColors = []
@@ -48,7 +50,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
         let scores: any[] = [date]
         let sum = 0
         for (let i in keys) {
-            const score = scoreListResponse[date][keys[i]]
+            const score = scoreListResponse[date][keys[i]] || 0
             sum += score
             scores.push(score)
         }
@@ -91,30 +93,43 @@ export default function Organization({ organizationName, summaryResponse, rankin
                     </div>
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
-                <div className={`flex-1 scoreFrame`} style={{ justifyContent: 'space-between' }}>
-                    <div>
-                        <div className={`grid grid-cols-4 gap-2`}>
-                            <TotalScoreBoard score={summaryResponse ? summaryResponse.score.total : 0} />
+
+                <div className="flex flex-row">
+                    <div className="basis-1/4  gap-2">
+                        <TotalScoreBoard score={summaryResponse ? summaryResponse.score.total : 0} />
+                    </div>
+                    <div className="basis-3/4  gap-2">
+                        <div className="grid grid-cols-4 gap-2">
                             <ScoreBoard
                                 color={colors.createIssue}
                                 score={summaryResponse ? summaryResponse.score.createIssue : 0}
                                 title={'Create<br/>Issues'}
                             />
                             <ScoreBoard
-                                color={colors.resolveIssue}
-                                score={summaryResponse ? summaryResponse.score.resolveIssue : 0}
-                                title={'Resolve<br/>issues'}
-                            />
-                            <ScoreBoard
                                 color={colors.createCodeReview}
                                 score={summaryResponse ? summaryResponse.score.createCodeReview : 0}
                                 title={'Create<br/>Code Review'}
                             />
-                            <ScoreBoard color={colors.mergeMr} score={summaryResponse ? summaryResponse.score.mergeMr : 0} title={'Merge<br/>MR'} />
+                            <ScoreBoard
+                                color={colors.codeReviewDiscussion}
+                                score={summaryResponse?.score?.codeReviewDiscussion || 0}
+                                title={'Code Review<br/>Discussion'}
+                            />
                             <ScoreBoard
                                 color={colors.receiveStar}
                                 score={summaryResponse ? summaryResponse.score.receiveStar : 0}
                                 title={'Receive<br/>Star'}
+                            />
+                            <ScoreBoard
+                                color={colors.resolveIssue}
+                                score={summaryResponse ? summaryResponse.score.resolveIssue : 0}
+                                title={'Resolve<br/>issues'}
+                            />
+                            <ScoreBoard color={colors.mergeMr} score={summaryResponse ? summaryResponse.score.mergeMr : 0} title={'Merge<br/>MR'} />
+                            <ScoreBoard
+                                color={colors.acceptCodeReview}
+                                score={summaryResponse?.score?.acceptCodeReview || 0}
+                                title={'Accept<br/>Code Review'}
                             />
                         </div>
                     </div>

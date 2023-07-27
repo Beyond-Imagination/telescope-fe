@@ -39,7 +39,7 @@ export function ScoreBoard({ className, color, score, title }: any) {
 export function TotalScoreBoard({ className, score }: any) {
     return (
         <div
-            className={`row-span-2 h-[230px] flex justify-left items-center rounded-[24px] ${className} `}
+            className={`mx-2 row-span-2 h-[230px] flex justify-left items-center rounded-[24px] ${className} `}
             style={{
                 background:
                     'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%), #F4F4F4',
