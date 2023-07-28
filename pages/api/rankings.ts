@@ -28,5 +28,7 @@ export interface IScore {
     resolveIssue: number
     createCodeReview: number
     mergeMr: number
+    codeReviewDiscussion: number
+    acceptCodeReview: number
     receiveStar: number
 }

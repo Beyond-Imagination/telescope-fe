@@ -24,30 +24,44 @@ const initialTypes: IType[] = [
     {
         name: 'type2',
         display: 'Resolve Issues',
-        color: '#2F80ED',
+        color: '#9B51E0',
         active: true,
         priority: 2,
     },
     {
         name: 'type3',
         display: 'Create Code Review',
-        color: '#27AE60',
+        color: '#2F80ED',
         active: true,
         priority: 3,
     },
     {
         name: 'type4',
         display: 'Merge MR',
-        color: '#9B51E0',
+        color: '#27AE60',
         active: true,
         priority: 4,
     },
     {
         name: 'type5',
+        display: 'Code Review Discussion',
+        color: '#C34ED7',
+        active: true,
+        priority: 5,
+    },
+    {
+        name: 'type6',
+        display: 'Accept Code Review',
+        color: '#56CCF2',
+        active: true,
+        priority: 6,
+    },
+    {
+        name: 'type7',
         display: 'Receive Star',
         color: '#F2C94C',
         active: true,
-        priority: 5,
+        priority: 7,
     },
 ]
 
