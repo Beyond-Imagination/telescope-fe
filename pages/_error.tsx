@@ -1,6 +1,3 @@
-import Image from 'next/image'
-import LogoPic from '../assets/logo.png'
-import TelescopeImg from '../assets/telescope.png'
 import Link from 'next/link'
 
 interface ErrorProps {
@@ -14,7 +11,8 @@ const ErrorPage = ({ statusCode, message }: ErrorProps) => {
             <div className={`px-[55px] py-[16px] border-b border-[#BCBCBC] flex justify-between bg-[#23222C] relative`}>
                 <div className={`flex items-center `}>
                     <div className={`w-[59px] h-[59px] mr-[20px]`}>
-                        <Image src={LogoPic} alt={`logo`}></Image>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="../assets/logo.png" alt="logo"></img>
                     </div>
                     <div className={`flex flex-col`}>
                         <div className={`mb-0.5`}>
@@ -26,7 +24,8 @@ const ErrorPage = ({ statusCode, message }: ErrorProps) => {
                 </div>
             </div>
             <div className={`justify-center flex items-center flex-1 flex-col`}>
-                <Image src={TelescopeImg} alt={`telescope`}></Image>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="../assets/logo.png" alt="telescrope"></img>
                 <div>
                     <span className={`text-[62px] font-extrabold text-[#23222C]`}>{statusCode}</span>
                 </div>

@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "build": "next build && next export",
         "build:dev": "cross-env ANALYZE=true NODE_ENV=development next build",
         "start:dev": "cross-env ANALYZE=true NODE_ENV=development next start -p 3000",
         "start": "next start",
