@@ -23,8 +23,8 @@ function Dashboard({ organization, rankingsResponse, summaryResponse, profileMap
 
     // 하위 버전 호환용. v1.1.0 배포 이후 삭제
     rankingsResponse?.rankings.forEach(ranking => {
-        ranking.score.codeReviewDiscussion = 0
-        ranking.score.acceptCodeReview = 0
+        ranking.score.codeReviewDiscussion = ranking.score.codeReviewDiscussion || 0
+        ranking.score.acceptCodeReview = ranking.score.acceptCodeReview || 0
     })
 
     return (
