@@ -12,9 +12,13 @@ job("Build and deploy") {
 
         shellScript {
             content = """
+
+                if [ ${'$'}JB_SPACE_GIT_BRANCH == "refs/heads/develop" ]; then
+                    cat .env.development > .env.production
+                fi
+
                 yarn
                 yarn build
-
                 cp -r out ${'$'}JB_SPACE_FILE_SHARE_PATH/out
             """
         }
