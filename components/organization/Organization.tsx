@@ -135,9 +135,9 @@ export default function Organization({ organizationName, summaryResponse, rankin
                     </div>
                 </div>
                 <div
-                    className={'justify-between h-[350px] w-[680px]'}
+                    className={'justify-between h-[280px]'}
                     style={{
-                        marginTop: '24px',
+                        marginTop: '36px',
                         display: 'flex',
                         fontSize: '14px',
                         justifyContent: 'space-between',
@@ -151,6 +151,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
                         total={summaryResponse?.score?.total}
                         chartColors={teamChartColors}
                         legend="right"
+                        innerTextLeftPosition={-20}
                     ></PieChart>
 
                     <PieChart
@@ -159,6 +160,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
                         total={summaryResponse?.score?.total}
                         chartColors={rankingsResponse?.rankings?.length > 0 ? null : ['#eeeeee']}
                         legend="right"
+                        innerTextLeftPosition={-20}
                     ></PieChart>
                 </div>
 
