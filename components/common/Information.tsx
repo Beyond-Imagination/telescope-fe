@@ -29,7 +29,7 @@ function Information({ className, informationText }: IInformation) {
                     }
                     arrow
                 >
-                    <span className={`${className} hover:cursor-pointer`} >
+                    <span className={`${className} hover:cursor-pointer`}>
                         <InfoIcon></InfoIcon>
                     </span>
                 </CustomWidthTooltip>
@@ -45,7 +45,7 @@ function Information({ className, informationText }: IInformation) {
                     }
                     arrow
                 >
-                    <span className={`${className} hover:cursor-pointer`} >
+                    <span className={`${className} hover:cursor-pointer`}>
                         <InfoIcon></InfoIcon>
                     </span>
                 </CustomWidthTooltip>
