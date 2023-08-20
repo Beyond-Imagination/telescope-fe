@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import InfoIcon from '../../assets/info.svg'
 import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
@@ -9,40 +9,11 @@ interface IInformation {
 }
 
 function Information({ className, informationText }: IInformation) {
-    const [isShown, setIsShown] = useState(false)
-
     const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <Tooltip {...props} classes={{ popper: className }} />)({
         [`& .${tooltipClasses.tooltip}`]: {
             maxWidth: 500,
         },
     })
-
-    function mouseOn(informationText: string) {
-        setIsShown(true)
-
-        let blurDom = new Array()
-        if (informationText === 'Score') {
-            blurDom = ['.rankings', '.timeFrame']
-        } else if (informationText === 'Ranking') {
-            blurDom = ['.timeFrame', '.scoreInfo', '.scoreFrame']
-        } else if (informationText === 'Time') {
-            blurDom = ['.rankings', '.scoreInfo', '.scoreFrame']
-        }
-
-        for (let i = 0; i < blurDom.length; i++) {
-            let blurDiv = document.querySelector(blurDom[i])
-            blurDiv?.classList.add('blur-sm')
-        }
-    }
-
-    function mouseDown() {
-        setIsShown(false)
-
-        let blurredDiv = document.querySelectorAll('.blur-sm')
-        for (let i = 0; i < blurredDiv.length; i++) {
-            blurredDiv[i].classList.remove('blur-sm')
-        }
-    }
 
     return (
         <>
@@ -58,7 +29,7 @@ function Information({ className, informationText }: IInformation) {
                     }
                     arrow
                 >
-                    <span className={`${className} hover:cursor-pointer`} onMouseOver={() => mouseOn('Score')} onMouseLeave={() => mouseDown()}>
+                    <span className={`${className} hover:cursor-pointer`} >
                         <InfoIcon></InfoIcon>
                     </span>
                 </CustomWidthTooltip>
@@ -74,7 +45,7 @@ function Information({ className, informationText }: IInformation) {
                     }
                     arrow
                 >
-                    <span className={`${className} hover:cursor-pointer`} onMouseOver={() => mouseOn('Ranking')} onMouseLeave={() => mouseDown()}>
+                    <span className={`${className} hover:cursor-pointer`} >
                         <InfoIcon></InfoIcon>
                     </span>
                 </CustomWidthTooltip>
@@ -85,7 +56,7 @@ function Information({ className, informationText }: IInformation) {
                     title={<div style={{ fontSize: '14px' }}>You can check the task score by timeframe you selected.</div>}
                     arrow
                 >
-                    <span className={`${className} hover:cursor-pointer`} onMouseOver={() => mouseOn('Time')} onMouseLeave={() => mouseDown()}>
+                    <span className={`${className} hover:cursor-pointer`}>
                         <InfoIcon></InfoIcon>
                     </span>
                 </CustomWidthTooltip>
