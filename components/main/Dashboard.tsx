@@ -30,17 +30,14 @@ function Dashboard({ organization, rankingsResponse, summaryResponse, profileMap
     return (
         <div className={`flex pt-6 px-6`}>
             <div className={`w-full`}>
-                <div>
-                    <span className={`text-[14px] text-[#999999]`}>Ranking</span>
-                </div>
-                <div className={`flex justify-between`}>
+                <div className={`flex justify-between mb-4`}>
                     <div>
-                        <span className={`font-bold text-[32px]`}>{organization?.name ? organization?.name : 'Telescope'}</span>
+                        <span className={`font-bold text-[32px] text-[#999999]`}>{organization?.name ? organization?.name : 'Telescope'}</span>
                     </div>
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
-                <RankingTop rankings={rankingsResponse?.rankings} profileMap={profileMap}></RankingTop>
-                <Ranking types={types} rankings={rankingsResponse?.rankings} profileMap={profileMap}></Ranking>
+                <RankingTop types={types} rankings={rankingsResponse?.rankings} profileMap={profileMap}></RankingTop>
+                <Ranking rankings={rankingsResponse?.rankings} profileMap={profileMap}></Ranking>
             </div>
         </div>
     )
