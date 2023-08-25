@@ -11,7 +11,7 @@ import Personal from '../components/personal'
 import { fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats, fetchRemainStar } from '../utils/api/homeApi'
 import Organization from '../components/organization/Organization'
 import { useInterval } from 'use-interval'
-import { fetchScoreByUserId } from '../utils/api/myScoreApi'
+import { fetchScoreByUserId, fetchScoreListByUserId } from '../utils/api/myScoreApi'
 
 const initialTypes: IType[] = [
     {
@@ -111,6 +111,10 @@ const Home: NextPage = () => {
         enabled: !!userData?.id,
     })
 
+    const { data: userScoreListResponse } = useQuery(['userScoreList'], () => fetchScoreListByUserIdHook(), {
+        enabled: !!userTokenData?.serverUrl && !!userData?.id,
+    })
+
     const { data: remainStarResponse } = useQuery([userTokenData?.serverUrl, 'remainStar'], () => fetchRemainStarHook(), {
         enabled: !!userTokenData?.serverUrl && !!userData?.id,
     })
@@ -124,6 +128,10 @@ const Home: NextPage = () => {
     const fetchScoreByUserIdHook = useCallback(() => {
         if (userTokenData?.token && userData) return fetchScoreByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate))
     }, [userTokenData, userData, timeType])
+
+    const fetchScoreListByUserIdHook = useCallback(() => {
+        if (userTokenData?.token && userData) return fetchScoreListByUserId(userData.id, userTokenData.serverUrl)
+    }, [userTokenData, userData])
 
     const fetchRemainStarHook = useCallback(() => {
         if (userTokenData && userData) return fetchRemainStar(userTokenData.serverUrl, userData.id)
@@ -214,6 +222,7 @@ const Home: NextPage = () => {
                 <Personal
                     userData={userData}
                     scoreData={userScoreData?.data}
+                    scoreList={userScoreListResponse?.data}
                     profileMap={profileMap}
                     timeType={timeType}
                     setTimeType={setTimeType}

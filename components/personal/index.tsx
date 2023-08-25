@@ -1,11 +1,11 @@
 import Jdenticon from 'react-jdenticon'
 import React, { useEffect } from 'react'
-import Information from '../common/Information'
 import DateSelector from '../main/DateSelector'
-import { ScoreBoard, TotalScoreBoard } from '../common/ScoreBoard'
+import { ScoreBoard } from '../common/ScoreBoard'
 import { PieChart } from '../common/PieChart'
+import { MilkyWay } from '../common/MilkyWay'
 
-function Personal({ organizationName, userData, scoreData, profileMap, timeType, setTimeType }: any) {
+function Personal({ organizationName, userData, scoreData, scoreList, profileMap, timeType, setTimeType }: any) {
     useEffect(() => {}, [timeType])
     const colors: any = {
         createIssue: '#F2994A',
@@ -97,6 +97,7 @@ function Personal({ organizationName, userData, scoreData, profileMap, timeType,
                 </div>
             </div>
 
+            <MilkyWay scoreList={scoreList} />
             {/* star information panel */}
             <div className={`w-full my-5`}>
                 <div>
@@ -110,7 +111,7 @@ function Personal({ organizationName, userData, scoreData, profileMap, timeType,
                     </div>
                     <div className={`mb-2`}>
                         <div className={`text-[32px] color-[#23222c]`}>How to use ⭐️?</div>
-                        <div className={`text-[18px] text-black/60`}>Use ⭐️ (:star:) reaction on Space’s chat </div>
+                        <div className={`text-[18px] text-black/60`}>Use ⭐️ (:star:) reaction on Space’s chat</div>
                     </div>
                     <div className={`mb-2`}>
                         <div className={`text-[32px] color-[#23222c]`}>How many ⭐️ can I send?</div>
