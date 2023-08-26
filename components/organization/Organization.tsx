@@ -84,87 +84,96 @@ export default function Organization({ organizationName, summaryResponse, rankin
     return (
         <div className={`flex pt-6 px-6 flex-col`}>
             <div className={`w-full`}>
-                <div>
-                    <span className={`text-[14px] text-[#999999]`}>Organization</span>
-                </div>
-                <div className={`flex justify-between`}>
+                <div className={`flex justify-between mb-4`}>
                     <div>
-                        <span className={`font-bold text-[32px]`}>{organizationName ? organizationName : 'Telescope'}</span>
+                        <span className={`font-bold text-[32px] text-[#999999]`}>{organizationName || 'Telescope'}</span>
                     </div>
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
 
-                <div className="flex flex-row">
-                    <div className="basis-1/4  gap-2">
-                        <TotalScoreBoard score={summaryResponse ? summaryResponse.score.total : 0} />
-                    </div>
-                    <div className="basis-3/4  gap-2">
-                        <div className="grid grid-cols-4 gap-2">
-                            <ScoreBoard
-                                color={colors.createIssue}
-                                score={summaryResponse ? summaryResponse.score.createIssue : 0}
-                                title={'Create<br/>Issues'}
-                            />
-                            <ScoreBoard
-                                color={colors.createCodeReview}
-                                score={summaryResponse ? summaryResponse.score.createCodeReview : 0}
-                                title={'Create<br/>Code Review'}
-                            />
-                            <ScoreBoard
-                                color={colors.codeReviewDiscussion}
-                                score={summaryResponse?.score?.codeReviewDiscussion || 0}
-                                title={'Code Review<br/>Discussion'}
-                            />
-                            <ScoreBoard
-                                color={colors.receiveStar}
-                                score={summaryResponse ? summaryResponse.score.receiveStar : 0}
-                                title={'Receive<br/>Star'}
-                            />
-                            <ScoreBoard
-                                color={colors.resolveIssue}
-                                score={summaryResponse ? summaryResponse.score.resolveIssue : 0}
-                                title={'Resolve<br/>issues'}
-                            />
-                            <ScoreBoard color={colors.mergeMr} score={summaryResponse ? summaryResponse.score.mergeMr : 0} title={'Merge<br/>MR'} />
-                            <ScoreBoard
-                                color={colors.acceptCodeReview}
-                                score={summaryResponse?.score?.acceptCodeReview || 0}
-                                title={'Accept<br/>Code Review'}
-                            />
+                <div>
+                    <p className={`text-4xl m-1 mb-2 font-bold`}>Organization Score</p>
+                    <div className="flex flex-row">
+                        <div className="basis-1/4  gap-2">
+                            <TotalScoreBoard score={summaryResponse ? summaryResponse.score.total : 0} />
+                        </div>
+                        <div className="basis-3/4  gap-2">
+                            <div className="grid grid-cols-4 gap-2">
+                                <ScoreBoard
+                                    color={colors.createIssue}
+                                    score={summaryResponse ? summaryResponse.score.createIssue : 0}
+                                    title={'Create<br/>Issues'}
+                                />
+                                <ScoreBoard
+                                    color={colors.createCodeReview}
+                                    score={summaryResponse ? summaryResponse.score.createCodeReview : 0}
+                                    title={'Create<br/>Code Review'}
+                                />
+                                <ScoreBoard
+                                    color={colors.codeReviewDiscussion}
+                                    score={summaryResponse?.score?.codeReviewDiscussion || 0}
+                                    title={'Code Review<br/>Discussion'}
+                                />
+                                <ScoreBoard
+                                    color={colors.receiveStar}
+                                    score={summaryResponse ? summaryResponse.score.receiveStar : 0}
+                                    title={'Receive<br/>Star'}
+                                />
+                                <ScoreBoard
+                                    color={colors.resolveIssue}
+                                    score={summaryResponse ? summaryResponse.score.resolveIssue : 0}
+                                    title={'Resolve<br/>issues'}
+                                />
+                                <ScoreBoard
+                                    color={colors.mergeMr}
+                                    score={summaryResponse ? summaryResponse.score.mergeMr : 0}
+                                    title={'Merge<br/>MR'}
+                                />
+                                <ScoreBoard
+                                    color={colors.acceptCodeReview}
+                                    score={summaryResponse?.score?.acceptCodeReview || 0}
+                                    title={'Accept<br/>Code Review'}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div
-                    className={'justify-between h-[280px]'}
-                    style={{
-                        marginTop: '36px',
-                        display: 'flex',
-                        fontSize: '14px',
-                        justifyContent: 'space-between',
-                        color: '#999999',
-                        fontWeight: 500,
-                    }}
-                >
-                    <PieChart
-                        title="Team Score"
-                        chartData={teamChartData}
-                        total={summaryResponse?.score?.total}
-                        chartColors={teamChartColors}
-                        legend="right"
-                        innerTextLeftPosition={-23}
-                    ></PieChart>
 
-                    <PieChart
-                        title="User Score"
-                        chartData={userChartData}
-                        total={summaryResponse?.score?.total}
-                        chartColors={rankingsResponse?.rankings?.length > 0 ? null : ['#eeeeee']}
-                        legend="right"
-                        innerTextLeftPosition={-23}
-                    ></PieChart>
+                <div>
+                    <p className={`text-4xl m-1 mt-8 font-bold`}>Index Chart</p>
+                    <div
+                        className={'justify-between h-[280px]'}
+                        style={{
+                            marginTop: '36px',
+                            display: 'flex',
+                            fontSize: '14px',
+                            justifyContent: 'space-between',
+                            color: '#999999',
+                            fontWeight: 500,
+                        }}
+                    >
+                        <PieChart
+                            title="Team Score"
+                            chartData={teamChartData}
+                            total={summaryResponse?.score?.total}
+                            chartColors={teamChartColors}
+                            legend="right"
+                            innerTextLeftPosition={-23}
+                        ></PieChart>
+
+                        <PieChart
+                            title="User Score"
+                            chartData={userChartData}
+                            total={summaryResponse?.score?.total}
+                            chartColors={rankingsResponse?.rankings?.length > 0 ? null : ['#eeeeee']}
+                            legend="right"
+                            innerTextLeftPosition={-23}
+                        ></PieChart>
+                    </div>
                 </div>
 
                 <div style={{ width: '100%' }}>
+                    <p className={`text-4xl m-1 mt-4 font-bold`}>Daily Activity</p>
                     <Chart chartType="ColumnChart" width="100%" height="200px" data={data} options={options} />
                 </div>
             </div>
