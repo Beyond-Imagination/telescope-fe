@@ -36,9 +36,6 @@ function Personal({ organizationName, userData, scoreData, scoreList, profileMap
     return (
         <div className={`flex pt-6 px-6 flex-col`}>
             <div className={`w-full`}>
-                <div>
-                    <span className={`text-[14px] text-[#999999]`}>My Score</span>
-                </div>
                 <div className={`flex justify-between`}>
                     <div className={`flex`}>
                         <span>
@@ -61,6 +58,8 @@ function Personal({ organizationName, userData, scoreData, scoreList, profileMap
                     </div>
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
+
+                <p className={`text-4xl m-1 mb-2 font-bold`}>My Score</p>
                 <div className="flex flex-row">
                     <div className="basis-1/4  gap-2">
                         <PieChart
@@ -101,7 +100,7 @@ function Personal({ organizationName, userData, scoreData, scoreList, profileMap
             {/* star information panel */}
             <div className={`w-full my-5`}>
                 <div>
-                    <span className={`font-normal text-[32px] color-[#23222c] mx-2`}>⭐ Star</span>
+                    <span className={`text-4xl m-1 mb-2 font-bold`}>⭐ Star</span>
                 </div>
 
                 <div className={`bg-[#E4BD31]/20 rounded-md w-full p-4`}>

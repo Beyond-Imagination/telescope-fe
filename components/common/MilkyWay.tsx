@@ -64,7 +64,7 @@ export function MilkyWay({ scoreList }: any) {
     return (
         <>
             <div>
-                <span className={`font-normal text-[32px] color-[#23222c] mx-2`}>🌌 Milky way</span>
+                <span className={`text-4xl m-1 mb-2 font-bold`}>🌌 Milky way</span>
             </div>
             <span className={`font-light text-[20px] color-[#23222c] mx-2`}>make your own milky way</span>
             <div style={{ background: 'black', color: 'white', padding: '15px' }} className={'rounded-md'}>
