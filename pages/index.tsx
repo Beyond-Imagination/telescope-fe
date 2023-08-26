@@ -198,15 +198,14 @@ const Home: NextPage = () => {
                 remainStarData={remainStarResponse?.data.remainStar}
             ></MainTitle>
             {selectedTab == 1 && (
-                <Dashboard
-                    organization={organization}
-                    rankingsResponse={rankingsResponse?.data}
-                    summaryResponse={summaryResponse?.data}
+                <Personal
+                    userData={userData}
+                    scoreData={userScoreData?.data}
+                    scoreList={userScoreListResponse?.data}
                     profileMap={profileMap}
-                    types={types}
                     timeType={timeType}
                     setTimeType={setTimeType}
-                ></Dashboard>
+                ></Personal>
             )}
             {selectedTab == 2 && (
                 <Organization
@@ -219,14 +218,15 @@ const Home: NextPage = () => {
                 ></Organization>
             )}
             {selectedTab == 3 && (
-                <Personal
-                    userData={userData}
-                    scoreData={userScoreData?.data}
-                    scoreList={userScoreListResponse?.data}
+                <Dashboard
+                    organization={organization}
+                    rankingsResponse={rankingsResponse?.data}
+                    summaryResponse={summaryResponse?.data}
                     profileMap={profileMap}
+                    types={types}
                     timeType={timeType}
                     setTimeType={setTimeType}
-                ></Personal>
+                ></Dashboard>
             )}
 
             <div className={`flex justify-center text-[#D9D9D9]`}>
