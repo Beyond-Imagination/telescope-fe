@@ -76,6 +76,6 @@ export function MilkyWay({ scoreList }: any) {
 
 function getImage(score: number): string {
     if (score == 0) return ''
-    else if (score > 9) return '../../assets/star4.png'
-    return '../../assets/star' + Math.ceil(score / 3) + '.png'
+    else if (score > 9) return './star4.png'
+    return './star' + Math.ceil(score / 3) + '.png'
 }
