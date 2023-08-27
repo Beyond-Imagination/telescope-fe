@@ -16,12 +16,9 @@ interface IMainTitle {
 }
 
 const tabData = [
-    {
-        id: 1,
-        title: 'Leaderboard',
-    },
+    { id: 1, title: 'My Score' },
     { id: 2, title: 'Organization' },
-    { id: 3, title: 'My Score' },
+    { id: 3, title: 'Leaderboard' },
 ]
 
 function MainTitle({ organization, selectTab, selectedTab, remainStarData }: IMainTitle) {
