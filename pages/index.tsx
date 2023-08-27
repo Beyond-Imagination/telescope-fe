@@ -70,7 +70,7 @@ const Home: NextPage = () => {
     const [userTokenData, setUserTokenData] = useState<IUserToken>()
     const [selectedTab, selectTab] = useState<number>(1)
     const [profileMap, setProfileMap] = useState(new Map())
-
+    const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const [timeType, setTimeType] = useState('week')
     const { data: rankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
         enabled: !!userTokenData?.serverUrl,
@@ -88,16 +88,16 @@ const Home: NextPage = () => {
     let today = new Date()
 
     const fetchRankingsHook = useCallback(() => {
-        if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, today))
-    }, [userTokenData, timeType])
+        if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
+    }, [userTokenData, timeType, userTimezone])
 
     const fetchSummaryStatsHook = useCallback(() => {
-        if (userTokenData) return fetchSummaryStats(userTokenData.serverUrl, convertDateByType(timeType, today))
-    }, [userTokenData, timeType])
+        if (userTokenData) return fetchSummaryStats(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
+    }, [userTokenData, timeType, userTimezone])
 
     const fetchScoreListHook = useCallback(() => {
-        if (userTokenData) return fetchScoreList(userTokenData.serverUrl)
-    }, [userTokenData])
+        if (userTokenData) return fetchScoreList(userTokenData.serverUrl, userTimezone)
+    }, [userTokenData, userTimezone])
 
     const fetchOrganizationHook = useCallback(() => {
         if (userTokenData?.token) return spaceAPI.getOrganization(userTokenData.serverUrl, userTokenData.token)
@@ -126,16 +126,17 @@ const Home: NextPage = () => {
     let fromDate = new Date()
 
     const fetchScoreByUserIdHook = useCallback(() => {
-        if (userTokenData?.token && userData) return fetchScoreByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate))
-    }, [userTokenData, userData, timeType])
+        if (userTokenData?.token && userData)
+            return fetchScoreByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
+    }, [userTokenData, userData, timeType, userTimezone])
 
     const fetchScoreListByUserIdHook = useCallback(() => {
-        if (userTokenData?.token && userData) return fetchScoreListByUserId(userData.id, userTokenData.serverUrl)
-    }, [userTokenData, userData])
+        if (userTokenData?.token && userData) return fetchScoreListByUserId(userData.id, userTokenData.serverUrl, userTimezone)
+    }, [userTokenData, userData, userTimezone])
 
     const fetchRemainStarHook = useCallback(() => {
-        if (userTokenData && userData) return fetchRemainStar(userTokenData.serverUrl, userData.id)
-    }, [userTokenData, userData])
+        if (userTokenData && userData) return fetchRemainStar(userTokenData.serverUrl, userData.id, userTimezone)
+    }, [userTokenData, userData, userTimezone, userTimezone])
 
     useEffect(() => {
         async function fetchProfile(rankings: any[]) {

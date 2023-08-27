@@ -1,24 +1,24 @@
 import axios from './index'
 import { dateToString } from '../date'
 
-export const fetchSummaryStats = (serverUrl: string, fromDate: Date) => {
+export const fetchSummaryStats = (serverUrl: string, fromDate: Date, timezone: String) => {
     return axios({
         method: 'get',
-        url: `api/organization/score?serverUrl=${encodeURIComponent(serverUrl)}&from=${dateToString(fromDate)}`,
+        url: `api/organization/score?serverUrl=${encodeURIComponent(serverUrl)}&from=${dateToString(fromDate)}&timezone=${timezone}`,
     })
 }
 
-export const fetchScoreList = (serverUrl: string) => {
+export const fetchScoreList = (serverUrl: string, timezone: String) => {
     return axios({
         method: 'get',
-        url: `api/organization/score/list?serverUrl=${encodeURIComponent(serverUrl)}`,
+        url: `api/organization/score/list?serverUrl=${encodeURIComponent(serverUrl)}&timezone=${timezone}`,
     })
 }
 
-export const fetchRankings = (serverUrl: string, fromDate: Date) => {
+export const fetchRankings = (serverUrl: string, fromDate: Date, timezone: String) => {
     return axios({
         method: 'get',
-        url: `api/organization/rankings?serverUrl=${encodeURIComponent(serverUrl)}&from=${dateToString(fromDate)}`,
+        url: `api/organization/rankings?serverUrl=${encodeURIComponent(serverUrl)}&from=${dateToString(fromDate)}&timezone=${timezone}`,
     })
 }
 
@@ -36,9 +36,9 @@ export async function fetchProfileImage(serverUrl: string, token: string, profil
     return URL.createObjectURL(blob)
 }
 
-export const fetchRemainStar = (serverUrl: string, userId: string) => {
+export const fetchRemainStar = (serverUrl: string, userId: string, timezone: String) => {
     return axios({
         method: 'get',
-        url: `api/users/remainStar?serverUrl=${encodeURIComponent(serverUrl)}&userId=${userId}`,
+        url: `api/users/remainStar?serverUrl=${encodeURIComponent(serverUrl)}&userId=${userId}&timezone=${timezone}`,
     })
 }
