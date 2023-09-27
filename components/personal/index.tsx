@@ -5,7 +5,7 @@ import { ScoreBoard } from '../common/ScoreBoard'
 import { PieChart } from '../common/PieChart'
 import { MilkyWay } from '../common/MilkyWay'
 
-function Personal({ organizationName, userData, scoreData, scoreList, profileMap, timeType, setTimeType }: any) {
+function Personal({ userData, scoreData, scoreList, profileMap, timeType, setTimeType }: any) {
     useEffect(() => {}, [timeType])
     const colors: any = {
         createIssue: '#F2994A',
@@ -97,27 +97,6 @@ function Personal({ organizationName, userData, scoreData, scoreList, profileMap
             </div>
 
             <MilkyWay scoreList={scoreList} />
-            {/* star information panel */}
-            <div className={`w-full my-5`}>
-                <div>
-                    <span className={`text-4xl m-1 mb-2 font-bold`}>⭐ Star</span>
-                </div>
-
-                <div className={`bg-[#E4BD31]/20 rounded-md w-full p-4`}>
-                    <div className={`mb-2`}>
-                        <div className={`text-[32px] color-[#23222c]`}>What ⭐️ means?</div>
-                        <div className={`text-[18px] text-black/60`}>celebration for your teammates by what they have done</div>
-                    </div>
-                    <div className={`mb-2`}>
-                        <div className={`text-[32px] color-[#23222c]`}>How to use ⭐️?</div>
-                        <div className={`text-[18px] text-black/60`}>Use ⭐️ (:star:) reaction on Space’s chat</div>
-                    </div>
-                    <div className={`mb-2`}>
-                        <div className={`text-[32px] color-[#23222c]`}>How many ⭐️ can I send?</div>
-                        <div className={`text-[18px] text-black/60`}>You can send 5 stars on a day</div>
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }

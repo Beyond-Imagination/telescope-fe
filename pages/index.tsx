@@ -8,10 +8,11 @@ import { convertDateByType } from '../utils/date'
 import * as spaceAPI from '../utils/api/spaceApi'
 import { getUserAccessTokenData } from '../utils/api/spaceApi'
 import Personal from '../components/personal'
-import { fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats, fetchRemainStar } from '../utils/api/homeApi'
+import { fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats, fetchRemainStar, fetchStarryPeople } from '../utils/api/homeApi'
 import Organization from '../components/organization/Organization'
 import { useInterval } from 'use-interval'
 import { fetchScoreByUserId, fetchScoreListByUserId } from '../utils/api/myScoreApi'
+import Star, { StarryPerson } from '../components/star/Star'
 
 const initialTypes: IType[] = [
     {
@@ -72,6 +73,9 @@ const Home: NextPage = () => {
     const [profileMap, setProfileMap] = useState(new Map())
     const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const [timeType, setTimeType] = useState('week')
+    const [year, setYear] = useState(new Date().getFullYear())
+    const [month, setMonth] = useState(new Date().getMonth())
+    const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
     const { data: rankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
         enabled: !!userTokenData?.serverUrl,
     })
@@ -119,6 +123,10 @@ const Home: NextPage = () => {
         enabled: !!userTokenData?.serverUrl && !!userData?.id,
     })
 
+    const { data: starryPeopleResponse } = useQuery([userTokenData?.serverUrl, month], async () => await fetchStarryPeopleHook(), {
+        enabled: !!userTokenData?.serverUrl,
+    })
+
     const fetchProfileMe = useCallback(() => {
         if (userTokenData?.token) return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
     }, [userTokenData])
@@ -137,6 +145,29 @@ const Home: NextPage = () => {
     const fetchRemainStarHook = useCallback(() => {
         if (userTokenData && userData) return fetchRemainStar(userTokenData.serverUrl, userData.id, userTimezone)
     }, [userTokenData, userData, userTimezone, userTimezone])
+
+    const fetchStarryPeopleHook = useCallback(async () => {
+        if (userTokenData?.serverUrl) {
+            if (Object.keys(starryPeople).length === 0) {
+                // starryPeople가 비어있을 경우 최근 3개월 데이터를 가져옴
+                await addStarryPeople(new Date(year, month - 2, 1), new Date(year, month, 0))
+            } else if (!starryPeople[`${year}_${month - 3}`]) {
+                // starryPeople에 가장 좌측 월 데이터가 없을 경우 해당 월 데이터를 가져옴
+                await addStarryPeople(new Date(year, month - 2, 1), new Date(year, month - 1, 0))
+            }
+        }
+        return starryPeople
+    }, [userTokenData, year, month, userTimezone])
+
+    async function addStarryPeople(fromDate: Date, toDate: Date) {
+        await fetchStarryPeople(userTokenData!.serverUrl, fromDate, toDate, userTimezone).then(res => {
+            let starryPeopleTemp = { ...starryPeople }
+            res.data.forEach((starryPerson: StarryPerson) => {
+                starryPeopleTemp[`${starryPerson.year}_${starryPerson.month}`] = starryPerson
+            })
+            setStarryPeople(starryPeopleTemp)
+        })
+    }
 
     useEffect(() => {
         async function fetchProfile(rankings: any[]) {
@@ -228,6 +259,17 @@ const Home: NextPage = () => {
                     timeType={timeType}
                     setTimeType={setTimeType}
                 ></Dashboard>
+            )}
+            {selectedTab == 4 && (
+                <Star
+                    organizationName={organization?.name}
+                    profileMap={profileMap}
+                    starryPeople={starryPeople}
+                    month={month}
+                    setMonth={setMonth}
+                    year={year}
+                    setYear={setYear}
+                ></Star>
             )}
 
             <div className={`flex justify-center text-[#D9D9D9]`}>

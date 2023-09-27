@@ -42,3 +42,12 @@ export const fetchRemainStar = (serverUrl: string, userId: string, timezone: Str
         url: `api/users/remainStar?serverUrl=${encodeURIComponent(serverUrl)}&userId=${userId}&timezone=${timezone}`,
     })
 }
+
+export const fetchStarryPeople = (serverUrl: string, fromDate: Date, toDate: Date, timezone: String) => {
+    return axios({
+        method: 'get',
+        url: `api/organization/star/rankings?serverUrl=${encodeURIComponent(serverUrl)}&from=${dateToString(fromDate)}&to=${dateToString(
+            toDate,
+        )}&timezone=${timezone}`,
+    })
+}
