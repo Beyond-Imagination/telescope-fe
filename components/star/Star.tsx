@@ -21,7 +21,8 @@ function Star({ organizationName, profileMap, starryPeople, month, setMonth, yea
     }
 
     function right() {
-        if (new Date().getMonth() <= month) return
+        const now = new Date()
+        if (now.getFullYear() == year && now.getMonth() <= month) return
         if (month == 12) {
             setMonth(1)
             setYear(year + 1)

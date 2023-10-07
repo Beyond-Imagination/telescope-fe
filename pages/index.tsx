@@ -170,18 +170,18 @@ const Home: NextPage = () => {
     }
 
     useEffect(() => {
-        async function fetchProfile(rankings: any[]) {
-            const promises = rankings.map(ranking => {
+        async function fetchProfile(users: any[]) {
+            const promises = users.map(user => {
                 return new Promise<void>(async (resolve, reject) => {
-                    if (ranking.profilePicture && !profileMap.has(ranking.profilePicture)) {
+                    if (user.profilePicture && !profileMap.has(user.profilePicture)) {
                         const profile = await fetchProfileImage(
                             userTokenData?.serverUrl as string,
                             userTokenData?.token as string,
-                            ranking.profilePicture,
+                            user.profilePicture,
                         )
                         setProfileMap(
                             // @ts-ignore
-                            prev => new Map([...prev, [ranking.profilePicture, profile]]),
+                            prev => new Map([...prev, [user.profilePicture, profile]]),
                         )
                         resolve()
                     }
@@ -189,11 +189,16 @@ const Home: NextPage = () => {
             })
             await Promise.all(promises)
         }
+        if (userTokenData?.token) {
+            if (rankingsResponse) {
+                fetchProfile(rankingsResponse.data.rankings)
+            }
 
-        if (userTokenData?.token && rankingsResponse) {
-            fetchProfile(rankingsResponse.data.rankings)
+            if (starryPeopleResponse) {
+                fetchProfile(Object.values(starryPeopleResponse))
+            }
         }
-    }, [userTokenData, rankingsResponse, timeType])
+    }, [userTokenData, rankingsResponse, starryPeopleResponse, timeType])
 
     //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
     useEffect(() => {
