@@ -1,4 +1,5 @@
 import { Head, Html, Main, NextScript } from 'next/document'
+import Newrelic from '../components/common/newrelic'
 
 export default function Document() {
     return (
@@ -15,6 +16,7 @@ export default function Document() {
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5429905827101121"
                     crossOrigin="anonymous"
                 ></script>
+                <Newrelic />
             </Head>
             <body>
                 <Main />
