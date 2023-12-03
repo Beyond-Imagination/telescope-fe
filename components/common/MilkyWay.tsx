@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export function MilkyWay({ scoreList }: any) {
+    const [tooltipVisible, setTooltipVisible] = useState<{ [key: string]: boolean }>({})
+
+    const handleMouseEnter = (key: string) => {
+        setTooltipVisible(prev => ({ ...prev, [key]: true }))
+    }
+
+    const handleMouseLeave = (key: string) => {
+        setTooltipVisible(prev => ({ ...prev, [key]: false }))
+    }
+
     const weekName = [' ', 'Mon', ' ', 'Wed', ' ', 'Fri', ' ']
     const rendering = () => {
         if (!scoreList || scoreList.length == 0) return []
@@ -20,8 +30,15 @@ export function MilkyWay({ scoreList }: any) {
         for (let monthName in scoreList) {
             let month = scoreList[monthName]
             for (let day = 0; day < month.length; day++) {
+                const key = `${monthName}-${day}`
+
                 result[index].push(
-                    <td>
+                    <td
+                        key={key}
+                        onMouseEnter={() => handleMouseEnter(key)}
+                        onMouseLeave={() => handleMouseLeave(key)}
+                        style={{ position: 'relative' }}
+                    >
                         <div
                             style={{
                                 width: '22px',
@@ -34,6 +51,24 @@ export function MilkyWay({ scoreList }: any) {
                         >
                             <img src={getImage(month[day])} />
                         </div>
+                        {tooltipVisible[key] && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: '100%',
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    backgroundColor: 'rgba(119, 136, 153, 1)',
+                                    color: '#fff',
+                                    padding: '5px',
+                                    borderRadius: '5px',
+                                    zIndex: 1,
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {`${month[day]} contributions on  ${monthName},  ${day + 1}`}
+                            </div>
+                        )}
                     </td>,
                 )
                 if (++index == 7) {
