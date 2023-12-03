@@ -32,3 +32,23 @@ export interface IScore {
     acceptCodeReview: number
     receiveStar: number
 }
+
+export interface ICodeLineRankingApi {
+    size: number
+    from: string
+    to: string
+    codeLines: ICodeLineRanking[]
+}
+
+export interface ICodeLineRanking {
+    id: string
+    name: string
+    codeLines: ICodeLine
+    profilePicture: string
+}
+
+export interface ICodeLine {
+    addedLines: number
+    deletedLines: number
+    total: number
+}

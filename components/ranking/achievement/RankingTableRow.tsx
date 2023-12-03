@@ -62,7 +62,7 @@ const RankingTableRow = ({ index, ranking, rankingColor, maxValue, imageSrc }: R
                         ></div>
                     )}
                 </div>
-                <div className={`flex col-span-1 text-[24px]`}>
+                <div className={`flex col-span-1 text-[24px] justify-self-center`}>
                     <span
                         style={{
                             color: rankingColor,

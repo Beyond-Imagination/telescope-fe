@@ -1,10 +1,8 @@
-import Jdenticon from 'react-jdenticon'
-import { IRanking } from '../../pages/api/rankings'
-import StackBarchart from './StackBarchart'
-import RankingTableRow from './RankingTableRow'
+import { ICodeLineRanking } from '../../../pages/api/rankings'
+import CodeLineRankingTableRow from './CodeLineRankingTableRow'
 
 interface IRankingTable {
-    rankings?: IRanking[]
+    rankings?: ICodeLineRanking[]
     profileMap: Map<string, string>
 }
 
@@ -21,7 +19,7 @@ const getRankingColor = (ranking: number) => {
     }
 }
 
-function RankingTable({ rankings, profileMap }: IRankingTable) {
+function CodeLineRankingTable({ rankings, profileMap }: IRankingTable) {
     return (
         <div className={`w-full h-full `}>
             <div className={``}>
@@ -32,8 +30,14 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
                     <div className={`col-span-2`}>
                         <span className={`text-[#999999] text-[14px] font-bold`}>Members</span>
                     </div>
-                    <div className={`col-span-8`}>
-                        <span className={`text-[#999999] text-[14px] font-bold`}>Productivity Rate</span>
+                    <div className={`col-span-6`}>
+                        <span className={`text-[#999999] text-[14px] font-bold`}>Code Lines Rate</span>
+                    </div>
+                    <div className={`col-span-1`}>
+                        <span className={`text-[#54B476] text-[14px] font-bold`}>Added</span>
+                    </div>
+                    <div className={`col-span-1`}>
+                        <span className={`text-[#CB5A5D] text-[14px] font-bold`}>Deleted</span>
                     </div>
                     <div className={`col-span-1`}>
                         <span className={`text-[#999999] text-[14px] font-bold`}>Overall</span>
@@ -44,21 +48,21 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
                 {!rankings && <div className={`flex justify-center items-center py-4`}>Loading...</div>}
                 {rankings && rankings.length === 0 && (
                     <>
-                        {RankingTableRow({
+                        {CodeLineRankingTableRow({
                             index: 0,
                             ranking: null,
                             rankingColor: getRankingColor(0),
                             maxValue: null,
                             imageSrc: null,
                         })}
-                        {RankingTableRow({
+                        {CodeLineRankingTableRow({
                             index: 1,
                             ranking: null,
                             rankingColor: getRankingColor(1),
                             maxValue: null,
                             imageSrc: null,
                         })}
-                        {RankingTableRow({
+                        {CodeLineRankingTableRow({
                             index: 2,
                             ranking: null,
                             rankingColor: getRankingColor(2),
@@ -69,11 +73,11 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
                 )}
                 {rankings &&
                     rankings?.map((ranking, index) =>
-                        RankingTableRow({
+                        CodeLineRankingTableRow({
                             index: index,
                             ranking: ranking,
                             rankingColor: getRankingColor(index),
-                            maxValue: rankings[0].score.total,
+                            maxValue: rankings[0].codeLines.total,
                             imageSrc: profileMap.get(ranking.profilePicture),
                         }),
                     )}
@@ -82,4 +86,4 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
     )
 }
 
-export default RankingTable
+export default CodeLineRankingTable

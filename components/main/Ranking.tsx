@@ -1,19 +1,30 @@
-import { IRanking } from '../../pages/api/rankings'
-import { IType } from '../common/MainTitle'
-import RankingTitle from '../ranking/RankingTitle'
-import RankingTable from '../ranking/RankingTable'
+import { ICodeLineRanking, IRanking } from '../../pages/api/rankings'
+import RankingTable from '../ranking/achievement/RankingTable'
+import IndicatorSelector from './IndicatorSelector'
+import React from 'react'
+import CodeLineRankingTable from '../ranking/codeLine/CodeLineRankingTable'
 
 interface IRankingProps {
     rankings?: IRanking[]
+    codeLineRankings?: ICodeLineRanking[]
     profileMap: Map<string, string>
+    indicatorType: any
+    setIndicatorType: any
 }
 
-function Ranking({ rankings, profileMap }: IRankingProps) {
+function Ranking({ rankings, codeLineRankings, profileMap, indicatorType, setIndicatorType }: IRankingProps) {
     return (
         <>
-            <p className={`text-4xl m-1 font-bold`}>Ranking</p>
             <div className={`m-2 rankings`}>
-                <RankingTable rankings={rankings} profileMap={profileMap}></RankingTable>
+                <div className={`flex justify-between mb-4`}>
+                    <div>
+                        <p className={`text-4xl m-1 font-bold`}>Ranking</p>
+                    </div>
+                    <IndicatorSelector indicatorType={indicatorType} setIndicatorType={setIndicatorType}></IndicatorSelector>
+                </div>
+
+                {indicatorType === 'Achievement' && <RankingTable rankings={rankings} profileMap={profileMap}></RankingTable>}
+                {indicatorType === 'CodeLine' && <CodeLineRankingTable rankings={codeLineRankings} profileMap={profileMap}></CodeLineRankingTable>}
             </div>
         </>
     )

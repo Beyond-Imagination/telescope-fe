@@ -22,6 +22,13 @@ export const fetchRankings = (serverUrl: string, fromDate: Date, timezone: Strin
     })
 }
 
+export const fetchCodeLinesRankings = (serverUrl: string, fromDate: Date, timezone: String) => {
+    return axios({
+        method: 'get',
+        url: `api/organization/code-lines/rankings?serverUrl=${encodeURIComponent(serverUrl)}&from=${dateToString(fromDate)}&timezone=${timezone}`,
+    })
+}
+
 export async function fetchProfileImage(serverUrl: string, token: string, profilePicture: string): Promise<string> {
     const response = await axios({
         method: 'get',

@@ -8,13 +8,21 @@ import { convertDateByType } from '../utils/date'
 import * as spaceAPI from '../utils/api/spaceApi'
 import { getUserAccessTokenData } from '../utils/api/spaceApi'
 import Personal from '../components/personal'
-import { fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats, fetchRemainStar, fetchStarryPeople } from '../utils/api/homeApi'
+import {
+    fetchProfileImage,
+    fetchRankings,
+    fetchScoreList,
+    fetchSummaryStats,
+    fetchRemainStar,
+    fetchStarryPeople,
+    fetchCodeLinesRankings,
+} from '../utils/api/homeApi'
 import Organization from '../components/organization/Organization'
 import { useInterval } from 'use-interval'
-import { fetchScoreByUserId, fetchScoreListByUserId } from '../utils/api/myScoreApi'
+import { fetchCodeLinesByUserId, fetchScoreByUserId, fetchScoreListByUserId } from '../utils/api/myScoreApi'
 import Star, { StarryPerson } from '../components/star/Star'
 
-const initialTypes: IType[] = [
+const initialAchieveTypes: IType[] = [
     {
         name: 'type1',
         display: 'Create Issues',
@@ -66,8 +74,26 @@ const initialTypes: IType[] = [
     },
 ]
 
+const initialCodeTypes: IType[] = [
+    {
+        name: 'type1',
+        display: 'Added Code',
+        color: '#54B476',
+        active: true,
+        priority: 1,
+    },
+    {
+        name: 'type2',
+        display: 'Deleted Code',
+        color: '#CB5A5D',
+        active: true,
+        priority: 2,
+    },
+]
+
 const Home: NextPage = () => {
-    const [types] = useState(initialTypes)
+    const [achieveTypes] = useState(initialAchieveTypes)
+    const [codeLineTypes] = useState(initialCodeTypes)
     const [userTokenData, setUserTokenData] = useState<IUserToken>()
     const [selectedTab, selectTab] = useState<number>(1)
     const [profileMap, setProfileMap] = useState(new Map())
@@ -76,7 +102,12 @@ const Home: NextPage = () => {
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth())
     const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
+    const [indicatorType, setIndicatorType] = useState('Achievement')
+
     const { data: rankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
+        enabled: !!userTokenData?.serverUrl,
+    })
+    const { data: codeLineRankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'codeLineRankings'], () => fetchCodeLineRankingsHook(), {
         enabled: !!userTokenData?.serverUrl,
     })
     const { data: summaryResponse } = useQuery([timeType, userTokenData?.serverUrl, 'stat'], () => fetchSummaryStatsHook(), {
@@ -93,6 +124,10 @@ const Home: NextPage = () => {
 
     const fetchRankingsHook = useCallback(() => {
         if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
+    }, [userTokenData, timeType, userTimezone])
+
+    const fetchCodeLineRankingsHook = useCallback(() => {
+        if (userTokenData) return fetchCodeLinesRankings(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
     }, [userTokenData, timeType, userTimezone])
 
     const fetchSummaryStatsHook = useCallback(() => {
@@ -112,6 +147,9 @@ const Home: NextPage = () => {
     })
 
     const { data: userScoreData } = useQuery(['score', timeType], () => fetchScoreByUserIdHook(), {
+        enabled: !!userData?.id,
+    })
+    const { data: userCodeLineData } = useQuery(['codeLine', timeType], () => fetchCodeLineByUserIdHook(), {
         enabled: !!userData?.id,
     })
 
@@ -136,6 +174,11 @@ const Home: NextPage = () => {
     const fetchScoreByUserIdHook = useCallback(() => {
         if (userTokenData?.token && userData)
             return fetchScoreByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
+    }, [userTokenData, userData, timeType, userTimezone])
+
+    const fetchCodeLineByUserIdHook = useCallback(() => {
+        if (userTokenData?.token && userData)
+            return fetchCodeLinesByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
     }, [userTokenData, userData, timeType, userTimezone])
 
     const fetchScoreListByUserIdHook = useCallback(() => {
@@ -238,6 +281,7 @@ const Home: NextPage = () => {
                 <Personal
                     userData={userData}
                     scoreData={userScoreData?.data}
+                    codeLineData={userCodeLineData?.data}
                     scoreList={userScoreListResponse?.data}
                     profileMap={profileMap}
                     timeType={timeType}
@@ -258,11 +302,15 @@ const Home: NextPage = () => {
                 <Dashboard
                     organization={organization}
                     rankingsResponse={rankingsResponse?.data}
+                    codeLineRankingsResponse={codeLineRankingsResponse?.data}
                     summaryResponse={summaryResponse?.data}
                     profileMap={profileMap}
-                    types={types}
+                    achieveTypes={achieveTypes}
+                    codeLineTypes={codeLineTypes}
                     timeType={timeType}
                     setTimeType={setTimeType}
+                    indicatorType={indicatorType}
+                    setIndicatorType={setIndicatorType}
                 ></Dashboard>
             )}
             {selectedTab == 4 && (

@@ -1,7 +1,7 @@
-import { IRanking } from '../../pages/api/rankings'
+import { IRanking } from '../../../pages/api/rankings'
 import RankingTopCard from './RankingTopCard'
-import RankingTitle from './RankingTitle'
-import { IType } from '../common/MainTitle'
+import RankingTitle from '../RankingTitle'
+import { IType } from '../../common/MainTitle'
 
 interface IRankingTop {
     rankings?: IRanking[]

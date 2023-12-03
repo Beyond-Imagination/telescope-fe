@@ -1,22 +1,39 @@
 import Ranking from './Ranking'
-import { IRankingApi } from '../../pages/api/rankings'
+import { ICodeLineRankingApi, IRankingApi } from '../../pages/api/rankings'
 import { IType } from '../common/MainTitle'
 import { IStatApi } from '../../types/stat'
 import React, { useEffect } from 'react'
-import RankingTop from '../ranking/RankingTop'
+import RankingTop from '../ranking/achievement/RankingTop'
 import DateSelector from './DateSelector'
+import CodeLineRankingTop from '../ranking/codeLine/CodeLineRankingTop'
 
 interface IDashboard {
     organization: any
     rankingsResponse?: IRankingApi
+    codeLineRankingsResponse?: ICodeLineRankingApi
     summaryResponse?: IStatApi
     profileMap: Map<string, string>
-    types: IType[]
+    achieveTypes: IType[]
+    codeLineTypes: IType[]
     setTimeType: any
     timeType: any
+    indicatorType: any
+    setIndicatorType: any
 }
 
-function Dashboard({ organization, rankingsResponse, summaryResponse, profileMap, types, timeType, setTimeType }: IDashboard) {
+function Dashboard({
+    organization,
+    rankingsResponse,
+    codeLineRankingsResponse,
+    summaryResponse,
+    profileMap,
+    achieveTypes,
+    codeLineTypes,
+    timeType,
+    setTimeType,
+    indicatorType,
+    setIndicatorType,
+}: IDashboard) {
     useEffect(() => {
         return () => {}
     }, [rankingsResponse, summaryResponse, timeType])
@@ -36,8 +53,23 @@ function Dashboard({ organization, rankingsResponse, summaryResponse, profileMap
                     </div>
                     <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
                 </div>
-                <RankingTop types={types} rankings={rankingsResponse?.rankings} profileMap={profileMap}></RankingTop>
-                <Ranking rankings={rankingsResponse?.rankings} profileMap={profileMap}></Ranking>
+                {indicatorType === 'Achievement' && (
+                    <RankingTop types={achieveTypes} rankings={rankingsResponse?.rankings} profileMap={profileMap}></RankingTop>
+                )}
+                {indicatorType === 'CodeLine' && (
+                    <CodeLineRankingTop
+                        types={codeLineTypes}
+                        rankings={codeLineRankingsResponse?.codeLines}
+                        profileMap={profileMap}
+                    ></CodeLineRankingTop>
+                )}
+                <Ranking
+                    rankings={rankingsResponse?.rankings}
+                    codeLineRankings={codeLineRankingsResponse?.codeLines}
+                    profileMap={profileMap}
+                    indicatorType={indicatorType}
+                    setIndicatorType={setIndicatorType}
+                ></Ranking>
             </div>
         </div>
     )
