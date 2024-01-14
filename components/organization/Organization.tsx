@@ -158,7 +158,6 @@ export default function Organization({ organizationName, summaryResponse, rankin
                             total={summaryResponse?.score?.total}
                             chartColors={teamChartColors}
                             legend="right"
-                            innerTextLeftPosition={-23}
                         ></PieChart>
 
                         <PieChart
@@ -167,7 +166,6 @@ export default function Organization({ organizationName, summaryResponse, rankin
                             total={summaryResponse?.score?.total}
                             chartColors={rankingsResponse?.rankings?.length > 0 ? null : ['#eeeeee']}
                             legend="right"
-                            innerTextLeftPosition={-23}
                         ></PieChart>
                     </div>
                 </div>

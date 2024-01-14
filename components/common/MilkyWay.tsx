@@ -41,8 +41,9 @@ export function MilkyWay({ scoreList }: any) {
                     >
                         <div
                             style={{
-                                width: '22px',
-                                height: '22px',
+                                maxWidth: '35px',
+                                width: '90%',
+                                aspectRatio: '1/1',
                                 margin: '4px',
                                 textAlign: 'center',
                                 borderRadius: '5px',
@@ -103,14 +104,14 @@ export function MilkyWay({ scoreList }: any) {
             </div>
             <span className={`font-light text-[20px] color-[#23222c] mx-2`}>make your own milky way</span>
             <div style={{ background: 'black', color: 'white', padding: '15px' }} className={'rounded-md'}>
-                <table>{rendering()}</table>
+                <table style={{ width: '100%' }}>{rendering()}</table>
             </div>
         </>
     )
 }
 
 function getImage(score: number): string {
-    if (score == 0) return ''
+    if (score == 0) return 'blank.png' // 이미지를 아무것도 넣지 않으면 image 태그가 크기를 가지지 않아 UI가 깨지기 때문에 비어있는 이미지 사용
     else if (score > 9) return './star4.png'
     return './star' + Math.ceil(score / 3) + '.png'
 }

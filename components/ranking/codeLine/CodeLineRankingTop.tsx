@@ -15,7 +15,7 @@ function CodeLineRankingTop({ types, rankings, profileMap }: IRankingTop) {
     return (
         <>
             <p className={`text-4xl m-1 mb-2 font-bold`}>Top 3</p>
-            <div className={`flex gap-8`}>
+            <div className={`flex gap-8`} style={{ justifyContent: 'center' }}>
                 {CodeLineRankingTopCard({
                     style: {
                         textColor: '#FFF',

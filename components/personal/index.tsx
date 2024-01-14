@@ -111,7 +111,7 @@ function Personal({ userData, scoreData, codeLineData, scoreList, profileMap, ti
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row">
+                <div className="flex flex-row" style={{ marginTop: '0.5rem' }}>
                     <div className="basis-1/4  gap-2">
                         <PieChart
                             chartData={myCodeLineChartData ? myCodeLineChartData : null}

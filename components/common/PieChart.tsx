@@ -1,6 +1,6 @@
 import { Chart } from 'react-google-charts'
 
-export function PieChart({ title, chartData, total, chartColors, legend, innerTextLeftPosition }: any) {
+export function PieChart({ title, chartData, total, chartColors, legend }: any) {
     const pieOptions = {
         legend: legend ? legend : 'right',
         pieSliceText: 'none',
@@ -12,6 +12,14 @@ export function PieChart({ title, chartData, total, chartColors, legend, innerTe
         },
         colors: chartColors,
         is3D: false,
+    }
+    // legend를 고려해서 조금더 오른쪽으로 치우치게 수정
+    let transform = 'translate(-40%, -50%)'
+    let left = '30%'
+    if (legend == 'none') {
+        // legend가 없으면 가운데에 표시
+        transform = 'translate(-50%, -50%)'
+        left = '50%'
     }
 
     return (
@@ -33,15 +41,14 @@ export function PieChart({ title, chartData, total, chartColors, legend, innerTe
                 <Chart chartType="PieChart" width="100%" height="100%" data={chartData} options={pieOptions} />
                 <div
                     style={{
-                        position: 'relative',
-                        paddingLeft: '15px',
-                        paddingRight: '140px',
+                        zIndex: 2,
+                        position: 'absolute',
                         textAlign: 'center',
                         display: 'flex',
-                        top: '-130px',
-                        left: innerTextLeftPosition || '0px',
-                        justifyContent: 'center',
                         flexDirection: 'column',
+                        top: '50%',
+                        left: left,
+                        transform: transform,
                     }}
                 >
                     <span
