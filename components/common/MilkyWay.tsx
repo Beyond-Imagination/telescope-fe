@@ -11,6 +11,16 @@ export function MilkyWay({ scoreList }: any) {
         setTooltipVisible(prev => ({ ...prev, [key]: false }))
     }
 
+    const getTotalColumns = (scoreList: { [x: string]: string | any[] }) => {
+        let totalDays = 0
+        for (let monthName in scoreList) {
+            totalDays += scoreList[monthName].length
+        }
+        return Math.ceil(totalDays / 7)
+    }
+
+    const totalColumns = getTotalColumns(scoreList)
+
     const weekName = [' ', 'Mon', ' ', 'Wed', ' ', 'Fri', ' ']
     const rendering = () => {
         if (!scoreList || scoreList.length == 0) return []
@@ -31,6 +41,9 @@ export function MilkyWay({ scoreList }: any) {
             let month = scoreList[monthName]
             for (let day = 0; day < month.length; day++) {
                 const key = `${monthName}-${day}`
+                const isRightEdge = col >= totalColumns - 2
+                const isSecondLastCol = col === totalColumns - 2
+                const isLastCol = col === totalColumns - 1
 
                 result[index].push(
                     <td
@@ -57,8 +70,9 @@ export function MilkyWay({ scoreList }: any) {
                                 style={{
                                     position: 'absolute',
                                     top: '100%',
-                                    left: '50%',
-                                    transform: 'translateX(-50%)',
+                                    left: isRightEdge ? 'auto' : '50%',
+                                    right: isLastCol ? '20%' : isSecondLastCol ? '30%' : 'auto',
+                                    transform: isLastCol ? 'translateX(20%)' : isSecondLastCol ? 'translateX(30%)' : 'translateX(-50%)',
                                     backgroundColor: 'rgba(119, 136, 153, 1)',
                                     color: '#fff',
                                     padding: '5px',
