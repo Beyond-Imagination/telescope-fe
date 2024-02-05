@@ -21,6 +21,7 @@ import Organization from '../components/organization/Organization'
 import { useInterval } from 'use-interval'
 import { fetchCodeLinesByUserId, fetchScoreByUserId, fetchScoreListByUserId } from '../utils/api/myScoreApi'
 import Star, { StarryPerson } from '../components/star/Star'
+import NoContentPopup from '../components/common/NoContentPopup'
 
 const initialAchieveTypes: IType[] = [
     {
@@ -103,6 +104,26 @@ const Home: NextPage = () => {
     const [month, setMonth] = useState(new Date().getMonth())
     const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
     const [indicatorType, setIndicatorType] = useState('Achievement')
+    // 모달 버튼 클릭 유무를 저장할 state
+    const [showModal, setShowModal] = useState(false)
+    // 버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
+    const toggleModal = () => {
+        setShowModal(!showModal)
+    }
+
+    let today = new Date()
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 한 번만 실행될 코드 작성
+
+        if (!!userTokenData?.serverUrl) {
+            fetchSummaryStats(userTokenData?.serverUrl, convertDateByType('year', today), userTimezone).then(res => {
+                // 1년치 데이터가 없을 경우 모달을 띄움
+                if (!res.data.score?.total) {
+                    setShowModal(true)
+                }
+            })
+        }
+    }, [userTokenData])
 
     const { data: rankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
         enabled: !!userTokenData?.serverUrl,
@@ -119,8 +140,6 @@ const Home: NextPage = () => {
     const { data: scoreListResponse } = useQuery([userTokenData?.serverUrl, 'scoreList'], () => fetchScoreListHook(), {
         enabled: !!userTokenData?.serverUrl,
     })
-
-    let today = new Date()
 
     const fetchRankingsHook = useCallback(() => {
         if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
@@ -271,6 +290,7 @@ const Home: NextPage = () => {
     useEffect(() => {}, [timeType])
     return (
         <>
+            {showModal && <NoContentPopup organizationName={organization?.name} toggleModal={toggleModal}></NoContentPopup>}
             <MainTitle
                 organization={organization}
                 selectedTab={selectedTab}
