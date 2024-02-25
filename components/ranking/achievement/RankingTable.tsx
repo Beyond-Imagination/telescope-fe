@@ -1,4 +1,4 @@
-import { IRanking } from '../../../pages/api/rankings'
+import { IRanking } from '../../../temp/api/rankings'
 import RankingTableRow from './RankingTableRow'
 
 interface IRankingTable {

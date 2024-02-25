@@ -1,4 +1,4 @@
-import { IRanking } from '../../../pages/api/rankings'
+import { IRanking } from '../../../temp/api/rankings'
 import RankingTopCard from './RankingTopCard'
 import RankingTitle from '../RankingTitle'
 import { IType } from '../../common/MainTitle'

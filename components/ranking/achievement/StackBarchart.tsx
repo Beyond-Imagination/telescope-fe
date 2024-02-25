@@ -1,4 +1,4 @@
-import { IRanking } from '../../../pages/api/rankings'
+import { IRanking } from '../../../temp/api/rankings'
 import { Chart } from 'react-google-charts'
 
 interface IStackBarchart {

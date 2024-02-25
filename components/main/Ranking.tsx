@@ -1,4 +1,4 @@
-import { ICodeLineRanking, IRanking } from '../../pages/api/rankings'
+import { ICodeLineRanking, IRanking } from '../../temp/api/rankings'
 import RankingTable from '../ranking/achievement/RankingTable'
 import IndicatorSelector from './IndicatorSelector'
 import React from 'react'

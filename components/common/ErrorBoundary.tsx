@@ -1,7 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 import { isInstanceOfAPIError } from '../../utils/api/error'
-import ErrorPage from '../../pages/_error'
+import ErrorPage from '../../temp/_error'
 
 type ErrorBoundaryProps = React.PropsWithChildren<{}>
 

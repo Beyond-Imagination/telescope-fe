@@ -1,4 +1,4 @@
-import { ICodeLineRanking } from '../../../pages/api/rankings'
+import { ICodeLineRanking } from '../../../temp/api/rankings'
 import { Chart } from 'react-google-charts'
 
 interface IStackBarchart {

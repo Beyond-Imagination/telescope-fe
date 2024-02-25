@@ -15,9 +15,6 @@ const nextConfig = {
 
         return config
     },
-    exportPathMap: async function (defaultPathMap) {
-        return { '/': { page: '/' } }
-    },
 }
 
 module.exports = nextConfig

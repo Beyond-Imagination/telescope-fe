@@ -1,6 +1,6 @@
 import Jdenticon from 'react-jdenticon'
 import CodeLineStackBarchart from './CodeLineStackBarchart'
-import { ICodeLineRanking } from '../../../pages/api/rankings'
+import { ICodeLineRanking } from '../../../temp/api/rankings'
 
 interface RankingTableRowProps {
     index: any

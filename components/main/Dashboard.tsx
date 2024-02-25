@@ -1,5 +1,5 @@
 import Ranking from './Ranking'
-import { ICodeLineRankingApi, IRankingApi } from '../../pages/api/rankings'
+import { ICodeLineRankingApi, IRankingApi } from '../../temp/api/rankings'
 import { IType } from '../common/MainTitle'
 import { IStatApi } from '../../types/stat'
 import React, { useEffect } from 'react'
