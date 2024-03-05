@@ -293,6 +293,7 @@ export default function Home() {
     return (
         <>
             {showModal && <NoContentPopup organizationName={organization?.name} toggleModal={toggleModal}></NoContentPopup>}
+            {/*TODO: router 분리 완료 후 MainTitle 제거하기*/}
             <MainTitle
                 organization={organization}
                 selectedTab={selectedTab}

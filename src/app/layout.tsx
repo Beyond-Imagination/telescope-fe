@@ -4,6 +4,7 @@ import '../../styles/globals.css'
 import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Newrelic from '../../components/common/newrelic'
+import Header from '@/components/header/Header'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const [queryClient] = useState(
@@ -17,7 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <html lang="en">
                 <Newrelic />
                 <body>
-                    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <Header />
+                        {children}
+                    </QueryClientProvider>
                 </body>
             </html>
         </>
