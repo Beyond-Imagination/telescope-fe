@@ -1,186 +1,58 @@
 'use client'
 
-import type { NextPage } from 'next'
-import { useCallback, useEffect, useState } from 'react'
-import MainTitle, { IType } from '../../components/common/MainTitle'
-import Dashboard from '../../components/main/Dashboard'
+import Jdenticon from 'react-jdenticon'
+import React, { useCallback, useEffect, useState } from 'react'
+import DateSelector from '../../components/main/DateSelector'
+import { ScoreBoard } from '../../components/common/ScoreBoard'
+import { PieChart } from '../../components/common/PieChart'
+import { MilkyWay } from '../../components/common/MilkyWay'
 import { useQuery } from '@tanstack/react-query'
 import { IUserToken } from '../../types/auth'
+import { getUserAccessTokenData } from '../../utils/api/spaceApi'
+import { useInterval } from 'usehooks-ts'
+import { fetchCodeLinesByUserId, fetchScoreByUserId, fetchScoreListByUserId } from '../../utils/api/myScoreApi'
 import { convertDateByType } from '../../utils/date'
 import * as spaceAPI from '../../utils/api/spaceApi'
-import { getUserAccessTokenData } from '../../utils/api/spaceApi'
-import Personal from '../../components/personal'
-import {
-    fetchProfileImage,
-    fetchRankings,
-    fetchScoreList,
-    fetchSummaryStats,
-    fetchRemainStar,
-    fetchStarryPeople,
-    fetchCodeLinesRankings,
-} from '../../utils/api/homeApi'
-import Organization from '../../components/organization/Organization'
-import { useInterval } from 'use-interval'
-import { fetchCodeLinesByUserId, fetchScoreByUserId, fetchScoreListByUserId } from '../../utils/api/myScoreApi'
-import Star, { StarryPerson } from '../../components/star/Star'
-import NoContentPopup from '../../components/common/NoContentPopup'
-
-const initialAchieveTypes: IType[] = [
-    {
-        name: 'type1',
-        display: 'Create Issues',
-        color: '#F2994A',
-        active: true,
-        priority: 1,
-    },
-    {
-        name: 'type2',
-        display: 'Resolve Issues',
-        color: '#9B51E0',
-        active: true,
-        priority: 2,
-    },
-    {
-        name: 'type3',
-        display: 'Create Code Review',
-        color: '#2F80ED',
-        active: true,
-        priority: 3,
-    },
-    {
-        name: 'type4',
-        display: 'Merge MR',
-        color: '#27AE60',
-        active: true,
-        priority: 4,
-    },
-    {
-        name: 'type5',
-        display: 'Code Review Discussion',
-        color: '#C34ED7',
-        active: true,
-        priority: 5,
-    },
-    {
-        name: 'type6',
-        display: 'Accept Code Review',
-        color: '#56CCF2',
-        active: true,
-        priority: 6,
-    },
-    {
-        name: 'type7',
-        display: 'Receive Star',
-        color: '#F2C94C',
-        active: true,
-        priority: 7,
-    },
-]
-
-const initialCodeTypes: IType[] = [
-    {
-        name: 'type1',
-        display: 'Added Code',
-        color: '#54B476',
-        active: true,
-        priority: 1,
-    },
-    {
-        name: 'type2',
-        display: 'Deleted Code',
-        color: '#CB5A5D',
-        active: true,
-        priority: 2,
-    },
-]
+import { fetchProfileImage, fetchRankings, fetchStarryPeople } from '../../utils/api/homeApi'
+import { StarryPerson } from '../../components/star/Star'
 
 export default function Home() {
-    const [achieveTypes] = useState(initialAchieveTypes)
-    const [codeLineTypes] = useState(initialCodeTypes)
     const [userTokenData, setUserTokenData] = useState<IUserToken>()
-    const [selectedTab, selectTab] = useState<number>(1)
     const [profileMap, setProfileMap] = useState(new Map())
     const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const [timeType, setTimeType] = useState('week')
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth())
     const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
-    const [indicatorType, setIndicatorType] = useState('Achievement')
-    // 모달 버튼 클릭 유무를 저장할 state
-    const [showModal, setShowModal] = useState(false)
-    // 버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
-    const toggleModal = () => {
-        setShowModal(!showModal)
-    }
 
-    let today = new Date()
-    useEffect(() => {
-        // 컴포넌트가 마운트될 때 한 번만 실행될 코드 작성
-
-        if (!!userTokenData?.serverUrl) {
-            fetchSummaryStats(userTokenData?.serverUrl, convertDateByType('year', today), userTimezone).then(res => {
-                // 1년치 데이터가 없을 경우 모달을 띄움
-                if (!res.data.score?.total) {
-                    setShowModal(true)
-                }
-            })
-        }
-    }, [userTokenData])
-
-    const { data: rankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
-        enabled: !!userTokenData?.serverUrl,
-    })
-    const { data: codeLineRankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'codeLineRankings'], () => fetchCodeLineRankingsHook(), {
-        enabled: !!userTokenData?.serverUrl,
-    })
-    const { data: summaryResponse } = useQuery([timeType, userTokenData?.serverUrl, 'stat'], () => fetchSummaryStatsHook(), {
-        enabled: !!userTokenData?.serverUrl,
-    })
-    const { data: organization } = useQuery([userTokenData?.serverUrl, 'organization'], () => fetchOrganizationHook(), {
-        enabled: !!userTokenData?.token,
-    })
-    const { data: scoreListResponse } = useQuery([userTokenData?.serverUrl, 'scoreList'], () => fetchScoreListHook(), {
-        enabled: !!userTokenData?.serverUrl,
-    })
+    let fromDate = new Date()
 
     const fetchRankingsHook = useCallback(() => {
-        if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
+        if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
     }, [userTokenData, timeType, userTimezone])
-
-    const fetchCodeLineRankingsHook = useCallback(() => {
-        if (userTokenData) return fetchCodeLinesRankings(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
-    }, [userTokenData, timeType, userTimezone])
-
-    const fetchSummaryStatsHook = useCallback(() => {
-        if (userTokenData) return fetchSummaryStats(userTokenData.serverUrl, convertDateByType(timeType, today), userTimezone)
-    }, [userTokenData, timeType, userTimezone])
-
-    const fetchScoreListHook = useCallback(() => {
-        if (userTokenData) return fetchScoreList(userTokenData.serverUrl, userTimezone)
-    }, [userTokenData, userTimezone])
-
-    const fetchOrganizationHook = useCallback(() => {
-        if (userTokenData?.token) return spaceAPI.getOrganization(userTokenData.serverUrl, userTokenData.token)
-    }, [userTokenData])
 
     const { data: userData } = useQuery(['profile', 'me', userTokenData ? userTokenData.token : null], () => fetchProfileMe(), {
         enabled: !!userTokenData?.serverUrl && !!userTokenData?.token,
     })
 
-    const { data: userScoreData } = useQuery(['score', timeType], () => fetchScoreByUserIdHook(), {
-        enabled: !!userData?.id,
-    })
-    const { data: userCodeLineData } = useQuery(['codeLine', timeType], () => fetchCodeLineByUserIdHook(), {
-        enabled: !!userData?.id,
+    const { data: rankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
+        enabled: !!userTokenData?.serverUrl,
     })
 
-    const { data: userScoreListResponse } = useQuery(['userScoreList'], () => fetchScoreListByUserIdHook(), {
-        enabled: !!userTokenData?.serverUrl && !!userData?.id,
+    const { data: scoreDataResponse } = useQuery(['score', timeType], () => fetchScoreByUserIdHook(), {
+        enabled: !!userData?.id,
     })
+    const scoreData = scoreDataResponse?.data
 
-    const { data: remainStarResponse } = useQuery([userTokenData?.serverUrl, 'remainStar'], () => fetchRemainStarHook(), {
+    const { data: codeLineDataResponse } = useQuery(['codeLine', timeType], () => fetchCodeLineByUserIdHook(), {
+        enabled: !!userData?.id,
+    })
+    const codeLineData = codeLineDataResponse?.data
+
+    const { data: scoreListResponse } = useQuery(['userScoreList'], () => fetchScoreListByUserIdHook(), {
         enabled: !!userTokenData?.serverUrl && !!userData?.id,
     })
+    const scoreList = scoreListResponse?.data
 
     const { data: starryPeopleResponse } = useQuery([userTokenData?.serverUrl, month], async () => await fetchStarryPeopleHook(), {
         enabled: !!userTokenData?.serverUrl,
@@ -189,8 +61,6 @@ export default function Home() {
     const fetchProfileMe = useCallback(() => {
         if (userTokenData?.token) return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
     }, [userTokenData])
-
-    let fromDate = new Date()
 
     const fetchScoreByUserIdHook = useCallback(() => {
         if (userTokenData?.token && userData)
@@ -205,10 +75,6 @@ export default function Home() {
     const fetchScoreListByUserIdHook = useCallback(() => {
         if (userTokenData?.token && userData) return fetchScoreListByUserId(userData.id, userTokenData.serverUrl, userTimezone)
     }, [userTokenData, userData, userTimezone])
-
-    const fetchRemainStarHook = useCallback(() => {
-        if (userTokenData && userData) return fetchRemainStar(userTokenData.serverUrl, userData.id, userTimezone)
-    }, [userTokenData, userData, userTimezone, userTimezone])
 
     const fetchStarryPeopleHook = useCallback(async () => {
         if (userTokenData?.serverUrl) {
@@ -263,8 +129,6 @@ export default function Home() {
             }
         }
     }, [userTokenData, rankingsResponse, starryPeopleResponse, timeType])
-
-    //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
     useEffect(() => {
         getUserAccessTokenData(true).then((data: any) => {
             setUserTokenData(data)
@@ -287,70 +151,139 @@ export default function Home() {
             })
         }
     }, [])
-
-    //timeType이 변경될 경우, ReRendering
     useEffect(() => {}, [timeType])
-    return (
-        <>
-            {showModal && <NoContentPopup organizationName={organization?.name} toggleModal={toggleModal}></NoContentPopup>}
-            {/*TODO: router 분리 완료 후 MainTitle 제거하기*/}
-            <MainTitle
-                organization={organization}
-                selectedTab={selectedTab}
-                selectTab={selectTab}
-                remainStarData={remainStarResponse?.data.remainStar}
-            ></MainTitle>
-            {selectedTab == 1 && (
-                <Personal
-                    userData={userData}
-                    scoreData={userScoreData?.data}
-                    codeLineData={userCodeLineData?.data}
-                    scoreList={userScoreListResponse?.data}
-                    profileMap={profileMap}
-                    timeType={timeType}
-                    setTimeType={setTimeType}
-                ></Personal>
-            )}
-            {selectedTab == 2 && (
-                <Organization
-                    organizationName={organization?.name}
-                    summaryResponse={summaryResponse?.data}
-                    rankingsResponse={rankingsResponse?.data}
-                    scoreListResponse={scoreListResponse?.data}
-                    timeType={timeType}
-                    setTimeType={setTimeType}
-                ></Organization>
-            )}
-            {selectedTab == 3 && (
-                <Dashboard
-                    organization={organization}
-                    rankingsResponse={rankingsResponse?.data}
-                    codeLineRankingsResponse={codeLineRankingsResponse?.data}
-                    summaryResponse={summaryResponse?.data}
-                    profileMap={profileMap}
-                    achieveTypes={achieveTypes}
-                    codeLineTypes={codeLineTypes}
-                    timeType={timeType}
-                    setTimeType={setTimeType}
-                    indicatorType={indicatorType}
-                    setIndicatorType={setIndicatorType}
-                ></Dashboard>
-            )}
-            {selectedTab == 4 && (
-                <Star
-                    organizationName={organization?.name}
-                    profileMap={profileMap}
-                    starryPeople={starryPeople}
-                    month={month}
-                    setMonth={setMonth}
-                    year={year}
-                    setYear={setYear}
-                ></Star>
-            )}
+    const colors: any = {
+        createIssue: '#F2994A',
+        createCodeReview: '#2F80ED',
+        codeReviewDiscussion: '#C34ED7',
+        receiveStar: '#F2C94C',
+        resolveIssue: '#9B51E0',
+        mergeMr: '#27AE60',
+        acceptCodeReview: '#56CCF2',
+        addedLines: '#54B476',
+        deletedLines: '#CB5A5D',
+    }
 
-            <div className={`flex justify-center text-[#D9D9D9]`}>
-                <span>ⓒ 2022 Beyond_Imagination All Rights Reserved. </span>
+    const myScoreChartData = []
+    let myScoreChartColors = []
+    myScoreChartData.push(['Achievement', 'Score']) // not displayed in PI chart
+    if (scoreData?.score && scoreData.score.total) {
+        for (let key in scoreData.score) {
+            if (key !== 'total') {
+                myScoreChartData.push([key, scoreData.score[key]])
+                myScoreChartColors.push(colors[key])
+            }
+        }
+    } else {
+        // user의 score 정보가 존재하지 않을 경우
+        myScoreChartData.push(['', '1'])
+        myScoreChartColors = ['#eeeeee']
+    }
+    const myCodeLineChartData = []
+    let myCodeLineChartColors = []
+    myCodeLineChartData.push(['Type', 'Lines'])
+    if (codeLineData?.codeLines && codeLineData.codeLines.total) {
+        for (let key in codeLineData.codeLines) {
+            if (key !== 'total') {
+                myCodeLineChartData.push([key, codeLineData.codeLines[key]])
+                myCodeLineChartColors.push(colors[key])
+            }
+        }
+    } else {
+        // user의 codeLine 정보가 존재하지 않을 경우
+        myCodeLineChartData.push(['', '1'])
+        myCodeLineChartColors = ['#eeeeee']
+    }
+
+    return (
+        <div className={`flex pt-6 px-6 flex-col`}>
+            <div className={`w-full`}>
+                <div className={`flex justify-between`}>
+                    <div className={`flex`}>
+                        <span>
+                            {userData?.profilePicture ? (
+                                <div>
+                                    <img
+                                        className={`rounded-[20px]`}
+                                        src={profileMap.get(userData.profilePicture)}
+                                        style={{ height: 40, width: 40 }}
+                                        alt="picture"
+                                    />
+                                </div>
+                            ) : (
+                                <Jdenticon size="40" value={userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'} />
+                            )}
+                        </span>
+                        <span className={`font-normal text-[32px] color-[#23222c] mx-2`} style={{ fontWeight: 600 }}>
+                            {userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'}
+                        </span>
+                    </div>
+                    <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
+                </div>
+
+                <p className={`text-4xl m-1 mb-2 font-bold`}>My Score</p>
+                <div className="flex flex-row">
+                    <div className="basis-1/4  gap-2">
+                        <PieChart
+                            chartData={myScoreChartData ? myScoreChartData : null}
+                            total={scoreData ? scoreData.score.total : 0}
+                            chartColors={myScoreChartColors}
+                            legend="none"
+                            innerTextLeftPosition="65px"
+                        />
+                    </div>
+                    <div className="basis-3/4  gap-2">
+                        <div className="grid grid-cols-4 gap-2">
+                            <ScoreBoard color={colors.createIssue} score={scoreData ? scoreData.score.createIssue : 0} title="Create<br/>Issues" />
+                            <ScoreBoard
+                                color={colors.createCodeReview}
+                                score={scoreData ? scoreData.score.createCodeReview : 0}
+                                title="Create<br/>Code Review"
+                            />
+                            <ScoreBoard
+                                color={colors.codeReviewDiscussion}
+                                score={scoreData?.score?.codeReviewDiscussion || 0}
+                                title="Code Review<br/>Discussion"
+                            />
+                            <ScoreBoard color={colors.receiveStar} score={scoreData ? scoreData.score.receiveStar : 0} title="Receive<br/>Star" />
+                            <ScoreBoard color={colors.resolveIssue} score={scoreData ? scoreData.score.resolveIssue : 0} title="Resolve<br/>issues" />
+                            <ScoreBoard color={colors.mergeMr} score={scoreData ? scoreData.score.mergeMr : 0} title="Merge<br/>MR" />
+                            <ScoreBoard
+                                color={colors.acceptCodeReview}
+                                score={scoreData?.score?.acceptCodeReview || 0}
+                                title="Accept<br/>Code Review"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-row" style={{ marginTop: '0.5rem' }}>
+                    <div className="basis-1/4  gap-2">
+                        <PieChart
+                            chartData={myCodeLineChartData ? myCodeLineChartData : null}
+                            total={codeLineData ? codeLineData.codeLines.total : 0}
+                            chartColors={myCodeLineChartColors}
+                            legend="none"
+                            innerTextLeftPosition="65px"
+                        />
+                    </div>
+                    <div className="basis-3/4 gap-2">
+                        <div className="grid grid-cols-4 gap-2">
+                            <ScoreBoard
+                                color={colors.addedLines}
+                                score={codeLineData ? codeLineData.codeLines.addedLines : 0}
+                                title="Added<br/>Lines"
+                            />
+                            <ScoreBoard
+                                color={colors.deletedLines}
+                                score={codeLineData ? codeLineData.codeLines.deletedLines : 0}
+                                title="Deleted<br/>Lines"
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </>
+
+            <MilkyWay scoreList={scoreList} />
+        </div>
     )
 }
