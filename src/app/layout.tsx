@@ -1,18 +1,22 @@
 'use client'
 
 import '../../styles/globals.css'
-import { useState } from 'react'
+
+import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import Newrelic from '../../components/common/newrelic'
 import Header from '@/components/header/Header'
 
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            useErrorBoundary: true,
+        },
+    },
+})
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    const [queryClient] = useState(
-        () =>
-            new QueryClient({
-                defaultOptions: { queries: { useErrorBoundary: true } },
-            }),
-    )
     return (
         <>
             <html lang="en">

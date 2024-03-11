@@ -24,7 +24,6 @@
         "react-dom": "18.2.0",
         "react-google-charts": "^4.0.1",
         "react-jdenticon": "^1.0.0",
-        "react-query": "^3.39.3",
         "use-interval": "^1.4.0",
         "usehooks-ts": "^2.9.1"
     },
