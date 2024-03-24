@@ -38,12 +38,6 @@ function Dashboard({
         return () => {}
     }, [rankingsResponse, summaryResponse, timeType])
 
-    // 하위 버전 호환용. v1.1.0 배포 이후 삭제
-    rankingsResponse?.rankings.forEach(ranking => {
-        ranking.score.codeReviewDiscussion = ranking.score.codeReviewDiscussion || 0
-        ranking.score.acceptCodeReview = ranking.score.acceptCodeReview || 0
-    })
-
     return (
         <div className={`flex pt-6 px-6`}>
             <div className={`w-full`}>
