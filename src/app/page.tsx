@@ -15,12 +15,13 @@ import { convertDateByType } from '../../utils/date'
 import * as spaceAPI from '../../utils/api/spaceApi'
 import { fetchProfileImage, fetchRankings, fetchStarryPeople } from '../../utils/api/homeApi'
 import { StarryPerson } from '../../components/star/Star'
+import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
 export default function Home() {
     const [userTokenData, setUserTokenData] = useState<IUserToken>()
     const [profileMap, setProfileMap] = useState(new Map())
     const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
-    const [timeType, setTimeType] = useState('week')
+    const timeType = useTimeTypeStore(state => state.timeType)
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth())
     const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
@@ -218,7 +219,7 @@ export default function Home() {
                             {userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'}
                         </span>
                     </div>
-                    <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
+                    <DateSelector></DateSelector>
                 </div>
 
                 <p className={`text-4xl m-1 mb-2 font-bold`}>My Score</p>

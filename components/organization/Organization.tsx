@@ -4,7 +4,7 @@ import { ScoreBoard, TotalScoreBoard } from '../common/ScoreBoard'
 import DateSelector from '../main/DateSelector'
 import React from 'react'
 
-export default function Organization({ organizationName, summaryResponse, rankingsResponse, scoreListResponse, timeType, setTimeType }: any) {
+export default function Organization({ organizationName, summaryResponse, rankingsResponse, scoreListResponse }: any) {
     const colors: any = {
         createIssue: '#F2994A',
         createCodeReview: '#2F80ED',
@@ -88,7 +88,7 @@ export default function Organization({ organizationName, summaryResponse, rankin
                     <div>
                         <span className={`font-bold text-[32px] text-[#999999]`}>{organizationName || 'Telescope'}</span>
                     </div>
-                    <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
+                    <DateSelector></DateSelector>
                 </div>
 
                 <div>

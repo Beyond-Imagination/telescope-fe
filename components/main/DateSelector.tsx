@@ -1,13 +1,11 @@
 import Information from '../common/Information'
+import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
-interface IDateSelector {
-    timeType: string
-    setTimeType: any
-}
-
-function DateSelector({ timeType, setTimeType }: IDateSelector) {
+function DateSelector() {
+    const timeType = useTimeTypeStore(state => state.timeType)
     const selectStyle = `bg-[#222222] text-[white]`
     const unSelectStyle = `bg-[#F4F4F4] text-[#999999]`
+    const setTimeType = useTimeTypeStore(state => state.setTimeType)
     return (
         <div className={`flex items-center`}>
             <div className={`flex items-center justify-between text-[#23222C]`}>

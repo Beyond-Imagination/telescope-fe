@@ -26,11 +26,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <Header />
                         {children}
                     </QueryClientProvider>
+                    <div className={`flex justify-center text-[#D9D9D9]`}>
+                        <span>ⓒ 2022~2024 Beyond_Imagination All Rights Reserved. </span>
+                    </div>
                 </body>
-
-                <div className={`flex justify-center text-[#D9D9D9]`}>
-                    <span>ⓒ 2022~2024 Beyond_Imagination All Rights Reserved. </span>
-                </div>
             </html>
         </>
     )

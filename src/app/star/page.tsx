@@ -5,15 +5,15 @@ import { useQuery } from '@tanstack/react-query'
 
 import Star, { StarryPerson } from '../../../components/star/Star'
 import { useCredential, useOrganization } from '@/hooks'
-import * as spaceAPI from '../../../utils/api/spaceApi'
 import { fetchProfileImage, fetchStarryPeople } from '../../../utils/api/homeApi'
+import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
 export default function StarPage() {
     const timezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, [])
     const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
     const [profileMap, setProfileMap] = useState(new Map())
 
-    const [timeType, setTimeType] = useState('week')
+    const timeType = useTimeTypeStore(state => state.timeType)
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth())
 

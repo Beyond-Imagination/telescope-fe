@@ -327,8 +327,6 @@ const Home: NextPage = () => {
                     profileMap={profileMap}
                     achieveTypes={achieveTypes}
                     codeLineTypes={codeLineTypes}
-                    timeType={timeType}
-                    setTimeType={setTimeType}
                     indicatorType={indicatorType}
                     setIndicatorType={setIndicatorType}
                 ></Dashboard>

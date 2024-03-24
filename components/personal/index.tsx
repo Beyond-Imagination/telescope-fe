@@ -4,8 +4,10 @@ import DateSelector from '../main/DateSelector'
 import { ScoreBoard } from '../common/ScoreBoard'
 import { PieChart } from '../common/PieChart'
 import { MilkyWay } from '../common/MilkyWay'
+import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
-function Personal({ userData, scoreData, codeLineData, scoreList, profileMap, timeType, setTimeType }: any) {
+function Personal({ userData, scoreData, codeLineData, scoreList, profileMap }: any) {
+    const timeType = useTimeTypeStore(state => state.timeType)
     useEffect(() => {}, [timeType])
     const colors: any = {
         createIssue: '#F2994A',
@@ -73,7 +75,7 @@ function Personal({ userData, scoreData, codeLineData, scoreList, profileMap, ti
                             {userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'}
                         </span>
                     </div>
-                    <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
+                    <DateSelector></DateSelector>
                 </div>
 
                 <p className={`text-4xl m-1 mb-2 font-bold`}>My Score</p>

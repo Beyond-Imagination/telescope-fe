@@ -5,10 +5,10 @@ import { useQuery } from '@tanstack/react-query'
 
 import Dashboard from '../../../components/main/Dashboard'
 import { useCredential, useOrganization } from '@/hooks'
-import * as spaceAPI from '../../../utils/api/spaceApi'
 import { fetchCodeLinesRankings, fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats } from '../../../utils/api/homeApi'
 import { convertDateByType } from '../../../utils/date'
 import { IType } from '../../../components/common/MainTitle'
+import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
 const initialAchieveTypes: IType[] = [
     {
@@ -83,7 +83,7 @@ export default function LeaderboardPage() {
     const [achieveTypes] = useState(initialAchieveTypes)
     const [codeLineTypes] = useState(initialCodeTypes)
     const [profileMap, setProfileMap] = useState(new Map())
-    const [timeType, setTimeType] = useState('week')
+    const timeType = useTimeTypeStore(state => state.timeType)
     const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const [indicatorType, setIndicatorType] = useState('Achievement')
 
@@ -150,8 +150,6 @@ export default function LeaderboardPage() {
                 profileMap={profileMap}
                 achieveTypes={achieveTypes}
                 codeLineTypes={codeLineTypes}
-                timeType={timeType}
-                setTimeType={setTimeType}
                 indicatorType={indicatorType}
                 setIndicatorType={setIndicatorType}
             ></Dashboard>

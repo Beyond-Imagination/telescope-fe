@@ -4,14 +4,14 @@ import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchRankings, fetchScoreList, fetchSummaryStats } from '../../../utils/api/homeApi'
 import { convertDateByType } from '../../../utils/date'
-import * as spaceAPI from '../../../utils/api/spaceApi'
 import Organization from '../../../components/organization/Organization'
 import { useCredential, useOrganization } from '@/hooks'
+import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
 export default function OrganizationPage() {
     const credential = useCredential()
     const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
-    const [timeType, setTimeType] = useState('week')
+    const timeType = useTimeTypeStore(state => state.timeType)
 
     let fromDate = new Date()
 
@@ -44,8 +44,6 @@ export default function OrganizationPage() {
                 summaryResponse={summaryResponse?.data}
                 rankingsResponse={rankingsResponse?.data}
                 scoreListResponse={scoreListResponse?.data}
-                timeType={timeType}
-                setTimeType={setTimeType}
             ></Organization>
         </>
     )

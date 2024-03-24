@@ -6,6 +6,7 @@ import React, { useEffect } from 'react'
 import RankingTop from '../ranking/achievement/RankingTop'
 import DateSelector from './DateSelector'
 import CodeLineRankingTop from '../ranking/codeLine/CodeLineRankingTop'
+import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
 interface IDashboard {
     organization: any
@@ -15,8 +16,6 @@ interface IDashboard {
     profileMap: Map<string, string>
     achieveTypes: IType[]
     codeLineTypes: IType[]
-    setTimeType: any
-    timeType: any
     indicatorType: any
     setIndicatorType: any
 }
@@ -29,11 +28,11 @@ function Dashboard({
     profileMap,
     achieveTypes,
     codeLineTypes,
-    timeType,
-    setTimeType,
     indicatorType,
     setIndicatorType,
 }: IDashboard) {
+    const timeType = useTimeTypeStore(state => state.timeType)
+
     useEffect(() => {
         return () => {}
     }, [rankingsResponse, summaryResponse, timeType])
@@ -45,7 +44,7 @@ function Dashboard({
                     <div>
                         <span className={`font-bold text-[32px] text-[#999999]`}>{organization?.name ? organization?.name : 'Telescope'}</span>
                     </div>
-                    <DateSelector setTimeType={setTimeType} timeType={timeType}></DateSelector>
+                    <DateSelector></DateSelector>
                 </div>
                 {indicatorType === 'Achievement' && (
                     <RankingTop types={achieveTypes} rankings={rankingsResponse?.rankings} profileMap={profileMap}></RankingTop>
