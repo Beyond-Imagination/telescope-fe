@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import Dashboard from '../../../components/main/Dashboard'
-import { useCredential } from '@/hooks'
+import { useCredential, useOrganization } from '@/hooks'
 import * as spaceAPI from '../../../utils/api/spaceApi'
 import { fetchCodeLinesRankings, fetchProfileImage, fetchRankings, fetchScoreList, fetchSummaryStats } from '../../../utils/api/homeApi'
 import { convertDateByType } from '../../../utils/date'
@@ -90,9 +90,7 @@ export default function LeaderboardPage() {
     let today = new Date()
     const credential = useCredential()
 
-    const { data: organization } = useQuery(['organization'], () => spaceAPI.getOrganization(credential?.serverUrl, credential.token), {
-        enabled: !!credential?.token,
-    })
+    const organization = useOrganization()
     const { data: rankingsResponse } = useQuery([timeType, credential?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
         enabled: !!credential?.serverUrl,
     })

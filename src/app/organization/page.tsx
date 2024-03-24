@@ -6,7 +6,7 @@ import { fetchRankings, fetchScoreList, fetchSummaryStats } from '../../../utils
 import { convertDateByType } from '../../../utils/date'
 import * as spaceAPI from '../../../utils/api/spaceApi'
 import Organization from '../../../components/organization/Organization'
-import { useCredential } from '@/hooks'
+import { useCredential, useOrganization } from '@/hooks'
 
 export default function OrganizationPage() {
     const credential = useCredential()
@@ -23,9 +23,7 @@ export default function OrganizationPage() {
         },
     )
 
-    const { data: organization } = useQuery(['organization'], () => spaceAPI.getOrganization(credential?.serverUrl, credential.token), {
-        enabled: !!credential?.token,
-    })
+    const organization = useOrganization()
 
     const { data: scoreListResponse } = useQuery(['scoreList'], () => fetchScoreList(credential.serverUrl, userTimezone), {
         enabled: !!credential?.serverUrl,

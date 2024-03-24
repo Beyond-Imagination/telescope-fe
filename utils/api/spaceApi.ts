@@ -1,9 +1,11 @@
 import axios from '../api'
 
+import { IOrganization } from '@/types'
+
 export function getUserAccessTokenData(askForConsent: any) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         const channel = new MessageChannel()
-        channel.port1.onmessage = (e) => resolve(e.data)
+        channel.port1.onmessage = e => resolve(e.data)
         window.parent.postMessage(
             {
                 type: 'GetUserTokenRequest',
@@ -16,7 +18,7 @@ export function getUserAccessTokenData(askForConsent: any) {
     })
 }
 
-export function getOrganization(serverUrl: string, accessToken: string) {
+export async function getOrganization(serverUrl: string, accessToken: string): Promise<IOrganization> {
     const config = {
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -27,7 +29,7 @@ export function getOrganization(serverUrl: string, accessToken: string) {
         method: 'get',
         url: `${serverUrl}/api/http/organization`,
         ...config,
-    }).then((data) => data.data)
+    }).then(data => data.data)
 }
 
 export function getMe(serverUrl: string, accessToken: string) {
@@ -41,5 +43,5 @@ export function getMe(serverUrl: string, accessToken: string) {
         method: 'get',
         url: `${serverUrl}/api/http/team-directory/profiles/me`,
         ...config,
-    }).then((data) => data.data)
+    }).then(data => data.data)
 }

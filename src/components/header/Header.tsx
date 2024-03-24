@@ -6,6 +6,7 @@ import { IUserToken } from '../../../types/auth'
 import * as spaceAPI from '../../../utils/api/spaceApi'
 import { getUserAccessTokenData } from '../../../utils/api/spaceApi'
 import { useInterval } from 'usehooks-ts'
+import { useOrganization } from '@/hooks'
 
 const tabData = [
     { id: 1, title: 'My Score', link: '/' },
@@ -22,37 +23,18 @@ function Header() {
     const toggleModal = () => {
         setShowModal(!showModal)
     }
-    const [userTokenData, setUserTokenData] = useState<IUserToken>()
-    const { data: organization } = useQuery([userTokenData?.serverUrl, 'organization'], () => fetchOrganizationHook(), {
-        enabled: !!userTokenData?.token,
-    })
 
-    const fetchOrganizationHook = useCallback(() => {
-        if (userTokenData?.token) return spaceAPI.getOrganization(userTokenData.serverUrl, userTokenData.token)
-    }, [userTokenData])
-
-    useEffect(() => {
-        getUserAccessTokenData(true).then((data: any) => {
-            setUserTokenData(data)
-        })
-    }, [])
-
-    // 9분마다 액세스 토큰 갱신
-    useInterval(() => {
-        getUserAccessTokenData(true).then((data: any) => {
-            setUserTokenData(data)
-        })
-    }, 9 * 60 * 1000)
+    const organization = useOrganization()
 
     //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
-    useEffect(() => {
-        if (process.env.NODE_ENV === 'development') {
-            setUserTokenData({
-                serverUrl: 'https://beyond-imagination.jetbrains.space',
-                token: process.env.SPACE_ACCESS_TOKEN || '',
-            })
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (process.env.NODE_ENV === 'development') {
+    //         setUserTokenData({
+    //             serverUrl: 'https://beyond-imagination.jetbrains.space',
+    //             token: process.env.SPACE_ACCESS_TOKEN || '',
+    //         })
+    //     }
+    // }, [])
 
     return (
         <>

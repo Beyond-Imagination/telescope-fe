@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import Star, { StarryPerson } from '../../../components/star/Star'
-import { useCredential } from '@/hooks'
+import { useCredential, useOrganization } from '@/hooks'
 import * as spaceAPI from '../../../utils/api/spaceApi'
 import { fetchProfileImage, fetchStarryPeople } from '../../../utils/api/homeApi'
 
@@ -18,10 +18,7 @@ export default function StarPage() {
     const [month, setMonth] = useState(new Date().getMonth())
 
     const credential = useCredential()
-
-    const { data: organization } = useQuery(['organization'], () => spaceAPI.getOrganization(credential?.serverUrl, credential.token), {
-        enabled: !!credential?.token,
-    })
+    const organization = useOrganization()
 
     const { data: starryPeopleResponse } = useQuery([credential?.serverUrl, month], async () => await fetchStarryPeopleHook(), {
         enabled: !!credential?.token,
