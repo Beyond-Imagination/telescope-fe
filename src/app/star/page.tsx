@@ -33,7 +33,7 @@ export default function StarPage() {
             await addStarryPeople(new Date(year, month - 2, 1), new Date(year, month - 1, 0))
         }
         return starryPeople
-    }, [credential])
+    }, [credential, year, month])
 
     useEffect(() => {
         async function fetchProfile(users: any[]) {
@@ -55,7 +55,7 @@ export default function StarPage() {
         if (credential?.token && starryPeopleResponse) {
             fetchProfile(Object.values(starryPeopleResponse))
         }
-    }, [credential, starryPeopleResponse, timeType])
+    }, [credential, starryPeopleResponse, timeType, year, month])
 
     async function addStarryPeople(fromDate: Date, toDate: Date) {
         await fetchStarryPeople(credential?.serverUrl, fromDate, toDate, timezone).then(res => {
