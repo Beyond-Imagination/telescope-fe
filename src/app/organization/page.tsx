@@ -11,7 +11,7 @@ import { useTimeTypeStore } from '@/store/TimeTypeStore'
 
 export default function OrganizationPage() {
     const credential = useCredential()
-    const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+    const [userTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const timeType = useTimeTypeStore(state => state.timeType)
 
     let fromDate = new Date()

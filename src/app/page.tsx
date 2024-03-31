@@ -1,46 +1,30 @@
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+
 import DateSelector from '../../components/main/DateSelector'
 import { ScoreBoard } from '../../components/common/ScoreBoard'
 import { PieChart } from '../../components/common/PieChart'
 import { MilkyWay } from '../../components/common/MilkyWay'
-import { useQuery } from '@tanstack/react-query'
-import { IUserToken } from '../../types/auth'
-import { getUserAccessTokenData } from '../../utils/api/spaceApi'
-import { useInterval } from 'usehooks-ts'
 import { fetchCodeLinesByUserId, fetchScoreByUserId, fetchScoreListByUserId } from '../../utils/api/myScoreApi'
 import { convertDateByType } from '../../utils/date'
 import * as spaceAPI from '../../utils/api/spaceApi'
-import { fetchRankings, fetchStarryPeople } from '../../utils/api/homeApi'
-import { StarryPerson } from '../../components/star/Star'
 import { useTimeTypeStore } from '@/store/TimeTypeStore'
 import ProfilePicture from '@/components/atom/ProfilePicture'
+import { useCredential } from '@/hooks'
 
 export default function Home() {
-    const [userTokenData, setUserTokenData] = useState<IUserToken>()
-    const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+    const [userTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const timeType = useTimeTypeStore(state => state.timeType)
-    const [year, setYear] = useState(new Date().getFullYear())
-    const [month, setMonth] = useState(new Date().getMonth())
-    const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
 
+    const credential = useCredential()
     let fromDate = new Date()
 
-    const fetchRankingsHook = useCallback(() => {
-        if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
-    }, [userTokenData, timeType, userTimezone])
-
     const { data: userData } = useQuery({
-        queryKey: ['profile', 'me', userTokenData ? userTokenData.token : null],
+        queryKey: ['profile', 'me', credential ? credential.token : null],
         queryFn: () => fetchProfileMe(),
-        enabled: !!userTokenData?.serverUrl && !!userTokenData?.token,
-    })
-
-    const { data: rankingsResponse } = useQuery({
-        queryKey: [timeType, userTokenData?.serverUrl, 'ranking'],
-        queryFn: () => fetchRankingsHook(),
-        enabled: !!userTokenData?.serverUrl,
+        enabled: !!credential?.serverUrl && !!credential?.token,
     })
 
     const { data: scoreDataResponse } = useQuery({
@@ -60,79 +44,28 @@ export default function Home() {
     const { data: scoreListResponse } = useQuery({
         queryKey: ['userScoreList'],
         queryFn: () => fetchScoreListByUserIdHook(),
-        enabled: !!userTokenData?.serverUrl && !!userData?.id,
+        enabled: !!credential?.serverUrl && !!userData?.id,
     })
     const scoreList = scoreListResponse?.data
 
-    const { data: starryPeopleResponse } = useQuery({
-        queryKey: [userTokenData?.serverUrl, month],
-        queryFn: async () => await fetchStarryPeopleHook(),
-        enabled: !!userTokenData?.serverUrl,
-    })
-
     const fetchProfileMe = useCallback(() => {
-        if (userTokenData?.token) return spaceAPI.getMe(userTokenData.serverUrl, userTokenData.token)
-    }, [userTokenData])
+        if (credential?.token) return spaceAPI.getMe(credential.serverUrl, credential.token)
+    }, [credential])
 
     const fetchScoreByUserIdHook = useCallback(() => {
-        if (userTokenData?.token && userData)
-            return fetchScoreByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
-    }, [userTokenData, userData, timeType, userTimezone])
+        if (credential?.token && userData)
+            return fetchScoreByUserId(userData.id, credential.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
+    }, [credential, userData, timeType, userTimezone])
 
     const fetchCodeLineByUserIdHook = useCallback(() => {
-        if (userTokenData?.token && userData)
-            return fetchCodeLinesByUserId(userData.id, userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
-    }, [userTokenData, userData, timeType, userTimezone])
+        if (credential?.token && userData)
+            return fetchCodeLinesByUserId(userData.id, credential.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
+    }, [credential, userData, timeType, userTimezone])
 
     const fetchScoreListByUserIdHook = useCallback(() => {
-        if (userTokenData?.token && userData) return fetchScoreListByUserId(userData.id, userTokenData.serverUrl, userTimezone)
-    }, [userTokenData, userData, userTimezone])
+        if (credential?.token && userData) return fetchScoreListByUserId(userData.id, credential.serverUrl, userTimezone)
+    }, [credential, userData, userTimezone])
 
-    const fetchStarryPeopleHook = useCallback(async () => {
-        if (userTokenData?.serverUrl) {
-            if (Object.keys(starryPeople).length === 0) {
-                // starryPeople가 비어있을 경우 최근 3개월 데이터를 가져옴
-                await addStarryPeople(new Date(year, month - 2, 1), new Date(year, month, 0))
-            } else if (!starryPeople[`${year}_${month - 3}`]) {
-                // starryPeople에 가장 좌측 월 데이터가 없을 경우 해당 월 데이터를 가져옴
-                await addStarryPeople(new Date(year, month - 2, 1), new Date(year, month - 1, 0))
-            }
-        }
-        return starryPeople
-    }, [userTokenData, year, month, userTimezone])
-
-    async function addStarryPeople(fromDate: Date, toDate: Date) {
-        await fetchStarryPeople(userTokenData!.serverUrl, fromDate, toDate, userTimezone).then(res => {
-            let starryPeopleTemp = { ...starryPeople }
-            res.data.forEach((starryPerson: StarryPerson) => {
-                starryPeopleTemp[`${starryPerson.year}_${starryPerson.month}`] = starryPerson
-            })
-            setStarryPeople(starryPeopleTemp)
-        })
-    }
-
-    useEffect(() => {
-        getUserAccessTokenData(true).then((data: any) => {
-            setUserTokenData(data)
-        })
-    }, [])
-
-    // 9분마다 액세스 토큰 갱신
-    useInterval(() => {
-        getUserAccessTokenData(true).then((data: any) => {
-            setUserTokenData(data)
-        })
-    }, 9 * 60 * 1000)
-
-    //development 환경에서는 bi 통계 데이터 나오게 강제 출력 (Only *개발*)
-    useEffect(() => {
-        if (process.env.NODE_ENV === 'development') {
-            setUserTokenData({
-                serverUrl: 'https://beyond-imagination.jetbrains.space',
-                token: process.env.SPACE_ACCESS_TOKEN || '',
-            })
-        }
-    }, [])
     useEffect(() => {}, [timeType])
     const colors: any = {
         createIssue: '#F2994A',

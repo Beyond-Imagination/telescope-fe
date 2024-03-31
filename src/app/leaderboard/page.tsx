@@ -83,7 +83,7 @@ export default function LeaderboardPage() {
     const [achieveTypes] = useState(initialAchieveTypes)
     const [codeLineTypes] = useState(initialCodeTypes)
     const timeType = useTimeTypeStore(state => state.timeType)
-    const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+    const [userTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const [indicatorType, setIndicatorType] = useState('Achievement')
 
     let today = new Date()
@@ -117,10 +117,6 @@ export default function LeaderboardPage() {
     const fetchSummaryStatsHook = useCallback(() => {
         if (credential) return fetchSummaryStats(credential.serverUrl, convertDateByType(timeType, today), userTimezone)
     }, [credential, timeType, userTimezone])
-
-    const fetchScoreListHook = useCallback(() => {
-        if (credential) return fetchScoreList(credential.serverUrl, userTimezone)
-    }, [credential, userTimezone])
 
     return (
         <>
