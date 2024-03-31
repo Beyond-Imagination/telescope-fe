@@ -20,7 +20,9 @@ export default function StarPage() {
     const credential = useCredential()
     const organization = useOrganization()
 
-    const { data: starryPeopleResponse } = useQuery([credential?.serverUrl, month], async () => await fetchStarryPeopleHook(), {
+    const { data: starryPeopleResponse } = useQuery({
+        queryKey: [credential?.serverUrl, month],
+        queryFn: async () => await fetchStarryPeopleHook(),
         enabled: !!credential?.token,
     })
 

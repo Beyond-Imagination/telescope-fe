@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+
 import { fetchRankings, fetchScoreList, fetchSummaryStats } from '../../../utils/api/homeApi'
 import { convertDateByType } from '../../../utils/date'
 import Organization from '../../../components/organization/Organization'
@@ -15,27 +16,25 @@ export default function OrganizationPage() {
 
     let fromDate = new Date()
 
-    const { data: summaryResponse } = useQuery(
-        [timeType, 'stat'],
-        () => fetchSummaryStats(credential.serverUrl, convertDateByType(timeType, fromDate), userTimezone),
-        {
-            enabled: !!credential?.serverUrl,
-        },
-    )
-
-    const organization = useOrganization()
-
-    const { data: scoreListResponse } = useQuery(['scoreList'], () => fetchScoreList(credential.serverUrl, userTimezone), {
+    const { data: summaryResponse } = useQuery({
+        queryKey: [timeType, 'stat'],
+        queryFn: () => fetchSummaryStats(credential.serverUrl, convertDateByType(timeType, fromDate), userTimezone),
         enabled: !!credential?.serverUrl,
     })
 
-    const { data: rankingsResponse } = useQuery(
-        [timeType, 'ranking'],
-        () => fetchRankings(credential.serverUrl, convertDateByType(timeType, fromDate), userTimezone),
-        {
-            enabled: !!credential?.serverUrl,
-        },
-    )
+    const organization = useOrganization()
+
+    const { data: scoreListResponse } = useQuery({
+        queryKey: ['scoreList'],
+        queryFn: () => fetchScoreList(credential.serverUrl, userTimezone),
+        enabled: !!credential?.serverUrl,
+    })
+
+    const { data: rankingsResponse } = useQuery({
+        queryKey: [timeType, 'ranking'],
+        queryFn: () => fetchRankings(credential.serverUrl, convertDateByType(timeType, fromDate), userTimezone),
+        enabled: !!credential?.serverUrl,
+    })
 
     return (
         <>

@@ -91,14 +91,20 @@ export default function LeaderboardPage() {
     const credential = useCredential()
 
     const organization = useOrganization()
-    const { data: rankingsResponse } = useQuery([timeType, credential?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
-        enabled: !!credential?.serverUrl,
+    const { data: rankingsResponse } = useQuery({
+        queryKey: [timeType, credential?.serverUrl, 'ranking'],
+        queryFn: () => fetchRankingsHook(),
+        enabled: !!credential,
     })
-    const { data: codeLineRankingsResponse } = useQuery([timeType, credential?.serverUrl, 'codeLineRankings'], () => fetchCodeLineRankingsHook(), {
-        enabled: !!credential?.serverUrl,
+    const { data: codeLineRankingsResponse } = useQuery({
+        queryKey: [timeType, credential?.serverUrl, 'codeLineRankings'],
+        queryFn: () => fetchCodeLineRankingsHook(),
+        enabled: !!credential,
     })
-    const { data: summaryResponse } = useQuery([timeType, credential?.serverUrl, 'stat'], () => fetchSummaryStatsHook(), {
-        enabled: !!credential?.serverUrl,
+    const { data: summaryResponse } = useQuery({
+        queryKey: [timeType, credential?.serverUrl, 'stat'],
+        queryFn: () => fetchSummaryStatsHook(),
+        enabled: !!credential,
     })
 
     const fetchRankingsHook = useCallback(() => {

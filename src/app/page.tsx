@@ -32,30 +32,42 @@ export default function Home() {
         if (userTokenData) return fetchRankings(userTokenData.serverUrl, convertDateByType(timeType, fromDate), userTimezone)
     }, [userTokenData, timeType, userTimezone])
 
-    const { data: userData } = useQuery(['profile', 'me', userTokenData ? userTokenData.token : null], () => fetchProfileMe(), {
+    const { data: userData } = useQuery({
+        queryKey: ['profile', 'me', userTokenData ? userTokenData.token : null],
+        queryFn: () => fetchProfileMe(),
         enabled: !!userTokenData?.serverUrl && !!userTokenData?.token,
     })
 
-    const { data: rankingsResponse } = useQuery([timeType, userTokenData?.serverUrl, 'ranking'], () => fetchRankingsHook(), {
+    const { data: rankingsResponse } = useQuery({
+        queryKey: [timeType, userTokenData?.serverUrl, 'ranking'],
+        queryFn: () => fetchRankingsHook(),
         enabled: !!userTokenData?.serverUrl,
     })
 
-    const { data: scoreDataResponse } = useQuery(['score', timeType], () => fetchScoreByUserIdHook(), {
+    const { data: scoreDataResponse } = useQuery({
+        queryKey: ['score', timeType],
+        queryFn: () => fetchScoreByUserIdHook(),
         enabled: !!userData?.id,
     })
     const scoreData = scoreDataResponse?.data
 
-    const { data: codeLineDataResponse } = useQuery(['codeLine', timeType], () => fetchCodeLineByUserIdHook(), {
+    const { data: codeLineDataResponse } = useQuery({
+        queryKey: ['codeLine', timeType],
+        queryFn: () => fetchCodeLineByUserIdHook(),
         enabled: !!userData?.id,
     })
     const codeLineData = codeLineDataResponse?.data
 
-    const { data: scoreListResponse } = useQuery(['userScoreList'], () => fetchScoreListByUserIdHook(), {
+    const { data: scoreListResponse } = useQuery({
+        queryKey: ['userScoreList'],
+        queryFn: () => fetchScoreListByUserIdHook(),
         enabled: !!userTokenData?.serverUrl && !!userData?.id,
     })
     const scoreList = scoreListResponse?.data
 
-    const { data: starryPeopleResponse } = useQuery([userTokenData?.serverUrl, month], async () => await fetchStarryPeopleHook(), {
+    const { data: starryPeopleResponse } = useQuery({
+        queryKey: [userTokenData?.serverUrl, month],
+        queryFn: async () => await fetchStarryPeopleHook(),
         enabled: !!userTokenData?.serverUrl,
     })
 
