@@ -16,3 +16,13 @@ export interface IOrganization {
         id: string // ex) Asia/Seoul
     }
 }
+
+export interface IUser {
+    id: string
+    username: string
+    name: {
+        firstName: string
+        lastName: string
+    }
+    profilePicture: string
+}

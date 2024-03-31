@@ -1,0 +1,4 @@
+const HOST = process.env.NEXT_PUBLIC_API_SERVER_HOST
+const PORT = process.env.NEXT_PUBLIC_API_SERVER_PORT
+
+export const TELESCOPE_SERVER_URL = PORT ? `${HOST}:${PORT}` : HOST
