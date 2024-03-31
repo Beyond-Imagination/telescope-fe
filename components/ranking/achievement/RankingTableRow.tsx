@@ -1,14 +1,15 @@
-import Jdenticon from 'react-jdenticon'
 import StackBarchart from './StackBarchart'
+import ProfilePicture from '@/components/atom/ProfilePicture'
+import React from 'react'
 
 interface RankingTableRowProps {
     index: any
     ranking: any
     rankingColor: any
     maxValue: any
-    imageSrc: any
+    profilePicture?: string
 }
-const RankingTableRow = ({ index, ranking, rankingColor, maxValue, imageSrc }: RankingTableRowProps) => {
+const RankingTableRow = ({ index, ranking, rankingColor, maxValue, profilePicture }: RankingTableRowProps) => {
     return (
         <div key={index} className={`flex mb-4`}>
             <div className={`flex flex-1 items-center grid grid-cols-12 gap-2`}>
@@ -28,13 +29,7 @@ const RankingTableRow = ({ index, ranking, rankingColor, maxValue, imageSrc }: R
                 </div>
                 <div className={`flex col-span-2`}>
                     <div className={`mr-2`}>
-                        {ranking == null ? (
-                            <div className={'w-12 h-12 rounded-3xl'} style={{ background: '#F4F4F4' }}></div>
-                        ) : ranking?.profilePicture ? (
-                            <img className={`rounded-[20px]`} src={imageSrc} style={{ height: 40, width: 40 }} alt="picture" />
-                        ) : (
-                            <Jdenticon size="40" value={ranking?.name} />
-                        )}
+                        <ProfilePicture className="w-12 h-12 rounded-3xl" profilePicture={profilePicture} name={ranking?.name} jdenticonSize={40} />
                     </div>
                     <div className={`items-center flex`}>
                         <span

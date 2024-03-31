@@ -1,6 +1,5 @@
 'use client'
 
-import Jdenticon from 'react-jdenticon'
 import React, { useCallback, useEffect, useState } from 'react'
 import DateSelector from '../../components/main/DateSelector'
 import { ScoreBoard } from '../../components/common/ScoreBoard'
@@ -13,13 +12,13 @@ import { useInterval } from 'usehooks-ts'
 import { fetchCodeLinesByUserId, fetchScoreByUserId, fetchScoreListByUserId } from '../../utils/api/myScoreApi'
 import { convertDateByType } from '../../utils/date'
 import * as spaceAPI from '../../utils/api/spaceApi'
-import { fetchProfileImage, fetchRankings, fetchStarryPeople } from '../../utils/api/homeApi'
+import { fetchRankings, fetchStarryPeople } from '../../utils/api/homeApi'
 import { StarryPerson } from '../../components/star/Star'
 import { useTimeTypeStore } from '@/store/TimeTypeStore'
+import ProfilePicture from '@/components/atom/ProfilePicture'
 
 export default function Home() {
     const [userTokenData, setUserTokenData] = useState<IUserToken>()
-    const [profileMap, setProfileMap] = useState(new Map())
     const [userTimezone, setUserTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const timeType = useTimeTypeStore(state => state.timeType)
     const [year, setYear] = useState(new Date().getFullYear())
@@ -113,36 +112,6 @@ export default function Home() {
     }
 
     useEffect(() => {
-        async function fetchProfile(users: any[]) {
-            const promises = users.map(user => {
-                return new Promise<void>(async (resolve, reject) => {
-                    if (user.profilePicture && !profileMap.has(user.profilePicture)) {
-                        const profile = await fetchProfileImage(
-                            userTokenData?.serverUrl as string,
-                            userTokenData?.token as string,
-                            user.profilePicture,
-                        )
-                        setProfileMap(
-                            // @ts-ignore
-                            prev => new Map([...prev, [user.profilePicture, profile]]),
-                        )
-                        resolve()
-                    }
-                })
-            })
-            await Promise.all(promises)
-        }
-        if (userTokenData?.token) {
-            if (rankingsResponse) {
-                fetchProfile(rankingsResponse.data.rankings)
-            }
-
-            if (starryPeopleResponse) {
-                fetchProfile(Object.values(starryPeopleResponse))
-            }
-        }
-    }, [userTokenData, rankingsResponse, starryPeopleResponse, timeType])
-    useEffect(() => {
         getUserAccessTokenData(true).then((data: any) => {
             setUserTokenData(data)
         })
@@ -214,18 +183,12 @@ export default function Home() {
                 <div className={`flex justify-between`}>
                     <div className={`flex`}>
                         <span>
-                            {userData?.profilePicture ? (
-                                <div>
-                                    <img
-                                        className={`rounded-[20px]`}
-                                        src={profileMap.get(userData.profilePicture)}
-                                        style={{ height: 40, width: 40 }}
-                                        alt="picture"
-                                    />
-                                </div>
-                            ) : (
-                                <Jdenticon size="40" value={userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'} />
-                            )}
+                            <ProfilePicture
+                                className="rounded-3xl w-12 h-12"
+                                profilePicture={userData?.profilePicture}
+                                name={userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : ''}
+                                jdenticonSize={40}
+                            />
                         </span>
                         <span className={`font-normal text-[32px] color-[#23222c] mx-2`} style={{ fontWeight: 600 }}>
                             {userData?.name ? `${userData.name.firstName} ${userData.name.lastName}` : 'Nickname'}

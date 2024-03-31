@@ -1,5 +1,4 @@
-import Jdenticon from 'react-jdenticon'
-import CodeLineStackBarchart from './CodeLineStackBarchart'
+import ProfilePicture from '@/components/atom/ProfilePicture'
 
 const CodeLineRankingTopCard = ({ style, ranking, index, imageSrc }: any) => {
     return (
@@ -21,16 +20,12 @@ const CodeLineRankingTopCard = ({ style, ranking, index, imageSrc }: any) => {
             </div>
             <div className={`flex px-4 py-2 items-center`}>
                 <div className={`mr-2`}>
-                    {ranking == null ? (
-                        <div
-                            className={'w-12 h-12 rounded-3xl'}
-                            style={{ background: 'linear-gradient(180deg, #FFF 0%, rgba(255, 255, 255, 0.50) 100%)' }}
-                        ></div>
-                    ) : ranking?.profilePicture ? (
-                        <img className={`rounded-[20px]`} src={imageSrc} style={{ height: 48, width: 48 }} alt="picture" />
-                    ) : (
-                        <Jdenticon size="50" value={ranking?.name} />
-                    )}
+                    <ProfilePicture
+                        className="rounded-[20px] w-12 h-12"
+                        profilePicture={ranking?.profilePicture}
+                        name={ranking?.name}
+                        jdenticonSize={50}
+                    />
                 </div>
                 <div className={`test-[16px] font-bold`}>{ranking?.name ? ranking?.name : 'None'}</div>
             </div>

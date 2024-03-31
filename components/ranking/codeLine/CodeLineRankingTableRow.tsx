@@ -1,15 +1,14 @@
-import Jdenticon from 'react-jdenticon'
 import CodeLineStackBarchart from './CodeLineStackBarchart'
 import { ICodeLineRanking } from '../../../temp/api/rankings'
+import ProfilePicture from '@/components/atom/ProfilePicture'
 
 interface RankingTableRowProps {
     index: any
     ranking: ICodeLineRanking | null
     rankingColor: any
     maxValue: any
-    imageSrc: any
 }
-const CodeLineRankingTableRow = ({ index, ranking, rankingColor, maxValue, imageSrc }: RankingTableRowProps) => {
+const CodeLineRankingTableRow = ({ index, ranking, rankingColor, maxValue }: RankingTableRowProps) => {
     return (
         <div key={index} className={`flex mb-4`}>
             <div className={`flex flex-1 items-center grid grid-cols-12 gap-2`}>
@@ -29,13 +28,12 @@ const CodeLineRankingTableRow = ({ index, ranking, rankingColor, maxValue, image
                 </div>
                 <div className={`flex col-span-2`}>
                     <div className={`mr-2`}>
-                        {ranking == null ? (
-                            <div className={'w-12 h-12 rounded-3xl'} style={{ background: '#F4F4F4' }}></div>
-                        ) : ranking?.profilePicture ? (
-                            <img className={`rounded-[20px]`} src={imageSrc} style={{ height: 40, width: 40 }} alt="picture" />
-                        ) : (
-                            <Jdenticon size="40" value={ranking?.name} />
-                        )}
+                        <ProfilePicture
+                            className="w-12 h-12 rounded-3xl"
+                            profilePicture={ranking?.profilePicture}
+                            name={ranking?.name}
+                            jdenticonSize={40}
+                        />
                     </div>
                     <div className={`items-center flex`}>
                         <span

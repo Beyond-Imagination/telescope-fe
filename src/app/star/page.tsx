@@ -1,19 +1,16 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import Star, { StarryPerson } from '../../../components/star/Star'
 import { useCredential, useOrganization } from '@/hooks'
-import { fetchProfileImage, fetchStarryPeople } from '../../../utils/api/homeApi'
-import { useTimeTypeStore } from '@/store/TimeTypeStore'
+import { fetchStarryPeople } from '../../../utils/api/homeApi'
 
 export default function StarPage() {
     const timezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, [])
     const [starryPeople, setStarryPeople] = useState<{ [key: string]: StarryPerson }>({})
-    const [profileMap, setProfileMap] = useState(new Map())
 
-    const timeType = useTimeTypeStore(state => state.timeType)
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth())
 
@@ -37,28 +34,6 @@ export default function StarPage() {
         return starryPeople
     }, [credential, year, month])
 
-    useEffect(() => {
-        async function fetchProfile(users: any[]) {
-            const promises = users.map(user => {
-                return new Promise<void>(async (resolve, reject) => {
-                    if (user.profilePicture && !profileMap.has(user.profilePicture)) {
-                        const profile = await fetchProfileImage(credential?.serverUrl as string, credential?.token as string, user.profilePicture)
-                        setProfileMap(
-                            // @ts-ignore
-                            prev => new Map([...prev, [user.profilePicture, profile]]),
-                        )
-                        resolve()
-                    }
-                })
-            })
-            await Promise.all(promises)
-        }
-
-        if (credential?.token && starryPeopleResponse) {
-            fetchProfile(Object.values(starryPeopleResponse))
-        }
-    }, [credential, starryPeopleResponse, timeType, year, month])
-
     async function addStarryPeople(fromDate: Date, toDate: Date) {
         await fetchStarryPeople(credential?.serverUrl, fromDate, toDate, timezone).then(res => {
             let starryPeopleTemp = { ...starryPeople }
@@ -73,7 +48,6 @@ export default function StarPage() {
         <>
             <Star
                 organizationName={organization?.name}
-                profileMap={profileMap}
                 starryPeople={starryPeople}
                 month={month}
                 setMonth={setMonth}

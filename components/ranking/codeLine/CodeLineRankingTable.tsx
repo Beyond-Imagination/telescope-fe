@@ -3,7 +3,6 @@ import CodeLineRankingTableRow from './CodeLineRankingTableRow'
 
 interface IRankingTable {
     rankings?: ICodeLineRanking[]
-    profileMap: Map<string, string>
 }
 
 const getRankingColor = (ranking: number) => {
@@ -19,7 +18,7 @@ const getRankingColor = (ranking: number) => {
     }
 }
 
-function CodeLineRankingTable({ rankings, profileMap }: IRankingTable) {
+function CodeLineRankingTable({ rankings }: IRankingTable) {
     return (
         <div className={`w-full h-full `}>
             <div className={``}>
@@ -53,21 +52,18 @@ function CodeLineRankingTable({ rankings, profileMap }: IRankingTable) {
                             ranking: null,
                             rankingColor: getRankingColor(0),
                             maxValue: null,
-                            imageSrc: null,
                         })}
                         {CodeLineRankingTableRow({
                             index: 1,
                             ranking: null,
                             rankingColor: getRankingColor(1),
                             maxValue: null,
-                            imageSrc: null,
                         })}
                         {CodeLineRankingTableRow({
                             index: 2,
                             ranking: null,
                             rankingColor: getRankingColor(2),
                             maxValue: null,
-                            imageSrc: null,
                         })}
                     </>
                 )}
@@ -78,7 +74,6 @@ function CodeLineRankingTable({ rankings, profileMap }: IRankingTable) {
                             ranking: ranking,
                             rankingColor: getRankingColor(index),
                             maxValue: rankings[0].codeLines.total,
-                            imageSrc: profileMap.get(ranking.profilePicture),
                         }),
                     )}
             </div>

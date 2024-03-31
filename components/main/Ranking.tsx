@@ -7,12 +7,11 @@ import CodeLineRankingTable from '../ranking/codeLine/CodeLineRankingTable'
 interface IRankingProps {
     rankings?: IRanking[]
     codeLineRankings?: ICodeLineRanking[]
-    profileMap: Map<string, string>
     indicatorType: any
     setIndicatorType: any
 }
 
-function Ranking({ rankings, codeLineRankings, profileMap, indicatorType, setIndicatorType }: IRankingProps) {
+function Ranking({ rankings, codeLineRankings, indicatorType, setIndicatorType }: IRankingProps) {
     return (
         <>
             <div className={`m-2 rankings`}>
@@ -23,8 +22,8 @@ function Ranking({ rankings, codeLineRankings, profileMap, indicatorType, setInd
                     <IndicatorSelector indicatorType={indicatorType} setIndicatorType={setIndicatorType}></IndicatorSelector>
                 </div>
 
-                {indicatorType === 'Achievement' && <RankingTable rankings={rankings} profileMap={profileMap}></RankingTable>}
-                {indicatorType === 'CodeLine' && <CodeLineRankingTable rankings={codeLineRankings} profileMap={profileMap}></CodeLineRankingTable>}
+                {indicatorType === 'Achievement' && <RankingTable rankings={rankings}></RankingTable>}
+                {indicatorType === 'CodeLine' && <CodeLineRankingTable rankings={codeLineRankings}></CodeLineRankingTable>}
             </div>
         </>
     )

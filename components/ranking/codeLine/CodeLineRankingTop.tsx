@@ -6,10 +6,9 @@ import RankingTitle from '../RankingTitle'
 interface IRankingTop {
     types: IType[]
     rankings?: ICodeLineRanking[]
-    profileMap: Map<string, string>
 }
 
-function CodeLineRankingTop({ types, rankings, profileMap }: IRankingTop) {
+function CodeLineRankingTop({ types, rankings }: IRankingTop) {
     const top3Ranking = rankings?.slice(0, 3)
 
     return (
@@ -24,7 +23,6 @@ function CodeLineRankingTop({ types, rankings, profileMap }: IRankingTop) {
                     },
                     ranking: top3Ranking ? top3Ranking[0] : null,
                     index: 1,
-                    imageSrc: top3Ranking ? profileMap.get(top3Ranking[0]?.profilePicture) : null,
                 })}
                 {CodeLineRankingTopCard({
                     style: {
@@ -34,7 +32,6 @@ function CodeLineRankingTop({ types, rankings, profileMap }: IRankingTop) {
                     },
                     ranking: top3Ranking ? top3Ranking[1] : null,
                     index: 2,
-                    imageSrc: top3Ranking ? profileMap.get(top3Ranking[1]?.profilePicture) : null,
                 })}
                 {CodeLineRankingTopCard({
                     style: {
@@ -44,7 +41,6 @@ function CodeLineRankingTop({ types, rankings, profileMap }: IRankingTop) {
                     },
                     ranking: top3Ranking ? top3Ranking[2] : null,
                     index: 3,
-                    imageSrc: top3Ranking ? profileMap.get(top3Ranking[2]?.profilePicture) : null,
                 })}
             </div>
             <RankingTitle types={types}></RankingTitle>

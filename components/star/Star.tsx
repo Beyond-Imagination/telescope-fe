@@ -10,7 +10,7 @@ export interface StarryPerson {
     profilePicture: string | null
 }
 
-function Star({ organizationName, profileMap, starryPeople, month, setMonth, year, setYear }: any) {
+function Star({ organizationName, starryPeople, month, setMonth, year, setYear }: any) {
     function left() {
         if (month == 1) {
             setMonth(12)
@@ -52,21 +52,9 @@ function Star({ organizationName, profileMap, starryPeople, month, setMonth, yea
                     <button className={'font-bold text-[90px]'} style={{ alignSelf: 'center', color: '#d9d9d9', marginRight: '10px' }} onClick={left}>
                         ◂
                     </button>
-                    <StarryPerson
-                        info={starryPeople[getStarryMapKey(month - 2)]}
-                        month={month - 2}
-                        imageSrc={profileMap.get(starryPeople[getStarryMapKey(month - 2)]?.profilePicture)}
-                    ></StarryPerson>
-                    <StarryPerson
-                        info={starryPeople[getStarryMapKey(month - 1)]}
-                        month={month - 1}
-                        imageSrc={profileMap.get(starryPeople[getStarryMapKey(month - 1)]?.profilePicture)}
-                    ></StarryPerson>
-                    <StarryPerson
-                        info={starryPeople[getStarryMapKey(month)]}
-                        month={month}
-                        imageSrc={profileMap.get(starryPeople[getStarryMapKey(month)]?.profilePicture)}
-                    ></StarryPerson>
+                    <StarryPerson info={starryPeople[getStarryMapKey(month - 2)]} month={month - 2}></StarryPerson>
+                    <StarryPerson info={starryPeople[getStarryMapKey(month - 1)]} month={month - 1}></StarryPerson>
+                    <StarryPerson info={starryPeople[getStarryMapKey(month)]} month={month}></StarryPerson>
                     <button className={'font-bold text-[90px]'} style={{ alignSelf: 'center', color: '#d9d9d9', marginLeft: '10px' }} onClick={right}>
                         ▸
                     </button>

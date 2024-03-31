@@ -3,7 +3,6 @@ import RankingTableRow from './RankingTableRow'
 
 interface IRankingTable {
     rankings?: IRanking[]
-    profileMap: Map<string, string>
 }
 
 const getRankingColor = (ranking: number) => {
@@ -19,7 +18,7 @@ const getRankingColor = (ranking: number) => {
     }
 }
 
-function RankingTable({ rankings, profileMap }: IRankingTable) {
+function RankingTable({ rankings }: IRankingTable) {
     return (
         <div className={`w-full h-full `}>
             <div className={``}>
@@ -47,21 +46,18 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
                             ranking: null,
                             rankingColor: getRankingColor(0),
                             maxValue: null,
-                            imageSrc: null,
                         })}
                         {RankingTableRow({
                             index: 1,
                             ranking: null,
                             rankingColor: getRankingColor(1),
                             maxValue: null,
-                            imageSrc: null,
                         })}
                         {RankingTableRow({
                             index: 2,
                             ranking: null,
                             rankingColor: getRankingColor(2),
                             maxValue: null,
-                            imageSrc: null,
                         })}
                     </>
                 )}
@@ -72,7 +68,7 @@ function RankingTable({ rankings, profileMap }: IRankingTable) {
                             ranking: ranking,
                             rankingColor: getRankingColor(index),
                             maxValue: rankings[0].score.total,
-                            imageSrc: profileMap.get(ranking.profilePicture),
+                            profilePicture: ranking.profilePicture,
                         }),
                     )}
             </div>

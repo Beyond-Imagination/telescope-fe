@@ -13,7 +13,6 @@ interface IDashboard {
     rankingsResponse?: IRankingApi
     codeLineRankingsResponse?: ICodeLineRankingApi
     summaryResponse?: IStatApi
-    profileMap: Map<string, string>
     achieveTypes: IType[]
     codeLineTypes: IType[]
     indicatorType: any
@@ -25,7 +24,6 @@ function Dashboard({
     rankingsResponse,
     codeLineRankingsResponse,
     summaryResponse,
-    profileMap,
     achieveTypes,
     codeLineTypes,
     indicatorType,
@@ -46,20 +44,13 @@ function Dashboard({
                     </div>
                     <DateSelector></DateSelector>
                 </div>
-                {indicatorType === 'Achievement' && (
-                    <RankingTop types={achieveTypes} rankings={rankingsResponse?.rankings} profileMap={profileMap}></RankingTop>
-                )}
+                {indicatorType === 'Achievement' && <RankingTop types={achieveTypes} rankings={rankingsResponse?.rankings}></RankingTop>}
                 {indicatorType === 'CodeLine' && (
-                    <CodeLineRankingTop
-                        types={codeLineTypes}
-                        rankings={codeLineRankingsResponse?.codeLines}
-                        profileMap={profileMap}
-                    ></CodeLineRankingTop>
+                    <CodeLineRankingTop types={codeLineTypes} rankings={codeLineRankingsResponse?.codeLines}></CodeLineRankingTop>
                 )}
                 <Ranking
                     rankings={rankingsResponse?.rankings}
                     codeLineRankings={codeLineRankingsResponse?.codeLines}
-                    profileMap={profileMap}
                     indicatorType={indicatorType}
                     setIndicatorType={setIndicatorType}
                 ></Ranking>

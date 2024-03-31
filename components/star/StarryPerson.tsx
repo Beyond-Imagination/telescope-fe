@@ -1,7 +1,7 @@
 import React from 'react'
-import Jdenticon from 'react-jdenticon'
+import ProfilePicture from '@/components/atom/ProfilePicture'
 
-function StarryPerson({ info, month, imageSrc }: any) {
+function StarryPerson({ info, month }: any) {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     const monthName = monthNames[(month + 11) % 12]
@@ -22,13 +22,12 @@ function StarryPerson({ info, month, imageSrc }: any) {
                 <span className={`font-semibold text-[22px] color-[#23222c]`}>{monthName}</span>
             </div>
             <div className={`mr-2`} style={{ margin: '10px 0 10px 35px' }}>
-                {info == null ? (
-                    <div className={'w-[180px] h-[180px] rounded-[90px]'} style={{ background: '#F4F4F4' }}></div>
-                ) : info?.profilePicture ? (
-                    <img className={`w-[180px] h-[180px] rounded-[90px]`} src={imageSrc} alt="picture" />
-                ) : (
-                    <Jdenticon size="180" value={info?.name} />
-                )}
+                <ProfilePicture
+                    className="w-[180px] h-[180px] rounded-[90px]"
+                    profilePicture={info?.profilePicture}
+                    name={info?.name}
+                    jdenticonSize={180}
+                />
             </div>
             <div>
                 <span className={`font-semibold text-[20px] color-[#23222c]`}>
